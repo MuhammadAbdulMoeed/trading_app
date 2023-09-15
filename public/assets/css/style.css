@@ -1,0 +1,531 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+*{
+	padding: 0px;
+	margin: 0px;
+	box-sizing: border-box;
+}
+
+body{
+	background: #262626;
+	font-family: 'Inter', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+
+}
+.main-content-wrapper{
+	height: 100vh;
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.app-header-wrapper{
+	background: #1B1B1B;
+	padding: 15px 0px;
+	flex: 0 0 125px;
+}
+.logo-wrapper img{
+	width: 120px;
+}
+.header-tag-content-wrapper{
+	background: #2C2C2C;
+	height: 95px;
+	padding: 0 20px;
+	border-bottom: 3px solid #B09020;
+	display: flex;
+	align-items: center;
+}
+.header-tag-stars{
+	flex: 0 0 75px;
+}
+.header-tag-stars img{
+	width: 70px;
+}
+.header-tag-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+	font-size: 16px;
+}
+.trading-target-wrapper{
+	background: #2C2C2C;
+	height: 95px;
+	padding: 0px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 3px solid #212121;
+}
+.trading-target-content h2{
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+	color: #fff;
+	margin: 0px 0px 5px 0px;
+}
+.trading-target-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.trading-target-content p .lose{
+	color: #9B1A1A;
+}
+.trading-target-content p .profit{
+	color: green;
+}
+
+.trading-close-wrapper{
+	background: #2C2C2C;
+	height: 95px;
+	padding: 0px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: 3px solid #212121;
+}
+.trading-close-content h2{
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+	color: #fff;
+	margin: 0px 0px 5px 0px;
+}
+.trading-close-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.trading-graph-wrapper {
+	flex-grow: 1;
+	overflow: hidden;
+}
+.trading-graph-inner{
+	height: 100%;
+}
+.buy-sell-btn-wrapper{
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 6;
+}
+.buy-sell-action-btn ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+.buy-sell-action-btn ul li{
+	display: inline-block;
+}
+.trade-btn img{
+	width: 18px;
+}
+.trade-btn{
+	padding: 10px 20px;
+	border: none;
+	color: #fff;
+	text-transform: uppercase;
+	font-family: 'Inter', sans-serif;
+	font-weight: 600;
+}
+.buy-btn.trade-btn{
+	background: #054214;
+	border-bottom: 3px solid #032F0E;
+}
+.sell-btn.trade-btn{
+	background: #4A0808;
+	border-bottom: 3px solid #330606;
+}
+.buy-sell-running-values h2{
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+	color: #fff;
+	margin: 0px 0px 5px 0px;
+}
+.buy-sell-running-values p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.buy-sell-running-values p .lose{
+	color: #9B1A1A;
+}
+.buy-sell-running-values p .profit{
+	color: green;
+}
+
+.star-wrapper{
+	background: #2C2C2C;
+	padding: 9px 10px;
+	border-bottom: 3px solid #212121;
+}
+.star-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.account-balacnce{
+	background: #2C2C2C;
+	padding: 10px 10px;
+	border-bottom: 3px solid #212121;
+}
+.star-content img{
+	width: 40px;
+}
+.account-balacnce-content h4{
+	color: #fff;
+	font-size: 18px;
+	font-family: 'Inter', sans-serif;
+	font-weight: 600;
+}
+.account-balacnce-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.mobile-logo img{
+	width: 70px;
+}
+.mobile-header-wrapper {
+	position: relative;
+}
+.remining-time-wrapper{
+
+	width: 80%;
+	background: #2C2C2C;
+	padding: 10px 10px;
+	border-bottom: 3px solid #212121;
+	margin: 0 auto;
+	text-align: center;
+	position: absolute;
+	bottom: -70px;
+	z-index: 66;
+	transform: translateX(-50%);
+	left: 50%;
+
+}
+.remining-time-content h4{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+	font-size: 16px;
+	margin-bottom: 0px;
+}
+.remining-time-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+	margin-bottom: 0px;
+	font-size: 14px;
+}
+#chartdiv {
+	width: 100%;
+	height: 100%;
+	max-width: 100%
+}
+.trading-btn-placeholder ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+.trading-btn-placeholder ul li{
+	display: inline-block;
+	width: 40%;
+}
+.btn-tradeer img{
+	width: 20px;
+}
+.btn-tradeer{
+	text-transform: uppercase;
+	border: none;
+	padding: 10px 20px;
+	width: 100%;
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+	color: #fff;
+}
+.btn-tradeer.btn-buy{
+	background: #054214;
+	border-bottom: 3px solid #032F0E;
+}
+.btn-tradeer.btn-sell{
+	background: #4A0808;
+	border-bottom: 3px solid #330606;
+}
+.trading-btn-wrapper{
+	background: #1B1B1B;
+	padding: 10px 0px;
+}
+.trading-rating-content{
+	background: #262626;
+	padding: 10px 0px;
+}
+.trading-rating-content h3{
+	color: #fff;
+	font-size: 24px;
+	font-family: 'Inter', sans-serif;
+	font-weight: 700;
+}
+.trading-rating-content p{
+	color: #fff;
+	font-size: 16px;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.trading-rating-content p .lose{
+	color: #9B1A1A;
+}
+.trading-rating-content p .profit{
+	color: green;
+}
+.trading-graph-layout-wrapper{
+	height: 100%;
+}
+
+
+/*User list wrapper*/
+.participants-wrapper{
+	padding: 80px 0px;
+}
+tbody, td, tfoot, th, thead, tr{
+	font-family: 'Inter', sans-serif;
+	border-color: #393939;
+}
+.table>:not(caption)>*>*{
+	font-family: 'Inter', sans-serif;
+	color: #fff;
+	background: transparent;
+	text-align: center;
+}
+.trading-positin{
+	color: #B09020 !important;
+}
+.profit-td{
+	color: #10A735 !important;
+}
+.lost-td{
+	color: #9B1A1A !important;
+}
+
+
+/*Login*/
+
+.auth-header-wrapper{
+	background: #1B1B1B;
+	padding: 15px 0px;
+}
+.auth-header-plceholder{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.auth-header-logo{
+	flex: 0 0 130px;
+}
+.auth-header-logo img{
+	width: 120px;
+}
+.auth-header-content h4{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 600;
+}
+.auth-header-content p{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+.form-wrapper{
+	padding: 80px 0px;
+}
+.form-title h2{
+	color: #FFF;
+	font-family: 'Inter', sans-serif;
+	font-size: 36px;
+	font-weight: 700;
+}
+.form-input-wrapper {
+	background: #2C2C2C;
+	padding: 8px 14px;
+	border-bottom: 4px solid #212121;
+}
+.form-input-wrapper {
+	position: relative;
+}
+.input-focused {
+	border-bottom: 4px solid #C79D63;
+}
+.check-email {
+	border-bottom: 4px solid #9B1A1A;
+}
+.form-input-wrapper label{
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+	font-size: 16px;
+}
+.form-input-wrapper label>#emailerror{
+	display: none;
+}
+.form-input-wrapper label>.email-error{
+	color: red;
+	font-size: 12px;
+}
+.form-input-wrapper input{
+	width: 100%;
+	font-size: 18px;
+	color: #8D8D8D;
+	background: transparent;
+	border: none;
+}
+.form-input-wrapper input:focus{
+	outline: none;
+}
+.hr-border {
+	border: 1px solid #393939;
+	display: inline-block;
+	width: 100%;
+}
+.form-input-wrapper select{
+	width: 100%;
+	font-size: 18px;
+}
+.form-input-wrapper label.withpad{
+	padding: 8px 14px 5px 14px;
+}
+
+.auth-cb-wrapper input.formRadioInputsBtn[type=checkbox] {
+	display: none;
+}
+.auth-cb-wrapper label.formRadioLabelBtn {
+	display: inline-block;
+	width: 100%;
+	cursor: pointer;
+}
+.auth-cb-content-wrapper{
+	display: flex;
+}
+.auth-cb{
+	flex: 0 0 34px;
+}
+.auth-cb span{
+	display: inline-block;
+	width: 28px;
+	height: 28px;
+	background: #8D8D8D;
+	position: relative;
+	overflow: hidden;
+}
+.auth-cb span:after{
+	content: url("../imgs/arrow-check2.png");
+	position: absolute;
+	top: 2px;
+	left: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	width: 28px;
+	height: 28px;
+}
+.auth-cb.error-auth-cb span:after{
+	display: none;
+}
+.auth-cb-content p{
+	margin: 0px;
+	color: #fff;
+	font-family: 'Inter', sans-serif;
+}
+.auth-cb-wrapper input.formRadioInputsBtn[type=checkbox]:checked + label.formRadioLabelBtn .auth-cb span:after{
+	display: flex;
+}
+.auth-cb-wrapper input.formRadioInputsBtn[type=checkbox]:checked + label.formRadioLabelBtn .auth-cb.error-auth-cb span:after{
+	display: none;
+}
+.auth-submit-btn button:not(:disabled){
+	width: 100%;
+	padding: 10px;
+	border: none;
+	text-transform: uppercase;
+	background: #C79D63;
+	color: #fff;
+	font-weight: 700;
+	font-size: 20px;
+	font-family: 'Inter', sans-serif;
+	border-bottom: 4px solid #8F6E3F;
+}
+.auth-submit-wrapper{
+	position: relative;
+}
+.auth-submit-wrapper:after{
+	content: "";
+	position: absolute;
+	bottom: -40px;
+	left: 0;
+	width: 100%;
+	background: #1B1B1B;
+	z-index: 2;
+	height: 100px;
+	display: none;
+}
+.auth-submit-btn{
+	position: relative;
+	z-index: 4;
+}
+.auth-submit-btn button:disabled{
+	border: none;
+	background: #555555;
+	border-bottom: 4px solid #363636;
+	width: 100%;
+	padding: 10px;
+	text-transform: uppercase;
+	color: #fff;
+	font-weight: 700;
+	font-size: 20px;
+	font-family: 'Inter', sans-serif;
+}
+#error-message{
+	color: red;
+	font-family: 'Inter', sans-serif;
+	font-weight: 300;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #8D8D8D !important;
+}
+.account-check p{
+	color: #fff;
+		font-family: 'Inter', sans-serif;
+	font-weight: 300;
+	text-transform: uppercase;
+}
+.account-check p a{
+	font-weight: 700;
+	color: #C79D63;
+}
+
+@media(min-width:320px) and (max-width:767px){
+	.app-header-wrapper{
+		flex: unset;
+		padding: 15px 0px 30px 0px;
+	}
+	.trading-graph-layout-wrapper{
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+	}
+	.trading-graph-inner{
+		flex: 0 0 60vh;
+		flex-grow: 1;
+	}
+	tbody, td, tfoot, th, thead, tr{
+		white-space: nowrap;
+	}
+	.auth-submit-wrapper:after{
+		display: none;
+		height: 80px;
+	}
+}
+
