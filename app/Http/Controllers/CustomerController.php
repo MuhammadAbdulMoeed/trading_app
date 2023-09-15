@@ -21,19 +21,22 @@ class CustomerController extends Controller
         $userid         = Auth::user()->id;
         $balance        = $this->userCurrentBalance($userid);
 
-        $trade_rates    = OilRates::select('date','time','open_rate','high_rate','low_rate','close_rate')->orderBy('created_at','asc')->get();
+        $trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
 
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade']));
+
     }
 
 
-    public function trades_history(){
+    public function trades_history() {
+
         $userid         = Auth::user()->id;
         $user_type      = Auth::user()->user_type;
         $balance        = $this->userCurrentBalance($userid);
         $totalUsers     = 0;
+
         if($user_type == 1) {
 
             $userTradeHistory       =   UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
@@ -50,21 +53,20 @@ class CustomerController extends Controller
 
     public function trade_api_data(Request $request) {
 
-        if( isset($request->startDate) && $request->startDate != null) {
+        if(isset($request->startDate) && $request->startDate != null) {
             $startDate  =  $request->startDate;
         } else {
             $startDate  =  now()->toDateString(); // Sets the start date to today
         }
 
-        if( isset($request->endDate) && $request->endDate != null ) {
+        if(isset($request->endDate) && $request->endDate != null) {
             $endDate   =  $request->endDate;
         } else {
             $endDate   =  now()->endOfDay()->toDateString(); // Sets the end date to the end of today
         }
 
 //        $trade_rates   =  OilRates::whereBetween('date', [$startDate, $endDate])->orderBy('created_at','asc')->get();
-
-        $trade_rates   =  OilRates::select('date','open','high','low','close')->orderBy('created_at','asc')->get()->toArray();
+        $trade_rates   =  OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get()->toArray();
 
         return json_encode($trade_rates);
 
@@ -81,12 +83,9 @@ class CustomerController extends Controller
         if(!isset($oldActiveTrade) || $oldActiveTrade == null) {
 
             if(isset($request->amount) && $request->amount > $balance) {
-
                 return redirect()->back()->withErrors("Low Balance ,Invalid trade amount.");
-
             } else if (isset($request->amount) && $request->amount <= $balance) {
-
-                $balance                        =   $request->amount;
+                $balance    =   $request->amount;
             }
 
             $investedAmount   = $balance;
@@ -110,9 +109,11 @@ class CustomerController extends Controller
         $userid             = Auth::user()->id;
         $balance            = $this->userCurrentBalance($userid);
 
+        //dd($balance);
         $oldActiveTrade     = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
         if(isset($oldActiveTrade) && $oldActiveTrade != null) {
+
             if(isset($request->amount) && $request->amount > $balance) {
                 return redirect()->back()->withErrors("Invalid Amount.");
             } else if (isset($request->amount) && $request->amount <= $balance) {
@@ -126,7 +127,6 @@ class CustomerController extends Controller
             return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
 
         } else {
-
             return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
         }
 

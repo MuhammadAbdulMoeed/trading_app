@@ -81,14 +81,13 @@ class updateTradeRates extends Command
 //            dd($saveRate->close);
             $saveRate->close_rate   = (1 / $oilRates['rates']['close']);
         }
-
+        $saveRate->time_stamp   = $oilRates['timestamp'];
         $saveRate->time         = $databaseTime;
         $saveRate->date         = $oilRates['date'];
         $saveRate->base_currency= $oilRates['base'];
         $saveRate->symbol       = $oilRates['symbol'];
         $saveRate->unit         = $oilRates['unit'];
         $saveRate->save();
-
 
     }
 }

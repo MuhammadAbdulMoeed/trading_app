@@ -123,8 +123,22 @@
                     <div class="trading-btn-wrapper">
                         <div class="trading-btn-placeholder">
                             <ul>
-                                <li class="me-2"><button class="btn-tradeer btn-buy"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy</button></li>
-                                <li><button class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell</button></li>
+
+                                @if (isset($activeTrade) && $activeTrade != null)
+                                    @if($activeTrade->trade_type == "Buy")
+                                        <li class="me-2"><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a></li>
+                                    @endif
+
+                                    @if($activeTrade->trade_type == "Sell")
+                                        <li><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
+                                    @endif
+                                @else
+                                    <li class="me-2"><a href="{{url('/start_buy_trade')}}" class="btn-tradeer btn-buy me-2"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy </a></li>
+                                    <li><a href="{{url('/start_sell_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell </a></li>
+                                @endif
+
+                                {{--<li class="me-2"><button class="btn-tradeer btn-buy"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy</button></li>
+                                <li><button class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell</button></li>--}}
                             </ul>
                         </div>
                     </div>
@@ -210,9 +224,19 @@ am5.ready(function() {
         // }
 
         @foreach($trade_rates as $key=> $trade)
+                @php
+                    if(isset($trade['time_stamp']))
+                        $time_stamp = $trade['time_stamp'] * 1000;
+                   else
+                        $time_stamp =  (\Carbon\Carbon::now()->addMinute($key)->timestamp) * 1000;
+
+
+                @endphp
 
               chartData.push({
-                  date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
+                //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
+                date: {{$time_stamp}},
+                //date: {{$trade['time_stamp']}} * 1000,
                 value: {{ $trade['close_rate']}},
                 open: {{$trade['open_rate']}},
                 low: {{$trade['low_rate']}},
