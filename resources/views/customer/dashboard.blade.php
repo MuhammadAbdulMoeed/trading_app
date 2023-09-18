@@ -49,7 +49,7 @@
 						<div class="trading-target-wrapper">
 							<div class="trading-target-content text-center">
 								<h2>$ {{ round($balance,2) ?? 0}}</h2>
-								<p class="mb-0">Crude Oil WTI <span class="lose">(-0.05%)</span></p>
+{{--								<p class="mb-0">Crude Oil WTI <span class="lose">(-0.05%)</span></p>--}}
 							</div>
 						</div>
 					</div>
@@ -132,6 +132,7 @@
 			</div>
 		</section>
 	</section>
+
 	<section class="trading-graph-wrapper">
 		<div class="trading-graph-layout-wrapper">
             <div class="trading-graph-inner">
