@@ -47,7 +47,8 @@ class CustomerController extends Controller
         $userid         = Auth::user()->id;
         $user_type      = Auth::user()->user_type;
         $balance        = $this->userCurrentBalance($userid);
-        $totalUsers     = 0;
+        $totalUsers     = User::where('user_type',0)->count();
+        $positions      = Auth::user()->getPosition();
 
         if($user_type == 1) {
 
@@ -60,7 +61,7 @@ class CustomerController extends Controller
             $total                  =   count($userTradeHistory);
         }
 
-        return view('customer.trade_results',compact(['balance','userTradeHistory','total','user_type']));
+        return view('customer.trade_results',compact(['balance','userTradeHistory','total','user_type','totalUsers','positions']));
     }
 
     public function trade_api_data(Request $request) {
@@ -88,6 +89,7 @@ class CustomerController extends Controller
     public function startNewBuyTrade(Request $request) {
 
         $userid             = Auth::user()->id;
+
         $balance            = $this->userCurrentBalance($userid);
 
         $oldActiveTrade     = UserTrades::where('user_id',$userid)->where('status',"Active")->first();

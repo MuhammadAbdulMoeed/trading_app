@@ -25,6 +25,7 @@
 							<div class="header-tag-content-wrapper">
 								<div class="header-tag-stars">
 									<img src="{{asset('assets/imgs/group-stars.png')}}">
+                                    <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
 								</div>
 								<div class="header-tag-content text-center">
 									<p class="mb-0">Join our trading challenge and have a chance at winning valuable prizes!</p>
@@ -47,10 +48,11 @@
 							<div class="trading-close-wrapper">
 								<div class="trading-close-content text-center">
 {{--									<h2>01:08:55</h2>--}}
+
                                     <div id="countdown">
-                                        <h2>
+                                        <h4 style="color: white;">
                                             <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>
-                                        </h2>
+                                        </h4>
                                     </div>
 									<p class="mb-0">Until Trading Closes</p>
 								</div>
@@ -96,7 +98,8 @@
 							<div class="star-wrapper">
 								<div class="star-content text-center">
 									<img src="assets/imgs/group-stars.png" class="img-fluid">
-									<p class="mb-0 mt-1">8/279</p>
+									<!--<p class="mb-0 mt-1">8/279</p>-->
+                                    <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
 								</div>
 							</div>
 						</div>
@@ -118,6 +121,7 @@
                                 <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
                             </h4>
                         </div>
+
 						<p>Until Trading Closes</p>
 					</div>
 				</div>
@@ -153,6 +157,7 @@
                                         @if(isset($userTradeHistory))
 
                                             @foreach($userTradeHistory as $history)
+
                                                 @if(isset($user_type) && $user_type == 1)
                                                 <tr>
                                                     <td class="trading-positin">#{{$loop->iteration}}</td>
