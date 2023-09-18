@@ -29,7 +29,7 @@ class updateTradeRates extends Command
      */
     public function handle()
     {
-        \Log::info("Cron is working fine!");
+        //\Log::info("Cron Starts!");
         $this->info('Command executed successfully.');
 
         // set API Endpoint and API key
@@ -88,6 +88,6 @@ class updateTradeRates extends Command
         $saveRate->symbol       = $oilRates['symbol'];
         $saveRate->unit         = $oilRates['unit'];
         $saveRate->save();
-
+        //\Log::info("Cron is Completed working fine!");
     }
 }
