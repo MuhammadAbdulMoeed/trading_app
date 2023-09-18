@@ -159,7 +159,7 @@
                                                     <td>
                                                         @php
                                                         //dd($history->user->name);
-                                                            $string     = $history->user->name;
+                                                            $string     = $history->user->name ?? "";
                                                             // Split the string by space
                                                             $parts      =  explode(' ', $string);
 

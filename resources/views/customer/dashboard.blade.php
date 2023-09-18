@@ -57,7 +57,7 @@
 						<div class="trading-close-wrapper">
 							<div class="trading-close-content text-center">
                                 <div id="countdown">
-                                    <h4>
+                                    <h4 style="color: white;">
                                         <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>
                                     </h4>
                                 </div>
@@ -123,7 +123,7 @@
 				<div class="remining-time-content">
 {{--					<h4>01:08:55</h4>--}}
                     <div id="countdown2" class="timerFontSize">
-                        <h4>
+                        <h4 style="color: white;">
                             <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
                         </h4>
                     </div>
@@ -212,12 +212,9 @@
     });
 
     var chart; // Declare chart as a global variable
-
     // <!-- Chart code -->
     am5.ready(function() {
-
         var root = am5.Root.new("chartdiv");
-
         // Set themes
         // https://www.amcharts.com/docs/v5/concepts/themes/
         root.setThemes([am5themes_Animated.new(root)]);
@@ -228,16 +225,8 @@
             var chartData = [];
 
             @foreach($trade_rates as $key=> $trade)
-            @php
-                $time_stamp = "";
-                    /* if(isset($trade['time_stamp']))--}}--}}--}}--}}
-                       $time_stamp = $trade['time_stamp'] * 1000;*/
-            @endphp
             //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
-            //date: {{$trade['time_stamp']}} * 1000,
-
             chartData.push({
-                //date: {{$time_stamp}},
                 date: {{$trade['time_stamp']}} * 1000,
                 value: {{ $trade['close_rate']}},
                 open: {{$trade['open_rate']}},
@@ -246,11 +235,10 @@
             });
             @endforeach
 
-                return chartData;
+            return chartData;
         }
 
         var initialData = generateChartData();
-
 
         // Create the chart and assign it to the global variable chart
         var chart = root.container.children.push(
@@ -338,10 +326,23 @@
                 },
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
+                    var chartAjaxData = [];
+
+                    $.each(data, function(index, row) {
+                        //alert(row);
+                        //console.log(row.time_stamp);
+                        chartAjaxData.push({
+                            date: row.time_stamp * 1000,
+                            value: row.close,
+                            open: row.open,
+                            low: row.low,
+                            high: row.high
+                        });
+                    });
+
                     // Assuming that your API response returns data in the same format as your previous data
                     // Update the chart with the received data
-                    series.data.setAll(data);
+                    series.data.setAll(chartAjaxData);
                     //series[0].data.setAll(data);
                     // chart.series.get(0).data.setAll(data);
                     // chart.series[0].data.setAll(data);
