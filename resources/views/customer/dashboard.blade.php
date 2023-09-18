@@ -313,8 +313,8 @@
         series.appear(1000);
         chart.appear(1000, 100);
 
-        // Fetch and update data at a specific interval (e.g., every 5 seconds)
-        setInterval(fetchDataAndUpdateChart, 5000); // 5000 milliseconds = 5 seconds
+        // Fetch and update data at a specific interval (e.g., every 30 seconds)
+        setInterval(fetchDataAndUpdateChart, 30000); // 5000 milliseconds = 5 seconds , and 30000 = 30 seconds
 
         // Define the fetchDataAndUpdateChart function
         function fetchDataAndUpdateChart() {

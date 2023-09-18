@@ -113,6 +113,7 @@
 						</div>
 					</div>
 				</div>
+
 				<div class="remining-time-wrapper">
 					<div class="remining-time-content">
 {{--						<h4>01:08:55</h4>--}}
@@ -121,7 +122,6 @@
                                 <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
                             </h4>
                         </div>
-
 						<p>Until Trading Closes</p>
 					</div>
 				</div>
