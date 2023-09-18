@@ -46,14 +46,19 @@
 						<div class="col-lg-2">
 							<div class="trading-close-wrapper">
 								<div class="trading-close-content text-center">
-									<h2>01:08:55</h2>
+{{--									<h2>01:08:55</h2>--}}
+                                    <div id="countdown">
+                                        <h2>
+                                            <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>
+                                        </h2>
+                                    </div>
 									<p class="mb-0">Until Trading Closes</p>
 								</div>
 							</div>
 						</div>
 
                         <div class="col-lg-1">
-                            {{--						<div class="trading-close-wrapper">--}}
+                            {{--<div class="trading-close-wrapper">--}}
                             <div class="btn-group">
                                 <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     Action
@@ -107,7 +112,12 @@
 				</div>
 				<div class="remining-time-wrapper">
 					<div class="remining-time-content">
-						<h4>01:08:55</h4>
+{{--						<h4>01:08:55</h4>--}}
+                        <div id="countdown2" class="timerFontSize">
+                            <h4>
+                                <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
+                            </h4>
+                        </div>
 						<p>Until Trading Closes</p>
 					</div>
 				</div>
@@ -208,5 +218,67 @@
 
 	<script src="{{asset('assets/js/jquery.min.js')}}"></script>
 	<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+
+
+    <script type="text/javascript">
+
+        (function () {
+            const second = 1000,
+                minute = second * 60,
+                hour = minute * 60;
+
+            let today = new Date(),
+                dd = String(today.getDate()).padStart(2, "0"),
+                mm = String(today.getMonth() + 1).padStart(2, "0"),
+                yyyy = today.getFullYear(),
+                nextDay = new Date(today); // Create a new Date object for the next day
+            nextDay.setDate(nextDay.getDate() + 1); // Set it to the next day
+
+            // Set the start and end times (6 AM to 6 PM)
+            let startTime = new Date(yyyy, mm - 1, dd, 6, 0, 0).getTime();
+            let endTime = new Date(yyyy, mm - 1, dd, 18, 0, 0).getTime();
+
+            // Check if the current time is past 6 PM, if so, set the start time for the next day
+            if (today.getTime() >= endTime) {
+                startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
+                endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
+            }
+
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+
+                if (now >= endTime) {
+                    // Time has passed 6 PM, set the start time for the next day
+                    startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
+                    endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
+                }
+
+                const distance = endTime - now;
+
+                const hours = Math.floor(distance / hour);
+                const minutes = Math.floor((distance % hour) / minute);
+                const seconds = Math.floor((distance % minute) / second);
+
+                document.getElementById("hours").innerText = hours;
+                document.getElementById("minutes").innerText = minutes;
+                document.getElementById("seconds").innerText = seconds;
+
+                // Select elements by class name
+                document.getElementById("hours1").innerText = hours;
+                document.getElementById("minutes1").innerText = minutes;
+                document.getElementById("seconds1").innerText = seconds;
+
+                //do something later when time is reached
+                if (distance <= 0) {
+                    // document.getElementById("headline").innerText = "It's 6 PM!";
+                    document.getElementById("countdown").style.display = "none";
+                    document.getElementById("countdown2").style.display = "none";
+                    //document.getElementById("content").style.display = "block";
+                    clearInterval(x);
+                }
+            }, 0);
+        })();
+
+        </script>
 </body>
 </html>

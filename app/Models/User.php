@@ -42,4 +42,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getPosition()
+    {
+        // Count the number of users with a higher balance than the current user
+        return self::where('user_balance', '>', $this->user_balance)->count() + 1;
+    }
 }

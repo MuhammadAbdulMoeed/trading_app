@@ -30,10 +30,12 @@ class DashboardController extends Controller
     }
 
     public function trades(){
+
         $userid     =   Auth::user()->id;
         $balance    =   $this->userCurrentBalance($userid);
         $userTrades =   UserTrades::where('user_id',$userid)->orderBy('created_at','desc')->get();
         return view('admin.trades',compact(['balance','userTrades']));
+
     }
 
     public function updateRates() {
@@ -48,13 +50,17 @@ class DashboardController extends Controller
 //        $ch = curl_init('https://commodities-api.com/api/'.$endpoint.'?access_key='.$access_key.'&base='.$currency.'&symbols='.$symbol);
 
         $ch = curl_init('https://commodities-api.com/api/'.$endpoint.'?access_key='.$access_key.'&base=USD&symbols=WTIOIL');
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         // Store the data:
         $result = curl_exec($ch);
+
         curl_close($ch);
         // Decode JSON response:
         $oilRates               = json_decode($result, true);
+
         $databaseTime           = Carbon::now()->format('H:i:s');
+
         if(isset($oilRates['time'])) {
             $carbonTime         = Carbon::createFromTimestamp($oilRates['timestamp']);
             // Format the Carbon instance as a database time string
@@ -90,11 +96,8 @@ class DashboardController extends Controller
     }
 
     public function listOilRates() {
-
         $rateData = OilRates::orderby('created_at','desc')->get();
-
         return view('admin.trade_rates.trade_listing',compact('rateData'));
-
     }
 
 

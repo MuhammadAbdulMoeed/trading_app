@@ -9,6 +9,7 @@ use App\Models\UserTrades;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use DB;
 class CustomerController extends Controller
 {
     public function index(){
@@ -21,11 +22,22 @@ class CustomerController extends Controller
         $userid         = Auth::user()->id;
         $balance        = $this->userCurrentBalance($userid);
 
+        $totalUsers     = User::where('user_type',0)->count();
+
+        $positions      = Auth::user()->getPosition();
+
+//        foreach ($users as $user) {
+//            $position = $user->getPosition();
+//            // Now, you can use $user and $position as needed.
+//            echo "User {$user->id} has a balance of {$user->balance} and is in position {$position}<br>";
+//        }
+        //dd($positions,$totalUsers);
+
         $trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
 
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
-        return view('customer.dashboard',compact(['balance','trade_rates','activeTrade']));
+        return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions']));
 
     }
 
@@ -66,7 +78,7 @@ class CustomerController extends Controller
         }
 
 //        $trade_rates   =  OilRates::whereBetween('date', [$startDate, $endDate])->orderBy('created_at','asc')->get();
-        $trade_rates   =  OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get()->toArray();
+        $trade_rates   =  OilRates::select('time_stamp','open_rate as open','high_rate as high','low_rate as low','close_rate as close','date','time')->orderBy('created_at','asc')->get()->toArray();
 
         return json_encode($trade_rates);
 
@@ -108,20 +120,23 @@ class CustomerController extends Controller
 
         $userid             = Auth::user()->id;
         $balance            = $this->userCurrentBalance($userid);
-
+        //dd($balance);
         //dd($balance);
         $oldActiveTrade     = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
-
-        if(isset($oldActiveTrade) && $oldActiveTrade != null) {
+//dd($oldActiveTrade);
+        if(!isset($oldActiveTrade) && $oldActiveTrade == null) {
 
             if(isset($request->amount) && $request->amount > $balance) {
                 return redirect()->back()->withErrors("Invalid Amount.");
             } else if (isset($request->amount) && $request->amount <= $balance) {
                 $balance      = $request->amount;
             }
-            $investedAmount   = $balance;
+
+            $investedAmount   = round($balance , 2);
+
             $tradeRateData    = OilRates::orderby('created_at','desc')->first();
 
+            //dd($investedAmount);
             $this->saveTrade($investedAmount,$tradeRateData->id,"Sell");
 
             return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");

@@ -7,6 +7,16 @@
 	<title>Dashboard</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
+
+    <style>
+
+        .timerFontSize {
+            font-weight: normal;
+            letter-spacing: .125rem;
+            text-transform: uppercase;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -22,16 +32,19 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="col-lg-4">
 						<div class="header-tag-content-wrapper">
-							<div class="header-tag-stars">
+							<div class="header-tag-stars star-content">
 								<img src="{{asset('assets/imgs/group-stars.png')}}">
+                                <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
 							</div>
 							<div class="header-tag-content text-center">
 								<p class="mb-0">Join our trading challenge and have a chance at winning valuable prizes!</p>
 							</div>
 						</div>
 					</div>
+
 					<div class="col-lg-3">
 						<div class="trading-target-wrapper">
 							<div class="trading-target-content text-center">
@@ -43,7 +56,12 @@
 					<div class="col-lg-2">
 						<div class="trading-close-wrapper">
 							<div class="trading-close-content text-center">
-								<h2>01:08:55</h2>
+                                <div id="countdown">
+                                    <h4>
+                                        <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>
+                                    </h4>
+                                </div>
+								{{--<h2>01:08:55</h2>--}}
 								<p class="mb-0">Until Trading Closes</p>
 							</div>
 						</div>
@@ -87,7 +105,7 @@
 						<div class="star-wrapper">
 							<div class="star-content text-center">
 								<img src="{{asset('assets/imgs/group-stars.png')}}" class="img-fluid">
-								<p class="mb-0 mt-1">8/279</p>
+								<p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
 							</div>
 						</div>
 					</div>
@@ -103,7 +121,12 @@
 			</div>
 			<div class="remining-time-wrapper">
 				<div class="remining-time-content">
-					<h4>01:08:55</h4>
+{{--					<h4>01:08:55</h4>--}}
+                    <div id="countdown2" class="timerFontSize">
+                        <h4>
+                            <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
+                        </h4>
+                    </div>
 					<p>Until Trading Closes</p>
 				</div>
 			</div>
@@ -187,208 +210,230 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-// <!-- Chart code -->
-am5.ready(function() {
 
-    var root = am5.Root.new("chartdiv");
+    var chart; // Declare chart as a global variable
 
-    // Set themes
-    // https://www.amcharts.com/docs/v5/concepts/themes/
-    root.setThemes([am5themes_Animated.new(root)]);
+    // <!-- Chart code -->
+    am5.ready(function() {
 
-    function generateChartData() {
-        var chartData = [];
-     /*   var firstDate = new Date();
-        firstDate.setDate(firstDate.getDate() - 1000);
-        firstDate.setHours(0, 0, 0, 0);
-        var value = 1200;*/
-        // for (var i = 0; i < 5000; i++) {
-        //     var newDate = new Date(firstDate);
-        //     newDate.setDate(newDate.getDate() + i);
-        //
-        //
-        //     value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-        //     var open = value + Math.round(Math.random() * 16 - 8);
-        //     var low = Math.min(value, open) - Math.round(Math.random() * 5);
-        //     var high = Math.max(value, open) + Math.round(Math.random() * 5);
-        //
-        //
-        //     console.log(newDate.getTime(),value,open,low,high);
-        //     chartData.push({
-        //         date: newDate.getTime(),
-        //         value: value,
-        //         open: open,
-        //         low: low,
-        //         high: high
-        //     });
-        // }
+        var root = am5.Root.new("chartdiv");
 
-        @foreach($trade_rates as $key=> $trade)
-                @php
-                    if(isset($trade['time_stamp']))
-                        $time_stamp = $trade['time_stamp'] * 1000;
-                   else
-                        $time_stamp =  (\Carbon\Carbon::now()->addMinute($key)->timestamp) * 1000;
+        // Set themes
+        // https://www.amcharts.com/docs/v5/concepts/themes/
+        root.setThemes([am5themes_Animated.new(root)]);
 
+        // Initial data for setup chart.
+        function generateChartData() {
 
-                @endphp
+            var chartData = [];
 
-              chartData.push({
-                //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
-                date: {{$time_stamp}},
-                //date: {{$trade['time_stamp']}} * 1000,
+            @foreach($trade_rates as $key=> $trade)
+            @php
+                $time_stamp = "";
+                    /* if(isset($trade['time_stamp']))--}}--}}--}}--}}
+                       $time_stamp = $trade['time_stamp'] * 1000;*/
+            @endphp
+            //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
+            //date: {{$trade['time_stamp']}} * 1000,
+
+            chartData.push({
+                //date: {{$time_stamp}},
+                date: {{$trade['time_stamp']}} * 1000,
                 value: {{ $trade['close_rate']}},
                 open: {{$trade['open_rate']}},
                 low: {{$trade['low_rate']}},
                 high: {{$trade['high_rate']}}
             });
-        @endforeach
+            @endforeach
 
-        return chartData;
-    }
+                return chartData;
+        }
 
-    var data = generateChartData();
+        var initialData = generateChartData();
 
-    // Create chart
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/
-    var chart = root.container.children.push(
-        am5xy.XYChart.new(root, {
-            focusable: true,
-            panX: true,
-            panY: true,
-            wheelX: "panX",
-            wheelY: "zoomX"
-        })
-    );
 
-    // Create axes
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
-    var xAxis = chart.xAxes.push(
-        am5xy.DateAxis.new(root, {
-            groupData: true,
-            maxDeviation: 0.5,
-            baseInterval: { timeUnit: "minute", count: 1 }, // Set to minute interval
-            renderer: am5xy.AxisRendererX.new(root, { pan: "zoom" }),
-            tooltip: am5.Tooltip.new(root, {})
-        })
-    );
+        // Create the chart and assign it to the global variable chart
+        var chart = root.container.children.push(
+            am5xy.XYChart.new(root, {
+                focusable: true,
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX"
+            })
+        );
 
-    var yAxis = chart.yAxes.push(
-        am5xy.ValueAxis.new(root, {
-            maxDeviation:1,
-            renderer: am5xy.AxisRendererY.new(root, {pan:"zoom"})
-        })
-    );
+        var xAxis = chart.xAxes.push(
+            am5xy.DateAxis.new(root, {
+                groupData: true,
+                maxDeviation: 0.5,
+                baseInterval: { timeUnit: "minute", count: 1 }, // Set to minute interval
+                renderer: am5xy.AxisRendererX.new(root, { pan: "zoom" }),
+                tooltip: am5.Tooltip.new(root, {})
+            })
+        );
 
-    var color = root.interfaceColors.get("background");
+        var yAxis = chart.yAxes.push(
+            am5xy.ValueAxis.new(root, {
+                maxDeviation:1,
+                renderer: am5xy.AxisRendererY.new(root, {pan:"zoom"})
+            })
+        );
 
-    // Add series
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    var series = chart.series.push(
-        am5xy.CandlestickSeries.new(root, {
-            fill: color,
-            calculateAggregates: true,
-            stroke: color,
-            name: "MDXI",
-            xAxis: xAxis,
-            yAxis: yAxis,
-            valueYField: "value",
-            openValueYField: "open",
-            lowValueYField: "low",
-            highValueYField: "high",
-            valueXField: "date",
-            lowValueYGrouped: "low",
-            highValueYGrouped: "high",
-            openValueYGrouped: "open",
-            valueYGrouped: "close",
-            legendValueText:
-                "open: {openValueY} low: {lowValueY} high: {highValueY} close: {valueY}",
-            legendRangeValueText: "{valueYClose}",
-            // tooltip: am5.Tooltip.new(root, {
-            //     pointerOrientation: "horizontal",
-            //     labelText: "open: {openValueY}\nlow: {lowValueY}\nhigh: {highValueY}\nclose: {valueY}"
-            // })
-        })
-    );
+        var color = root.interfaceColors.get("background");
 
-    // Add cursor
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-    var cursor = chart.set(
-        "cursor",
-        am5xy.XYCursor.new(root, {
-            xAxis: xAxis
-        })
-    );
-    cursor.lineY.set("visible", false);
 
-    // Stack axes vertically
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/#Stacked_axes
-    chart.leftAxesContainer.set("layout", root.verticalLayout);
+        var series = chart.series.push(
+            am5xy.CandlestickSeries.new(root, {
+                fill: color,
+                calculateAggregates: true,
+                stroke: color,
+                name: "MDXI",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "value",
+                openValueYField: "open",
+                lowValueYField: "low",
+                highValueYField: "high",
+                valueXField: "date",
+                lowValueYGrouped: "low",
+                highValueYGrouped: "high",
+                openValueYGrouped: "open",
+                valueYGrouped: "close",
+                legendValueText:
+                    "open: {openValueY} low: {lowValueY} high: {highValueY} close: {valueY}",
+                legendRangeValueText: "{valueYClose}",
 
-    // Add scrollbar
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/scrollbars/
-    // var scrollbar = am5xy.XYChartScrollbar.new(root, {
-    //     orientation: "horizontal",
-    //     height: 50
-    // });
-    // chart.set("scrollbarX", scrollbar);
+            })
+        );
 
-    // var sbxAxis = scrollbar.chart.xAxes.push(
-    //     am5xy.DateAxis.new(root, {
-    //         groupData: true,
-    //         groupIntervals: [{ timeUnit: "minute", count: 1 }], // Group data by 1 minute intervals
-    //         baseInterval: { timeUnit: "minute", count: 1 },     // Set the base interval to 1 minute
-    //         renderer: am5xy.AxisRendererX.new(root, {
-    //             opposite: false,
-    //             strokeOpacity: 0
-    //         })
-    //     })
-    // );
+        var cursor = chart.set(
+            "cursor",
+            am5xy.XYCursor.new(root, {
+                xAxis: xAxis
+            })
+        );
+        cursor.lineY.set("visible", false);
 
-    // var sbyAxis = scrollbar.chart.yAxes.push(
-    //     am5xy.ValueAxis.new(root, {
-    //         renderer: am5xy.AxisRendererY.new(root, {})
-    //     })
-    // );
+        chart.leftAxesContainer.set("layout", root.verticalLayout);
 
-    // var sbseries = scrollbar.chart.series.push(
-    //     am5xy.LineSeries.new(root, {
-    //         xAxis: sbxAxis,
-    //         yAxis: sbyAxis,
-    //         valueYField: "value",
-    //         valueXField: "date"
-    //     })
-    // );
+        // set data
+        series.data.setAll(initialData);
+        // sbseries.data.setAll(initialData);
 
-    // Add legend
-    // https://www.amcharts.com/docs/v5/charts/xy-chart/legend-xy-series/
-    // var legend = yAxis.axisHeader.children.push(am5.Legend.new(root, {}));
-    //
-    // legend.data.push(series);
-    //
-    // legend.markers.template.setAll({
-    //     width: 10
-    // });
-    //
-    // legend.markerRectangles.template.setAll({
-    //     cornerRadiusTR: 0,
-    //     cornerRadiusBR: 0,
-    //     cornerRadiusTL: 0,
-    //     cornerRadiusBL: 0
-    // });
+        series.appear(1000);
+        chart.appear(1000, 100);
 
-    // set data
-    series.data.setAll(data);
-    // sbseries.data.setAll(data);
+        // Fetch and update data at a specific interval (e.g., every 5 seconds)
+        setInterval(fetchDataAndUpdateChart, 5000); // 5000 milliseconds = 5 seconds
 
-    // Make stuff animate on load
-    // https://www.amcharts.com/docs/v5/concepts/animations/
-    series.appear(1000);
-    chart.appear(1000, 100);
-    // Fetch and update data at a specific interval (e.g., every 5 seconds)
-    setInterval(generateChartData, 30000); // 5000 milliseconds = 5 seconds
-});
-// end am5.ready()
+        // Define the fetchDataAndUpdateChart function
+        function fetchDataAndUpdateChart() {
+            $.ajax({
+                type: "POST",
+                url: "{{url('ajax_trade_api_data')}}",
+                data: {
+                    //'id': id,
+                    'csrf-token': "{{csrf_token()}}"
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    // Assuming that your API response returns data in the same format as your previous data
+                    // Update the chart with the received data
+                    series.data.setAll(data);
+                    //series[0].data.setAll(data);
+                    // chart.series.get(0).data.setAll(data);
+                    // chart.series[0].data.setAll(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+    });
+
+
+    // end am5.ready()
+/*
+    function fetchDataAndUpdateChart() {
+        $.ajax({
+            type: "POST",
+            url: "{{url('ajax_trade_api_data')}}",
+            data: {
+                //'id': id,
+                'csrf-token': "{{csrf_token()}}"
+            },
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                // Assuming that your API response returns data in the same format as your previous data
+                // Update the chart with the received data
+                chart.series.get(0).data.setAll(data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }*/
+
+    (function () {
+        const second = 1000,
+            minute = second * 60,
+            hour = minute * 60;
+
+        let today = new Date(),
+            dd = String(today.getDate()).padStart(2, "0"),
+            mm = String(today.getMonth() + 1).padStart(2, "0"),
+            yyyy = today.getFullYear(),
+            nextDay = new Date(today); // Create a new Date object for the next day
+        nextDay.setDate(nextDay.getDate() + 1); // Set it to the next day
+
+        // Set the start and end times (6 AM to 6 PM)
+        let startTime = new Date(yyyy, mm - 1, dd, 6, 0, 0).getTime();
+        let endTime = new Date(yyyy, mm - 1, dd, 18, 0, 0).getTime();
+
+        // Check if the current time is past 6 PM, if so, set the start time for the next day
+        if (today.getTime() >= endTime) {
+            startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
+            endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
+        }
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+
+            if (now >= endTime) {
+                // Time has passed 6 PM, set the start time for the next day
+                startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
+                endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
+            }
+
+            const distance = endTime - now;
+
+            const hours = Math.floor(distance / hour);
+            const minutes = Math.floor((distance % hour) / minute);
+            const seconds = Math.floor((distance % minute) / second);
+
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
+
+            // Select elements by class name
+            document.getElementById("hours1").innerText = hours;
+            document.getElementById("minutes1").innerText = minutes;
+            document.getElementById("seconds1").innerText = seconds;
+
+            //do something later when time is reached
+            if (distance <= 0) {
+                // document.getElementById("headline").innerText = "It's 6 PM!";
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("countdown2").style.display = "none";
+                //document.getElementById("content").style.display = "block";
+                clearInterval(x);
+            }
+        }, 0);
+    })();
+
 </script>
 </body>
 </html>
