@@ -295,7 +295,7 @@
                 panX: true,
                 panY: true,
                 wheelX: "panX",
-                wheelY: "zoomX"
+                wheelY: "zoomX",
                 pinchZoom: true,
                 zoomable:true,
             })
