@@ -296,6 +296,8 @@
                 panY: true,
                 wheelX: "panX",
                 wheelY: "zoomX"
+                pinchZoom: true,
+                zoomable:true,
             })
         );
 
@@ -352,6 +354,17 @@
         cursor.lineY.set("visible", false);
 
         chart.leftAxesContainer.set("layout", root.verticalLayout);
+
+        var myTheme = am5.Theme.new(root);
+
+myTheme.rule("AxisLabel").setAll({
+  fill: am5.color(0xFFFFFF),
+});
+
+root.setThemes([
+  myTheme
+]);
+
 
         // set data
         series.data.setAll(initialData);

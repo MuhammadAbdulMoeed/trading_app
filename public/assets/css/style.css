@@ -108,7 +108,7 @@ body{
 }
 .buy-sell-btn-wrapper{
 	position: fixed;
-	bottom: 20px;
+	bottom: 40px;
 	right: 20px;
 	z-index: 6;
 }
@@ -542,6 +542,9 @@ input:-webkit-autofill:active {
 	font-family: 'Inter', sans-serif;
 	font-weight: 400;	
 }
+.amcharts-category-axis-label {
+            fill: white; /* Change the label color to white */
+        }
 
 @media(min-width:320px) and (max-width:767px){
 	.app-header-wrapper{
@@ -554,7 +557,7 @@ input:-webkit-autofill:active {
 		height: 100%;
 	}
 	.trading-graph-inner{
-		flex: 0 0 74vh;
+		flex: 0 0 65vh;
 		/*flex-grow: 1;*/
 	}
 	tbody, td, tfoot, th, thead, tr{

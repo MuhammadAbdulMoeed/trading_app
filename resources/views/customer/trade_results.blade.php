@@ -62,14 +62,13 @@
                         <div class="col-lg-1">
                             {{--<div class="trading-close-wrapper">--}}
                             <div class="btn-group">
-                                <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Action
+                                <button type="button" id="initials" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Action md
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="{{route('dashboard')}}">Dashboard</a>
+                                        <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
                                     </li>
-                                    <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
@@ -94,7 +93,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-4">
+						<div class="col-2">
 							<div class="star-wrapper">
 								<div class="star-content text-center">
 									<img src="assets/imgs/group-stars.png" class="img-fluid">
@@ -103,7 +102,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-5">
+						<div class="col-4">
 							<div class="account-balacnce">
 								<div class="account-balacnce-content text-center">
 									<h4 class="mb-1">{{$total}}</h4>
@@ -111,6 +110,25 @@
 								</div>
 							</div>
 						</div>
+                        <div class="col-2">
+                            <div class="btn-group">
+                                <button type="button" id="initials2" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Action md
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
+                                                this.closest('form').submit();"><i class="ft-power"></i> Logout</a>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 					</div>
 				</div>
 
@@ -226,6 +244,33 @@
 
 
     <script type="text/javascript">
+
+        const name = document.getElementById("initials");
+        const words = name.textContent;
+        const letters = words.split(" ");
+        let initials = "";
+
+        for (const word of letters) {
+            if (word.length > 0) {
+                initials += word.charAt(0);
+            }
+        }
+        document.getElementById("initials").textContent = initials;
+
+
+        const name2 = document.getElementById("initials2");
+        const words2 = name2.textContent;
+        const letters2 = words2.split(" ");
+        let initials2 = "";
+
+        for (const word2 of letters2) {
+            if (word2.length > 0) {
+                initials2 += word2.charAt(0);
+            }
+        }
+        document.getElementById("initials2").textContent = initials2;
+
+
 
         (function () {
             const second = 1000,
