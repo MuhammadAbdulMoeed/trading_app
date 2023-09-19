@@ -354,6 +354,17 @@
 
         chart.leftAxesContainer.set("layout", root.verticalLayout);
 
+        var myTheme = am5.Theme.new(root);
+
+myTheme.rule("AxisLabel").setAll({
+  fill: am5.color(0xFFFFFF),
+});
+
+root.setThemes([
+  myTheme
+]);
+
+
         // set data
         series.data.setAll(initialData);
         // sbseries.data.setAll(initialData);
