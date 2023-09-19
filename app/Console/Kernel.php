@@ -21,7 +21,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 //        $schedule->command('update:rates')->dailyAt('00:00:00');
 //        $schedule->command('update:rates')->everyMinute();
-        $schedule->command('app:update-trade-rates')->everyMinute();
+        $schedule->command('app:update-trade-rates')->everyTenMinutes();
+//        $schedule->command('app:update-trade-rates')->everyMinute();
     }
 
     /**
