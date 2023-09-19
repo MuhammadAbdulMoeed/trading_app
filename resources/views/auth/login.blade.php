@@ -67,19 +67,46 @@
 						<div class="col-lg-12 mb-3">
 							<div class="form-input-wrapper">
 								<label class="d-block mb-2">Password</label>
-								<input name="password" type="password" class="form-control" id="user-password" required autocomplete="current-password" placeholder="Enter Password">
+								<input name="password" type="password" class="infoInputs" id="user-password" required autocomplete="current-password" placeholder="Enter Password">
 								@error('password')
 									<div class="invalid-feedback">{{$message}}</div>
 								@enderror
 							</div>
 						</div>
 
-						<div class="col-lg-12 mb-3">
+
+                            <div class="col-lg-12 mb-3">
+
+                                <div class="auth-cb-wrapper">
+                                    <input type="checkbox" id="authCB_01"  class="formRadioInputsBtn">
+                                    <label for="authCB_01" class="formRadioLabelBtn">
+                                        <div class="auth-cb-content-wrapper">
+                                            <div class="auth-cb">
+                                                <span></span>
+                                            </div>
+                                            <div class="auth-cb-content">
+                                                <p>Remember Me</p>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+
+{{--                                <div class="form-input-wrapper">--}}
+{{--                                    <label for="authCB_01" class="formRadioLabelBtn">--}}
+{{--                                        Remember--}}
+{{--                                    </label>--}}
+{{--                                    <input type="checkbox" id="authCB_01"  name="remember" value="" class="chk-remember formRadioInputsBtn">--}}
+
+{{--                                </div>--}}
+                            </div>
+
+
+						{{--<div class="col-lg-12 mb-3">
 							<div class="form-input-wrapper">
-								<label class="d-block mb-2">Remember</label>
-								<input type="checkbox" name="remember" id="remember-me" class="chk-remember">
+								<label for="authCB_01" class="d-block mb-2">Remember</label>
+								<input type="checkbox" name="remember" id="authCB_01" class="chk-remember">
 							</div>
-						</div>
+						</div>--}}
 					</div>
 				</div>
 			</section>
