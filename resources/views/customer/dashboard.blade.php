@@ -296,7 +296,8 @@
                 panY: true,
                 wheelX: "panX",
                 wheelY: "zoomX"
-                // zoomable:true,
+                pinchZoom: true,
+                zoomable:true,
             })
         );
 
