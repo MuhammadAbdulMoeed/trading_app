@@ -297,7 +297,7 @@
                 wheelX: "panX",
                 wheelY: "zoomX",
                 pinchZoom: true,
-                zoomable:true,
+                // zoomable:true,
             })
         );
 
