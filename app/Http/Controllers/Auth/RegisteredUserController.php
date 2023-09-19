@@ -57,6 +57,8 @@ class RegisteredUserController extends Controller
             $this->updateWallet($user->id, $amount, "profit", "Startup trade balance for new customer.");
         }
 
+        $user->notify(new \App\Notifications\WelcomeMailNotification($user));
+
         event(new Registered($user));
 
         Auth::login($user);
