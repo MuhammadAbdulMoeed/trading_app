@@ -151,7 +151,8 @@
     	<section class="trading-graph-wrapper">
     		<div class="trading-graph-layout-wrapper">
                 <div class="trading-graph-inner">
-                    <div id="chartcontainer"></div>
+{{--                    <div id="chartcontainer"></div>--}}
+                    <div id="chartdiv"></div>
                 </div>
                 <div class="mobile-footer-wrapper  d-lg-none d-block d-md-block d-sm-block">
                     <div class="mobile-footer-content-wrapper">
@@ -229,12 +230,14 @@
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
 
-<script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+{{--<script src="https://code.highcharts.com/stock/highstock.js"></script>--}}
+{{--    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>--}}
+{{--    <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>--}}
 
 
     <script type="text/javascript">
+        /*
+
         (async () => {
             const data = await fetch(
                 'https://demo-live-data.highcharts.com/aapl-ohlc.json'
@@ -250,7 +253,7 @@
                 rangeSelector: {
                     enabled: false,
                 },
-                xAxis: { 
+                xAxis: {
                     gridLineColor: 'red',
                     title: {
                         style: {
@@ -328,7 +331,7 @@
             });
         })();
 
-
+*/
 
 
         const name = document.getElementById("initials");
@@ -355,13 +358,10 @@
             }
         }
         document.getElementById("initials2").textContent = initials2;
+
     </script>
 
 <script type="text/javascript">
-       
-   
-
-
 
 
     $.ajaxSetup({
