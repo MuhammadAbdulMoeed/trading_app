@@ -131,7 +131,7 @@
 
                 if(response.profit_loss != "")
                 {
-                    var profitLoss = round(response.profit_loss,2);
+                    var profitLoss = response.profit_loss;
                     // $('.profitval').html(response.close_rate);
                     console.log(profitLoss);
                     if(response.trade_type == "Buy" && profitLoss < 0) {

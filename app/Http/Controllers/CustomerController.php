@@ -32,14 +32,16 @@ class CustomerController extends Controller
 
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
-        $profit_loss    = "";
+        $profit_loss            = "";
+        $profit_loss_positive   = 0;
 
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
+        $profit_loss_positive   = round(abs($profit_loss),6);
         //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
         //dd($activeTrade->active_rate->close_rate);
-        return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss']));
+        return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
 
     }
 
@@ -61,13 +63,15 @@ class CustomerController extends Controller
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
         $profit_loss    = "";
+        $profit_loss_positive   = 0;
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+            $profit_loss_positive   = round(abs($profit_loss),6);
         }
 
         //dd($activeTrade->active_rate->close_rate);
 
-        return view('customer.graph_dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss']));
+        return view('customer.graph_dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
 
     }
 

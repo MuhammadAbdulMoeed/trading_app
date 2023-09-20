@@ -175,18 +175,18 @@
 {{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                             @if($profit_loss < 0)
 
-                                                <span id="buy_lose" class="lose">({{round($profit_loss,2)}})</span>
+                                                <span id="buy_lose" class="lose">({{$profit_loss_positive}})</span>
                                             @else
-                                                <span id="buy_profit" class="profit">({{round($profit_loss,2)}})</span>
+                                                <span id="buy_profit" class="profit">({{$profit_loss_positive}})</span>
                                             @endif
 {{--                                        @endif--}}
                                     @endif
                                     @if($activeTrade->trade_type =="Sell")
 {{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                             @if($profit_loss < 0)
-                                                <span id="sell_profit" class="profit">({{round($profit_loss,2)}})</span>
+                                                <span id="sell_profit" class="profit">({{$profit_loss_positive}})</span>
                                             @else
-                                                <span id="sell_lose" class="lose">({{round($profit_loss,2)}})</span>
+                                                <span id="sell_lose" class="lose">({{$profit_loss_positive}})</span>
                                             @endif
 {{--                                        @endif--}}
                                     @endif
@@ -229,20 +229,20 @@
                         <h2>$ <span id="current_rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span> </h2>
                         <p>Crude Oil WTI
                             @if($activeTrade->trade_type =="Buy")
-                                @if(isset($profit_loss) && $profit_loss != null)
+{{--                                @if(isset($profit_loss) && $profit_loss != null)--}}
                                     @if($profit_loss < 0)
-                                        <span id="buy_lose" class="lose">({{round($profit_loss,2)}})</span>
+                                        <span id="buy_lose" class="lose">({{$profit_loss_positive}})</span>
                                     @else
-                                        <span id="buy_profit" class="profit">({{round($profit_loss,2)}})</span>
+                                        <span id="buy_profit" class="profit">({{$profit_loss_positive}})</span>
                                     @endif
-                                @endif
+{{--                                @endif--}}
                             @endif
                             @if($activeTrade->trade_type =="Sell")
 {{--                                @if(isset($profit_loss) && $profit_loss != null)--}}
                                     @if($profit_loss < 0)
-                                        <span id="sell_profit" class="profit">({{round($profit_loss,2)}})</span>
+                                        <span id="sell_profit" class="profit">({{$profit_loss_positive}})</span>
                                     @else
-                                        <span id="sell_lose" class="lose">({{round($profit_loss,2)}})</span>
+                                        <span id="sell_lose" class="lose">({{$profit_loss_positive}})</span>
                                     @endif
 {{--                                @endif--}}
                             @endif

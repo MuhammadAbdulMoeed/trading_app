@@ -202,9 +202,9 @@
                                                     @if($activeTrade->trade_type =="Buy")
 {{--                                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                                             @if($profit_loss < 0)
-                                                                <span id="buy_lose" class="lose profitval">({{round($profit_loss,2) ?? 0}})</span>
+                                                                <span id="buy_lose" class="lose profitval">({{$profit_loss_positive ?? 0}})</span>
                                                             @else
-                                                                <span id="buy_profit" class="profit profitval">({{round($profit_loss,2) ?? 0}})</span>
+                                                                <span id="buy_profit" class="profit profitval">({{$profit_loss_positive ?? 0}})</span>
                                                             @endif
 {{--                                                        @endif--}}
 
@@ -213,9 +213,9 @@
 {{--                                                        @if(isset($profit_loss) && $profit_loss != null)--}}
 
                                                             @if($profit_loss < 0)
-                                                                <span id="sell_profit" class="profit profitval">({{round($profit_loss,2) ?? 0}})</span>
+                                                                <span id="sell_profit" class="profit profitval">({{$profit_loss_positive ?? 0}})</span>
                                                             @else
-                                                                <span id="sell_lose" class="lose profitval">({{round($profit_loss,2) ?? 0}})</span>
+                                                                <span id="sell_lose" class="lose profitval">({{$profit_loss_positive ?? 0}})</span>
                                                             @endif
 {{--                                                        @endif--}}
                                                     @else
