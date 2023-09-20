@@ -560,6 +560,9 @@ input:-webkit-autofill:active {
 	/*.trading-graph-inner{
 		flex: 0 0 65vh;
 	}*/
+	.trading-graph-wrapper{
+		flex: 5;
+	}
 	tbody, td, tfoot, th, thead, tr{
 		white-space: nowrap;
 	}
