@@ -430,7 +430,7 @@
             // Fetch and update data every 30 seconds
             //const refreshInterval = 30000; // 30 seconds in milliseconds
 
-            setInterval(fetchDataAndUpdateChart, 5000);
+            setInterval(fetchDataAndUpdateChart, 30000);
 
             // Fetch and update data immediately
             fetchDataAndUpdateChart();
