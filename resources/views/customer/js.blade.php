@@ -133,14 +133,19 @@
                 {
                     var profitLoss = round(response.profit_loss,2);
                     // $('.profitval').html(response.close_rate);
-                    if(response.trade_type == "Buy" && profitLoss < 0){
-                        $('#buy_lose').html(Math.abs(profitLoss));
-                    } else if(response.trade_type == "Buy" && profitLoss >= 0){
-                        $('#buy_profit').html(Math.abs(profitLoss));
+                    console.log(profitLoss);
+                    if(response.trade_type == "Buy" && profitLoss < 0) {
+                        var positiveValue = response.profit_loss_positive;
+                        $('#buy_lose').html(positiveValue);
+                    } else if(response.trade_type == "Buy" && profitLoss >= 0) {
+                        var positiveValue = response.profit_loss_positive;
+                        $('#buy_profit').html(positiveValue);
                     } else if(response.trade_type == "Sell" && profitLoss < 0) {
-                        $('#sell_profit').html(Math.abs(profitLoss));
+                        var positiveValue = response.profit_loss_positive;
+                        $('#sell_profit').html(positiveValue);
                     } else if(response.trade_type == "Sell" && profitLoss >= 0) {
-                        $('#sell_lose').html(Math.abs(profitLoss));
+                        var positiveValue = response.profit_loss_positive;
+                        $('#sell_lose').html(positiveValue);
                     }
                 }
 

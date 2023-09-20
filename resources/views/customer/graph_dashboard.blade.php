@@ -172,23 +172,23 @@
                                 <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h3>
                                 <p class="mb-0">Crude Oil WTI
                                     @if($activeTrade->trade_type =="Buy")
-                                        @if(isset($profit_loss) && $profit_loss != null)
+{{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                             @if($profit_loss < 0)
 
-                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                <span id="buy_lose" class="lose">({{round($profit_loss,2)}})</span>
                                             @else
-                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                <span id="buy_profit" class="profit">({{round($profit_loss,2)}})</span>
                                             @endif
-                                        @endif
+{{--                                        @endif--}}
                                     @endif
                                     @if($activeTrade->trade_type =="Sell")
-                                        @if(isset($profit_loss) && $profit_loss != null)
+{{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                             @if($profit_loss < 0)
-                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                <span id="sell_profit" class="profit">({{round($profit_loss,2)}})</span>
                                             @else
-                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                <span id="sell_lose" class="lose">({{round($profit_loss,2)}})</span>
                                             @endif
-                                        @endif
+{{--                                        @endif--}}
                                     @endif
                                 </p>
                             </div>
@@ -205,8 +205,10 @@
                                         <li><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
                                     @endif
                                 @else
+                                    @if($balance > 0)
                                     <li class="me-2"><a href="{{url('/start_buy_trade')}}" class="btn-tradeer btn-buy me-2"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy </a></li>
                                     <li><a href="{{url('/start_sell_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell </a></li>
+                                    @endif
                                 @endif
 
                                 {{--<li class="me-2"><button class="btn-tradeer btn-buy"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy</button></li>
@@ -229,20 +231,20 @@
                             @if($activeTrade->trade_type =="Buy")
                                 @if(isset($profit_loss) && $profit_loss != null)
                                     @if($profit_loss < 0)
-                                        <span class="lose">({{round($profit_loss,2)}})</span>
+                                        <span id="buy_lose" class="lose">({{round($profit_loss,2)}})</span>
                                     @else
-                                        <span class="profit">({{round($profit_loss,2)}})</span>
+                                        <span id="buy_profit" class="profit">({{round($profit_loss,2)}})</span>
                                     @endif
                                 @endif
                             @endif
                             @if($activeTrade->trade_type =="Sell")
-                                @if(isset($profit_loss) && $profit_loss != null)
+{{--                                @if(isset($profit_loss) && $profit_loss != null)--}}
                                     @if($profit_loss < 0)
-                                        <span class="profit">({{round($profit_loss,2)}})</span>
+                                        <span id="sell_profit" class="profit">({{round($profit_loss,2)}})</span>
                                     @else
-                                        <span class="lose">({{round($profit_loss,2)}})</span>
+                                        <span id="sell_lose" class="lose">({{round($profit_loss,2)}})</span>
                                     @endif
-                                @endif
+{{--                                @endif--}}
                             @endif
                         </p>
                     </div>
@@ -259,8 +261,10 @@
                             <li><a href="{{url('/close_trade')}}" class="sell-btn trade-btn"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
                         @endif
                     @else
+                        @if($balance > 0)
                         <li><a href="{{url('/start_buy_trade')}}" class="buy-btn trade-btn me-2"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy </a></li>
                         <li><a href="{{url('/start_sell_trade')}}" class="sell-btn trade-btn"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell </a></li>
+                        @endif
                     @endif
                 </ul>
             </div>
