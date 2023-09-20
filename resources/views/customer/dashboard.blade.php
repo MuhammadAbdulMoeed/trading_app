@@ -379,6 +379,22 @@
             }
         });
 
+        $('.btn-tradeer').click(function(event){
+
+            $.blockUI({
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .5,
+                    color: '#fff'
+                }
+            });
+        });
+
+
         /*const name = document.getElementById("initials");
         const words = name.textContent;
         const letters = words.split(" ");
@@ -406,8 +422,6 @@
 
     </script>
 
-<script type="text/javascript">
-    // Function for Top Counter
 
     @include('customer.js')
 
