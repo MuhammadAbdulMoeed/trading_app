@@ -38,6 +38,7 @@ class CustomerController extends Controller
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
+
         $profit_loss_positive   = round(abs((float)$profit_loss),6);
         //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
         //dd($activeTrade->active_rate->close_rate);
@@ -88,7 +89,7 @@ class CustomerController extends Controller
             $trade_type  = $activeTrade->trade_type;
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
-
+//dd($profit_loss);
         $data['profit_loss']            = $profit_loss;
         $data['profit_loss_positive']   = round(abs((float)$profit_loss),6);
 
@@ -100,7 +101,7 @@ class CustomerController extends Controller
 
         $data['close_rate']     = $closeRate;
 
-        //dd($data);
+
         return   $data;
 
 
