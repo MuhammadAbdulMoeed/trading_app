@@ -379,7 +379,7 @@
             }
         });
 
-        $('.btn-tradeer').click(function(event){
+        $('.btn-tradeer').click(function(event) {
 
             $.blockUI({
                 css: {
@@ -421,7 +421,6 @@
         document.getElementById("initials2").textContent = initials2;*/
 
     </script>
-
 
     @include('customer.js')
 
