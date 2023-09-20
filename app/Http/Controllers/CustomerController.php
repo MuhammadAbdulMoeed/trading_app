@@ -79,9 +79,18 @@ class CustomerController extends Controller
         }
 
 //        $trade_rates   =  OilRates::whereBetween('date', [$startDate, $endDate])->orderBy('created_at','asc')->get();
-        $trade_rates   =  OilRates::select('time_stamp','open_rate as open','high_rate as high','low_rate as low','close_rate as close','date','time')->orderBy('created_at','asc')->get()->toArray();
+        $trade_rates   =  OilRates::select('time_stamp','open_rate as open','high_rate as high','low_rate as low','close_rate as close')->orderBy('created_at','asc')->get()->toArray();
 
-        return json_encode($trade_rates);
+        // Convert the associative array to a simple array of values
+        $resArray = array_map(function ($item) {
+            //$old = $item['time_stamp'];
+            $item =  array($item['time_stamp'] *1000,$item['open'],$item['high'],$item['low'],$item['close']);
+            //dd($old,$item);
+            return array_values($item);
+        }, $trade_rates);
+
+
+        return json_encode($resArray);
 
     }
 

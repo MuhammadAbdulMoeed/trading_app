@@ -244,6 +244,7 @@
 
 
         const ajaxTradeApiDataRoute = "{{ route('ajax_trade_api_data') }}";
+
         (async () => {
 
             const response = await fetch(ajaxTradeApiDataRoute); // Replace with your Laravel endpoint
