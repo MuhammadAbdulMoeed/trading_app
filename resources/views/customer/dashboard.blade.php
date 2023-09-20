@@ -171,6 +171,21 @@
 
                                 <div class="trader-card">
                                     <div class="row">
+
+
+                                        <div class="col-lg-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3">
+                                            <div class="trade-result">
+                                                <h2>Crurrent Amount
+                                                </h2>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3">
+                                            <div class="trade-amount ">
+                                                <h4><sup>$</sup>111
+                                                </h4>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4 order-1 order-sm-1 order-md-1 order-lg-0">
                                             <div class="trade-result">
                                                 <h2>Crude Oil WTI
