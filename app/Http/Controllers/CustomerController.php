@@ -176,29 +176,33 @@ class CustomerController extends Controller
 
         $balance            = $this->userCurrentBalance($userid);
 
-        $oldActiveTrade     = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+        if($balance > 0) {
+            $oldActiveTrade = UserTrades::where('user_id', $userid)->where('status', "Active")->first();
 
-        if(!isset($oldActiveTrade) || $oldActiveTrade == null) {
+            if (!isset($oldActiveTrade) || $oldActiveTrade == null) {
 
-            if(isset($request->amount) && $request->amount > $balance) {
-                return redirect()->back()->withErrors("Low Balance ,Invalid trade amount.");
-            } else if (isset($request->amount) && $request->amount <= $balance) {
-                $balance    =   $request->amount;
+                if (isset($request->amount) && $request->amount > $balance) {
+                    return redirect()->back()->withErrors("Low Balance ,Invalid trade amount.");
+                } else if (isset($request->amount) && $request->amount <= $balance) {
+                    $balance = $request->amount;
+                }
+
+                $investedAmount = $balance;
+
+                $tradeRateData = OilRates::orderby('created_at', 'desc')->first();
+
+                $barrels = round(($investedAmount / $tradeRateData->close_rate), 2);
+
+                $this->saveTrade($investedAmount, $tradeRateData->id, "Buy", $barrels);
+
+                return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
+
+            } else {
+
+                return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
             }
-
-            $investedAmount   = $balance;
-
-            $tradeRateData    = OilRates::orderby('created_at','desc')->first();
-
-            $barrels          = round(($investedAmount / $tradeRateData->close_rate), 2);
-
-            $this->saveTrade($investedAmount,$tradeRateData->id,"Buy", $barrels);
-
-            return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
-
-        } else {
-
-            return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
+        }else{
+            return redirect()->back()->withErrors("Your Balance is 0.");
         }
 
         //return view('admin.trades',compact('rateData'));
@@ -208,30 +212,33 @@ class CustomerController extends Controller
 
         $userid             = Auth::user()->id;
         $balance            = $this->userCurrentBalance($userid);
-        //dd($balance);
-        //dd($balance);
-        $oldActiveTrade     = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
-        //dd($oldActiveTrade);
-        if(!isset($oldActiveTrade) && $oldActiveTrade == null) {
+        if($balance > 0) {
+            $oldActiveTrade = UserTrades::where('user_id', $userid)->where('status', "Active")->first();
+            //dd($oldActiveTrade);
+            if (!isset($oldActiveTrade) && $oldActiveTrade == null) {
 
-            if(isset($request->amount) && $request->amount > $balance) {
-                return redirect()->back()->withErrors("Invalid Amount.");
-            } else if (isset($request->amount) && $request->amount <= $balance) {
-                $balance      = $request->amount;
+                if (isset($request->amount) && $request->amount > $balance) {
+                    return redirect()->back()->withErrors("Invalid Amount.");
+                } else if (isset($request->amount) && $request->amount <= $balance) {
+                    $balance = $request->amount;
+                }
+
+                $investedAmount = round($balance, 2);
+
+                $tradeRateData = OilRates::orderby('created_at', 'desc')->first();
+
+                $barrels = round(($investedAmount / $tradeRateData->close_rate), 2);
+
+                $this->saveTrade($investedAmount, $tradeRateData->id, "Sell", $barrels);
+
+                return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
+
+            } else {
+                return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
             }
 
-            $investedAmount   = round($balance , 2);
-
-            $tradeRateData    = OilRates::orderby('created_at','desc')->first();
-
-            $barrels          = round(($investedAmount / $tradeRateData->close_rate), 2);
-
-            $this->saveTrade($investedAmount,$tradeRateData->id,"Sell", $barrels);
-
-            return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
-
         } else {
-            return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
+            return redirect()->back()->withErrors("Your Balance is 0.");
         }
 
         //return view('admin.trades',compact('rateData'));
