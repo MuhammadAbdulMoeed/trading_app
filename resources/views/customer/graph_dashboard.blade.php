@@ -169,7 +169,7 @@
                     @if(isset($activeTrade) && $activeTrade != null)
                         <div class="trading-rating-content text-center">
                             <div id="data-container" class="profit-loss-data-container">
-                                <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,6) ?? 0}}</h3>
+                                <h3 class="mb-1">$ {{$activeTrade->active_rate->close_rate ?? 0}}</h3>
                                 <p class="mb-0">Crude Oil WTI
                                     @if($activeTrade->trade_type =="Buy")
 {{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}

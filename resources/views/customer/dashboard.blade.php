@@ -185,7 +185,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="trade-amount text-end">
-                                                <h4><sup>$</sup> <span id="current_rate">{{round($trade_rates->close_rate,8) ?? 0}} </span>
+                                                <h4><sup>$</sup> <span id="current_rate">{{$trade_rates->close_rate ?? 0}} </span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -200,7 +200,7 @@
                                             <div class="trade-amount ">
                                                 <h4><sup>$</sup>
                                                     @if(isset($activeTrade))
-                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
+                                                        <span id="trade-rate">{{$activeTrade->active_rate->close_rate ?? 0}}</span>
                                                     @else
                                                         <span id="trade-rate">0.00</span>
                                                     @endif
