@@ -67,7 +67,10 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item"  href="{{route('dashboard')}}">Trades Dashboard</a>
+                                        <a class="dropdown-item"  href="{{route('dashboard')}}">Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"  href="{{route('graph')}}">Graph Dashboard</a>
                                     </li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
@@ -118,6 +121,9 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item"  href="{{route('dashboard')}}">Trades Dashboard</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"  href="{{route('graph')}}">Graph Dashboard</a>
                                     </li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">

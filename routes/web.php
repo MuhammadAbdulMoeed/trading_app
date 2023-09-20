@@ -48,6 +48,7 @@ Route::any('/ajax_trade_api_data', [CustomerController::class, 'trade_api_data']
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [CustomerController::class, 'dashboard'])->name('dashboard');
+    Route::get('/graph', [CustomerController::class, 'graph'])->name('graph');
     Route::get('/trade_results', [CustomerController::class, 'trades_history'])->name('trade_results');
     Route::get('/start_buy_trade', [CustomerController::class, 'startNewBuyTrade'])->name('start_buy_trade');
     Route::get('/start_sell_trade', [CustomerController::class, 'startNewSellTrade'])->name('start_sell_trade');

@@ -43,6 +43,32 @@ class CustomerController extends Controller
 
     }
 
+    public function graph() {
+
+        $userid         = Auth::user()->id;
+        $balance        = $this->userCurrentBalance($userid);
+
+        $totalUsers     = User::where('user_type',0)->count();
+
+        $positions      = Auth::user()->getPosition();
+
+        //$trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
+
+        $trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','desc')->first();
+
+        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+
+        $profit_loss    = "";
+        if(isset($activeTrade) && $activeTrade != null) {
+            $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+        }
+
+        //dd($activeTrade->active_rate->close_rate);
+
+        return view('customer.graph_dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss']));
+
+    }
+
 
     public function trades_history() {
 

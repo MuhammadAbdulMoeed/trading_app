@@ -76,6 +76,9 @@
                                         <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
                                     </li>
                                     <li>
+                                        <a class="dropdown-item"  href="{{route('graph')}}">Graph Dashboard</a>
+                                    </li>
+                                    <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
@@ -89,6 +92,7 @@
                     </div>
                 </div>
             </section>
+
             <section class="mobile-header-wrapper d-sm-block d-block d-md-block d-lg-none">
                 <div class="container">
                     <div class="row align-items-center gx-2" >
@@ -123,6 +127,9 @@
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"  href="{{route('graph')}}">Graph Dashboard</a>
                                     </li>
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
