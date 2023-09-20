@@ -46,10 +46,7 @@
         }
     }
     document.getElementById("initials2").textContent = initials2;
-
-
-
-
+   /*
     function refreshData() {
         $.ajax({
             url: "{{ route('refresh.data') }}",
@@ -60,13 +57,10 @@
             }
         });
     }
-
     // Refresh data every 5 seconds
     setInterval(refreshData, 5000);
-
     // Initial data load
-    refreshData();
-
+    refreshData();*/
 
 
      (function () {
@@ -126,5 +120,35 @@
             }, 0);
         })();
 
+    function refreshRate() {
+        $.ajax({
+            url: "{{ route('refresh_rate.data') }}",
+            method: "GET",
+            success: function(response) {
+                //alert(response.close_rate);
+                // Update the content of the data container with the new data
+                $('#current_rate').html(response.close_rate);
+                if(response.profit_loss != "")
+                {
+                    var profitLoss = response.profit_loss;
+                    $('.profitval').html(response.close_rate);
+                    /*if(response.trade_type == "Buy" && profitLoss < 0){
+                        $('#buy_lose').html(profitLoss);
+                    } else if(response.trade_type == "Buy" && profitLoss >= 0){
+                        $('#buy_profit').html(profitLoss);
+                    } else if(response.trade_type == "Sell" && profitLoss < 0) {
+                        $('#sell_profit').html(profitLoss);
+                    } else if(response.trade_type == "Sell" && profitLoss >= 0) {
+                        $('#sell_lose').html(profitLoss);
+                    }*/
+                }
 
+
+            }
+        });
+    }
+    // Refresh data every 5 seconds
+    setInterval(refreshRate, 10000);
+    // Initial data load
+    refreshRate();
 </script>

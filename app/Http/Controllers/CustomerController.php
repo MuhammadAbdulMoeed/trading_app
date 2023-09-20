@@ -33,12 +33,12 @@ class CustomerController extends Controller
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
         $profit_loss    = "";
+
         if(isset($activeTrade) && $activeTrade != null) {
-            $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+            $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
-
+        //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
         //dd($activeTrade->active_rate->close_rate);
-
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss']));
 
     }
@@ -62,7 +62,7 @@ class CustomerController extends Controller
 
         $profit_loss    = "";
         if(isset($activeTrade) && $activeTrade != null) {
-            $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+            $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
 
         //dd($activeTrade->active_rate->close_rate);
@@ -71,45 +71,49 @@ class CustomerController extends Controller
 
     }
 
-    public function  refresh()
+    public function  refresh_rate()
+    {
+        $userid         = Auth::user()->id;
+        $closeRate      = "";
+        $profit_loss    = "";
+        $trade_type     = "";
+        $data           = [];
+        $trade_rates    = OilRates::select('close_rate')->orderBy('created_at','desc')->first();
+        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+        if(isset($activeTrade) && $activeTrade != null) {
+            $trade_type  = $activeTrade->trade_type;
+            $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+        }
+
+        $data['profit_loss']    = $profit_loss;
+
+        $data['trade_type']     = $trade_type;
+
+        if(isset($trade_rates->close_rate)){
+            $closeRate          = round($trade_rates->close_rate,2);
+        }
+
+        $data['close_rate']     = $closeRate;
+
+        //dd($data);
+        return   $data;
+
+
+    }
+
+    /*public function  refresh()
     {
 
         $userid         = Auth::user()->id;
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
         $profit_loss    = "";
-        $html           = '';
-
         if(isset($activeTrade) && $activeTrade != null) {
-
             $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-
-            //$html .= '<div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
-            $html .= '<div>
-                    <h2>$ ' . round($activeTrade->active_rate->close_rate, 2) . '</h2>
-                    <p>Crude Oil WTI';
-
-            if (isset($profit_loss) && $profit_loss != null) {
-                if ($activeTrade->trade_type == "Buy") {
-                    if ($profit_loss < 0) {
-                        $html .= '<span class="lose" > ' . round($profit_loss, 2) . '</span >';
-                    } else {
-                        $html .= '<span class="profit" > ' . round($profit_loss, 2) . '</span >';
-                    }
-                }
-
-                if ($activeTrade->trade_type == "Sell") {
-                    if ($profit_loss < 0) {
-                        $html .= '<span class="profit" > ' . round($profit_loss, 2) . '</span >';
-                    } else {
-                        $html .= '<span class="profit" > ' . round($profit_loss, 2) . '</span >';
-                    }
-                }
-            }
-            $html .= '</p></div>';
         }
 
-        return response()->json($html);
-    }
+        return   $profit_loss;
+
+    }*/
 
 
     public function trades_history() {

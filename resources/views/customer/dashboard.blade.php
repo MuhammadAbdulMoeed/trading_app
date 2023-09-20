@@ -199,27 +199,30 @@
                                                 <h2>Crude Oil WTI
                                                 @if(isset($activeTrade) && $activeTrade != null)
                                                     @if($activeTrade->trade_type =="Buy")
+{{--                                                        {{$activeTrade->trade_type}}--}}
+{{--                                                        {{$profit_loss}}--}}
                                                         @if(isset($profit_loss) && $profit_loss != null)
                                                             @if($profit_loss < 0)
 
-                                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                                <span id="buy_lose" class="lose profitval">({{round($profit_loss,2) ?? 0}})</span>
                                                             @else
-                                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                                <span id="buy_profit" class="profit profitval">({{round($profit_loss,2) ?? 0}})</span>
                                                             @endif
                                                         @endif
                                                     @endif
 
                                                     @if($activeTrade->trade_type =="Sell")
+{{--                                                            {{$activeTrade->trade_type}}--}}
+{{--                                                            {{$profit_loss}}--}}
                                                         @if(isset($profit_loss) && $profit_loss != null)
                                                             @if($profit_loss < 0)
-                                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                                <span id="sell_profit" class="profit profitval">({{round($profit_loss,2) ?? 0}})</span>
                                                             @else
-                                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                                <span id="sell_lose" class="lose profitval">({{round($profit_loss,2) ?? 0}})</span>
                                                             @endif
                                                         @endif
                                                     @endif
-                                               @else
-                                                    <span >(0.00)</span>
+
                                                @endif
 
                                                 </h2>
@@ -373,6 +376,7 @@
 
 
     <script type="text/javascript">
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -380,7 +384,7 @@
         });
 
         $('.btn-tradeer').click(function(event) {
-
+                //alert("Button Clicked");
             $.blockUI({
                 css: {
                     border: 'none',
@@ -393,7 +397,6 @@
                 }
             });
         });
-
 
         /*const name = document.getElementById("initials");
         const words = name.textContent;

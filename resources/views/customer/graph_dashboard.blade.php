@@ -124,12 +124,15 @@
                                 Action md
                             </button>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
-                                </li>
+
                                 <li>
                                     <a class="dropdown-item"  href="{{route('dashboard')}}">Dashboard</a>
                                 </li>
+
+                                <li>
+                                    <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
+                                </li>
+
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -221,7 +224,7 @@
             @if(isset($activeTrade) && $activeTrade != null)
                 <div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
                     <div id="data-container" class="profit-loss-data-container">
-                        <h2>$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h2>
+                        <h2>$ <span id="current_rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span> </h2>
                         <p>Crude Oil WTI
                             @if($activeTrade->trade_type =="Buy")
                                 @if(isset($profit_loss) && $profit_loss != null)
