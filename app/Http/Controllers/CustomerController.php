@@ -192,7 +192,7 @@ class CustomerController extends Controller
             $tradeResult        = 0;
             $profitLossAmount   = 0;
             $final_amount       = 0;
-            $barrels            = $activeTrade->total_barrels;
+            //$barrels            = $activeTrade->total_barrels;
             if($activeTrade->trade_type == "Buy") {
 
                 $barrels     = $balance / $initialRate;
