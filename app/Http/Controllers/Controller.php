@@ -38,7 +38,7 @@ class Controller extends BaseController
         $updateWalletBalance->amount            =  $amount;
         $updateWalletBalance->payment_type      =  $payment_type;
         $updateWalletBalance->trade_value       =  $trade_value;
-        $updateWalletBalance->previous_balance  =  $user_balance;
+        $updateWalletBalance->previous_balance  =  round($user_balance,2);
 
         if(isset($desc) && $desc !=  null) {
             $updateWalletBalance->details       =  $desc;
@@ -76,7 +76,7 @@ class Controller extends BaseController
             $balance        = 0;
         }
 
-        return $balance;
+        return round($balance,2);
 
     }
 
