@@ -203,7 +203,8 @@ class CustomerController extends Controller
                /*
                 $standard_contract_size  = 1000;    // Note default NYMEX barrel size = 1000
                 $total_contracts         = 1000/$barrels;
-                $tradeResult             = ($currentRate - $initialRate) * $total_contracts * $standard_contract_size;*/
+                $tradeResult             = ($currentRate - $initialRate) * $total_contracts * $standard_contract_size;
+               */
 
 
                 if( $tradeResult > 0 ){
