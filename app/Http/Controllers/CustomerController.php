@@ -85,7 +85,8 @@ class CustomerController extends Controller
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
 
-        $data['profit_loss']    = $profit_loss;
+        $data['profit_loss']            = $profit_loss;
+        $data['profit_loss_positive']   = round(abs($profit_loss),2);
 
         $data['trade_type']     = $trade_type;
 
