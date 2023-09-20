@@ -162,7 +162,7 @@
                                 <p class="mb-0">Crude Oil WTI
                                     @if(isset($profit_loss) && $profit_loss != null)
                                         @if($profit_loss < 0)
-                                            <span class="lose">(-{{round($profit_loss,2)}})</span>
+                                            <span class="lose">({{round($profit_loss,2)}})</span>
                                         @else
                                             <span class="profit">({{round($profit_loss,2)}})</span>
                                         @endif
@@ -205,7 +205,7 @@
                 <p>Crude Oil WTI
                 @if(isset($profit_loss) && $profit_loss != null)
                     @if($profit_loss < 0)
-                        <span class="lose">(-{{round($profit_loss,2)}})</span>
+                        <span class="lose">({{round($profit_loss,2)}})</span>
                     @else
                         <span class="profit">({{round($profit_loss,2)}})</span>
                     @endif
@@ -245,7 +245,31 @@
 
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
+    <!-- END PAGE LEVEL JS-->
+    <script src="{{asset('admin-assets/js/toastr.min.js')}}" type="text/javascript"></script>
+    <script>
 
+        function successMsg(_msg) {
+            window.toastr.success(_msg);
+        }
+
+        function errorMsg(_msg) {
+            window.toastr.error(_msg);
+        }
+
+        function warningMsg(_msg) {
+            window.toastr.warning(_msg);
+        }
+
+        @if(Session::has('success'))
+        successMsg('{{Session::get("success")}}');
+        @endif
+
+        @if(Session::has('error'))
+        errorMsg("{{Session::get('error')}}");
+        @endif
+
+    </script>
 {{--<script src="https://cdn.amcharts.com/lib/5/index.js"></script>--}}
 {{--<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>--}}
 {{--<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>--}}
@@ -402,7 +426,6 @@
 <script type="text/javascript">
 
    /*
-
 
    var chart; // Declare chart as a global variable
 
