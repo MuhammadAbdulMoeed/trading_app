@@ -151,8 +151,8 @@
     	<section class="trading-graph-wrapper">
     		<div class="trading-graph-layout-wrapper">
                 <div class="trading-graph-inner">
-{{--                    <div id="chartcontainer"></div>--}}
-                    <div id="chartdiv"></div>
+                    <div id="chartcontainer"></div>
+{{--                    <div id="chartdiv"></div>--}}
                 </div>
                 <div class="mobile-footer-wrapper  d-lg-none d-block d-md-block d-sm-block">
                     <div class="mobile-footer-content-wrapper">
@@ -225,23 +225,39 @@
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+{{--<script src="https://cdn.amcharts.com/lib/5/index.js"></script>--}}
+{{--<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>--}}
+{{--<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>--}}
 
 
-{{--<script src="https://code.highcharts.com/stock/highstock.js"></script>--}}
-{{--    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>--}}
-{{--    <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>--}}
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
 
 
     <script type="text/javascript">
-        /*
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
+
+        const ajaxTradeApiDataRoute = "{{ route('ajax_trade_api_data') }}";
         (async () => {
+
+            const response = await fetch(ajaxTradeApiDataRoute); // Replace with your Laravel endpoint
+            const data = await response.json();
+            console.log(data);
+
+            /*
             const data = await fetch(
-                'https://demo-live-data.highcharts.com/aapl-ohlc.json'
+                 'https://demo-live-data.highcharts.com/aapl-ohlc.json'
                 ).then(response => response.json());
+
+                */
+
+            console.log(data);
             Highcharts.stockChart('chartcontainer', {
                 chart: {
                     backgroundColor: '#262626',
@@ -331,7 +347,7 @@
             });
         })();
 
-*/
+
 
 
         const name = document.getElementById("initials");
@@ -363,14 +379,11 @@
 
 <script type="text/javascript">
 
+   /*
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
 
-    var chart; // Declare chart as a global variable
+   var chart; // Declare chart as a global variable
+
     // <!-- Chart code -->
     am5.ready(function() {
         var root = am5.Root.new("chartdiv");
@@ -468,13 +481,13 @@
 
         var myTheme = am5.Theme.new(root);
 
-myTheme.rule("AxisLabel").setAll({
-  fill: am5.color(0xFFFFFF),
-});
+        myTheme.rule("AxisLabel").setAll({
+          fill: am5.color(0xFFFFFF),
+        });
 
-root.setThemes([
-  myTheme
-]);
+        root.setThemes([
+          myTheme
+        ]);
 
 
         // set data
@@ -515,9 +528,6 @@ root.setThemes([
                     // Assuming that your API response returns data in the same format as your previous data
                     // Update the chart with the received data
                     series.data.setAll(chartAjaxData);
-                    //series[0].data.setAll(data);
-                    // chart.series.get(0).data.setAll(data);
-                    // chart.series[0].data.setAll(data);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error:', error);
@@ -527,28 +537,11 @@ root.setThemes([
     });
 
 
-    // end am5.ready()
-/*
-    function fetchDataAndUpdateChart() {
-        $.ajax({
-            type: "POST",
-            url: "{{url('ajax_trade_api_data')}}",
-            data: {
-                //'id': id,
-                'csrf-token': "{{csrf_token()}}"
-            },
-            dataType: 'json',
-            success: function (data) {
-                console.log(data);
-                // Assuming that your API response returns data in the same format as your previous data
-                // Update the chart with the received data
-                chart.series.get(0).data.setAll(data);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }*/
+*/
+
+
+
+    // Function for Top Counter
 
     (function () {
         const second = 1000,
@@ -606,6 +599,47 @@ root.setThemes([
             }
         }, 0);
     })();
+
+   /*
+   //var chartAjaxData = [];
+
+   function fetchDataAndUpdateChart() {
+       $.ajax({
+           type: "POST",
+           url: "{{url('ajax_trade_api_data')}}",
+            data: {
+                //'id': id,
+                'csrf-token': "{{csrf_token()}}"
+            },
+            dataType: 'json',
+            success: function (data) {
+
+
+                    $.each(data, function(index, row) {
+                        //alert(row);
+                        //console.log(row.time_stamp);
+                        chartAjaxData.push({
+                            date: row.time_stamp * 1000,
+                            value: row.close,
+                            open: row.open,
+                            low: row.low,
+                            high: row.high
+                        });
+                    });
+
+                    // Assuming that your API response returns data in the same format as your previous data
+                    // Update the chart with the received data
+                    //series.data.setAll(chartAjaxData);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
+    */
+
+
 
 </script>
 </body>
