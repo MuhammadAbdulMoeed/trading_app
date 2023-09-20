@@ -59,6 +59,7 @@ class RegisteredUserController extends Controller
 
 //        $user->notify(new \App\Notifications\WelcomeMailNotification($user));
 
+
         event(new Registered($user));
 
         Auth::login($user);
