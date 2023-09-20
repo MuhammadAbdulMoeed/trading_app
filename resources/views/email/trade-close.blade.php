@@ -1,10 +1,12 @@
 @component('mail::message')
-    Dear {{ $mailData['name'] }},<br/>
+
+    Dear {{ $mailData['name'] }},
 
     Your Trade has successfully completed.
-    <br/>
-    Your Current RanK in trading 1/100.
 
-    Thanks,<br/>
+    Your Current RanK in trading : {{$mailData['position']}}.
+
+    Thanks
+
     {{ config('app.name') }}
 @endcomponent

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer("user_id")->default(0);
             $table->float("trade_amount")->default(0);
+            $table->float("total_barrels")->default(0);
             $table->string("trade_type")->comment('Buy','Sell');
             $table->integer("trade_start_rate_id")->default(0);
             $table->integer("trade_end_rate_id")->default(0);

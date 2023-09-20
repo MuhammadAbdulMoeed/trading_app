@@ -36,7 +36,8 @@ class WelcomeMailNotification extends Notification
     {
         $mailData = [
             'name' => $this->user->name,
-            'email' => $this->user->email
+            'email' => $this->user->email,
+            'positions'  => $this->user->getPosition()
         ];
 
         return (new MailMessage)->markdown(

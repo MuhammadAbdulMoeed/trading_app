@@ -1,9 +1,10 @@
 @component('mail::message')
     Welcome to Trading App
 
-    Name: {{ $mailData['name'] }}<br/>
+    Name: {{ $mailData['name'] }}
     Email: {{ $mailData['email'] }}
 
-    Thanks,<br/>
+    Thanks
+
     {{ config('app.name') }}
 @endcomponent
