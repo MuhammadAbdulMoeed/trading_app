@@ -43,6 +43,8 @@ class CustomerController extends Controller
 
     }
 
+
+
     public function graph() {
 
         $userid         = Auth::user()->id;
@@ -67,6 +69,46 @@ class CustomerController extends Controller
 
         return view('customer.graph_dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss']));
 
+    }
+
+    public function  refresh()
+    {
+
+        $userid         = Auth::user()->id;
+        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+        $profit_loss    = "";
+        $html           = '';
+
+        if(isset($activeTrade) && $activeTrade != null) {
+
+            $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+
+            //$html .= '<div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
+            $html .= '<div>
+                    <h2>$ ' . round($activeTrade->active_rate->close_rate, 2) . '</h2>
+                    <p>Crude Oil WTI';
+
+            if (isset($profit_loss) && $profit_loss != null) {
+                if ($activeTrade->trade_type == "Buy") {
+                    if ($profit_loss < 0) {
+                        $html .= '<span class="lose" > ' . round($profit_loss, 2) . '</span >';
+                    } else {
+                        $html .= '<span class="profit" > ' . round($profit_loss, 2) . '</span >';
+                    }
+                }
+
+                if ($activeTrade->trade_type == "Sell") {
+                    if ($profit_loss < 0) {
+                        $html .= '<span class="profit" > ' . round($profit_loss, 2) . '</span >';
+                    } else {
+                        $html .= '<span class="profit" > ' . round($profit_loss, 2) . '</span >';
+                    }
+                }
+            }
+            $html .= '</p></div>';
+        }
+
+        return response()->json($html);
     }
 
 
@@ -246,11 +288,11 @@ class CustomerController extends Controller
 
                 if( $tradeResult > 0 ){
                     $trade_final_effect = "Profit";
-                    $profitLossAmount   = $balance * abs($tradeResult);
+                    $profitLossAmount   = abs($tradeResult);
                     $final_amount       = $balance + $profitLossAmount;
                 } else {
                     $trade_final_effect = "Loss";
-                    $profitLossAmount   = $balance * abs($tradeResult);
+                    $profitLossAmount   = abs($tradeResult);
                     $final_amount       = $balance - $profitLossAmount;
                 }
             }
@@ -268,13 +310,17 @@ class CustomerController extends Controller
 
 
                 if( $tradeResult < 0 ) {
+
                     $trade_final_effect = "Profit";
-                    $profitLossAmount   = $balance * abs($tradeResult);
-                    $final_amount       =  $balance + $profitLossAmount;
+                    $profitLossAmount   = abs($tradeResult);
+                    $final_amount       = $balance + abs($tradeResult);
+
                 } else {
+
                     $trade_final_effect = "Loss";
-                    $profitLossAmount   = $balance * abs($tradeResult);
-                    $final_amount       = $balance - $profitLossAmount;
+                    $profitLossAmount   = abs($tradeResult);
+                    $final_amount       = $balance - abs($tradeResult);
+
                 }
             }
 

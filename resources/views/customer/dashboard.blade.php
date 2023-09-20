@@ -164,27 +164,36 @@
                             <div class="col-lg-6">
                                 <div class="balance-amount-wrapper">
                                     <div class="balance-amount-content">
-                                        <h4>balance</h4>
-                                        <p><sup>$</sup>100000100000100</p>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h4>balance</h4>
+                                            </div>
+                                            <div class="col-lg-6 text-end">
+                                                <p><sup>$</sup>{{ round($balance,2) ?? 0}}</p>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
 
                                 <div class="trader-card">
                                     <div class="row">
-
-
                                         <div class="col-lg-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3">
                                             <div class="trade-result">
-                                                <h2>Crurrent Amount
-                                                </h2>
+                                                <h2> Current Rate </h2>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3">
                                             <div class="trade-amount ">
-                                                <h4><sup>$</sup>111
+                                                <h4><sup>$</sup> <span id="current_rate">{{round($trade_rates->close_rate,2) ?? 0}} </span>
                                                 </h4>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="row">
+
+                                        @if(isset($activeTrade) && $activeTrade != null)
 
                                         <div class="col-lg-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4 order-1 order-sm-1 order-md-1 order-lg-0">
                                             <div class="trade-result">
@@ -214,22 +223,22 @@
                                                     <span >(0.00)</span>
                                                @endif
 
-
                                                 </h2>
                                             </div>
                                         </div>
+
                                         <div class="col-lg-6 mb-0 mb-sm-0 mb-md-0 mb-lg-4 order-0 order-sm-0 order-md-0 order-lg-1">
                                             <div class="trade-amount ">
                                                 <h4><sup>$</sup>
                                                     @if(isset($activeTrade))
                                                         <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
-                                                    @elseif(isset($trade_rates))
-                                                        <span id="trade-rate">{{round($trade_rates->close_rate,2) ?? 0}}</span>
-
+                                                    @else
+                                                        <span id="trade-rate">0.00</span>
                                                     @endif
                                                 </h4>
                                             </div>
                                         </div>
+                                        @endif
                                         <div class="col-lg-12 order-2 order-sm-2 order-md-2 order-lg-2">
                                             <div class="trader-btn-no-graph">
                                                 <div class="row">
@@ -362,34 +371,6 @@
 
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-    <!-- END PAGE LEVEL JS-->
-    <script src="{{asset('admin-assets/js/toastr.min.js')}}" type="text/javascript"></script>
-    <script>
-
-        function successMsg(_msg) {
-            window.toastr.success(_msg);
-        }
-
-        function errorMsg(_msg) {
-            window.toastr.error(_msg);
-        }
-
-        function warningMsg(_msg) {
-            window.toastr.warning(_msg);
-        }
-
-        @if(Session::has('success'))
-        successMsg('{{Session::get("success")}}');
-        @endif
-
-        @if(Session::has('error'))
-        errorMsg("{{Session::get('error')}}");
-        @endif
-
-    </script>
-
-
-
 
 
     <script type="text/javascript">
@@ -399,7 +380,7 @@
             }
         });
 
-        const name = document.getElementById("initials");
+        /*const name = document.getElementById("initials");
         const words = name.textContent;
         const letters = words.split(" ");
         let initials = "";
@@ -422,72 +403,14 @@
                 initials2 += word2.charAt(0);
             }
         }
-        document.getElementById("initials2").textContent = initials2;
+        document.getElementById("initials2").textContent = initials2;*/
 
     </script>
 
 <script type="text/javascript">
     // Function for Top Counter
 
-    (function () {
-        const second = 1000,
-            minute = second * 60,
-            hour = minute * 60;
-
-        let today = new Date(),
-            dd = String(today.getDate()).padStart(2, "0"),
-            mm = String(today.getMonth() + 1).padStart(2, "0"),
-            yyyy = today.getFullYear(),
-            nextDay = new Date(today); // Create a new Date object for the next day
-        nextDay.setDate(nextDay.getDate() + 1); // Set it to the next day
-
-        // Set the start and end times (6 AM to 6 PM)
-        let startTime = new Date(yyyy, mm - 1, dd, 6, 0, 0).getTime();
-        let endTime = new Date(yyyy, mm - 1, dd, 18, 0, 0).getTime();
-
-        // Check if the current time is past 6 PM, if so, set the start time for the next day
-        if (today.getTime() >= endTime) {
-            startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
-            endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
-        }
-
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-
-            if (now >= endTime) {
-                // Time has passed 6 PM, set the start time for the next day
-                startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
-                endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
-            }
-
-            const distance = endTime - now;
-
-            const hours = Math.floor(distance / hour);
-            const minutes = Math.floor((distance % hour) / minute);
-            const seconds = Math.floor((distance % minute) / second);
-
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("minutes").innerText = minutes;
-            document.getElementById("seconds").innerText = seconds;
-
-            // Select elements by class name
-            document.getElementById("hours1").innerText = hours;
-            document.getElementById("minutes1").innerText = minutes;
-            document.getElementById("seconds1").innerText = seconds;
-
-            //do something later when time is reached
-            if (distance <= 0) {
-                // document.getElementById("headline").innerText = "It's 6 PM!";
-                document.getElementById("countdown").style.display = "none";
-                document.getElementById("countdown2").style.display = "none";
-                //document.getElementById("content").style.display = "block";
-                clearInterval(x);
-            }
-        }, 0);
-    })();
-
-
-
+    @include('customer.js')
 
 </script>
 </body>
