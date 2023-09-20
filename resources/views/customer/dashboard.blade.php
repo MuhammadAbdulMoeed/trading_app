@@ -165,10 +165,10 @@
                                 <div class="balance-amount-wrapper">
                                     <div class="balance-amount-content">
                                         <div class="row">
-                                            <div class="col-lg-6">
+                                            <div class="col-6">
                                                 <h4>balance</h4>
                                             </div>
-                                            <div class="col-lg-6 text-end">
+                                            <div class="col-6 text-end">
                                                 <p><sup>$</sup>{{ round($balance,2) ?? 0}}</p>
                                             </div>
                                         </div>
@@ -178,23 +178,24 @@
 
                                 <div class="trader-card">
                                     <div class="row">
-                                        <div class="col-lg-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3">
+                                        <div class="col-6">
                                             <div class="trade-result">
-                                                <h2> Current Rate </h2>
+                                                <h2>Current Rate</h2>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 mb-3 mb-sm-3 mb-md-3 mb-lg-3">
-                                            <div class="trade-amount ">
+                                        <div class="col-6">
+                                            <div class="trade-amount text-end">
                                                 <h4><sup>$</sup> <span id="current_rate">{{round($trade_rates->close_rate,2) ?? 0}} </span>
                                                 </h4>
                                             </div>
                                         </div>
                                     </div>
+                                    <hr>
                                     <div class="row">
 
                                         @if(isset($activeTrade) && $activeTrade != null)
 
-                                        <div class="col-lg-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4 order-1 order-sm-1 order-md-1 order-lg-0">
+                                        <div class="col-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4">
                                             <div class="trade-result">
                                                 <h2>Crude Oil WTI
                                                 @if(isset($activeTrade) && $activeTrade != null)
@@ -227,7 +228,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 mb-0 mb-sm-0 mb-md-0 mb-lg-4 order-0 order-sm-0 order-md-0 order-lg-1">
+                                        <div class="col-6 mb-0 mb-sm-0 mb-md-0 mb-lg-4">
                                             <div class="trade-amount ">
                                                 <h4><sup>$</sup>
                                                     @if(isset($activeTrade))
@@ -247,9 +248,9 @@
                                                         <div class="col-12 mt-3">
                                                             <div>
                                                                 @if($activeTrade->trade_type == "Buy")
-                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell text-center"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3">Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a>
+                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-close-trade text-center">Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a>
                                                                 @elseif($activeTrade->trade_type == "Sell")
-                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell text-center"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3">Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a>
+                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-close-trade text-center">Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -360,9 +361,22 @@
             color: green;
             margin-right: 5px;
         }
+        .btn-tradeer.btn-close{
+            background: blue;
+            border-bottom: 3px solid blue;
+        }
         @media(min-width:320px) and (max-width:767px){
             .trade-amount h4{
-                text-align: left;
+                text-align: right;
+            }
+            .trade-result h2{
+                font-size: 18px;
+                font-weight: bold;
+
+            }
+            .trade-amount h4{
+                font-size: 26px;
+                font-weight: 700;
             }
         }
 
