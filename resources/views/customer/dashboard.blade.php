@@ -162,6 +162,13 @@
                     <div class="container">
                         <div class="row justify-content-center">
                             <div class="col-lg-6">
+                                <div class="balance-amount-wrapper">
+                                    <div class="balance-amount-content">
+                                        <h4>balance</h4>
+                                        <p><sup>$</sup>100000100000100</p>
+                                    </div>
+                                </div>
+
                                 <div class="trader-card">
                                     <div class="row">
                                         <div class="col-lg-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4 order-1 order-sm-1 order-md-1 order-lg-0">
@@ -305,6 +312,29 @@
         }
         .trader-btn-no-graph{
             padding: 5px;
+        }
+        .balance-amount-content{
+            background: #1B1B1B;
+            padding: 10px;
+            width: 100%;
+            border-bottom: 3px solid #B09020;
+            margin-bottom: 10px;
+        }
+        .balance-amount-content h4{
+            text-transform: uppercase;
+            color: #fff;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+        }
+        .balance-amount-content p{
+            color: #fff;
+            margin-bottom: 0px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .balance-amount-content p sup{
+            color: green;
+            margin-right: 5px;
         }
         @media(min-width:320px) and (max-width:767px){
             .trade-amount h4{
