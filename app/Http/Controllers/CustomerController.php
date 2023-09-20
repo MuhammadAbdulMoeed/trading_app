@@ -85,6 +85,7 @@ class CustomerController extends Controller
         $data           = [];
         $trade_rates    = OilRates::select('close_rate')->orderBy('created_at','desc')->first();
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+
         if(isset($activeTrade) && $activeTrade != null) {
             $trade_type  = $activeTrade->trade_type;
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
@@ -93,13 +94,13 @@ class CustomerController extends Controller
         $data['profit_loss']            = $profit_loss;
         $data['profit_loss_positive']   = round(abs((float)$profit_loss),6);
 
-        $data['trade_type']     = $trade_type;
+        $data['trade_type']             = $trade_type;
 
         if(isset($trade_rates->close_rate)){
-            $closeRate          = round($trade_rates->close_rate,2);
+            $closeRate                  = round($trade_rates->close_rate,2);
         }
 
-        $data['close_rate']     = $closeRate;
+        $data['close_rate']             = $closeRate;
 
 
         return   $data;

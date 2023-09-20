@@ -185,7 +185,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="trade-amount text-end">
-                                                <h4><sup>$</sup> <span id="current_rate">{{round($trade_rates->close_rate,2) ?? 0}} </span>
+                                                <h4><sup>$</sup> <span id="current_rate">{{round($trade_rates->close_rate,8) ?? 0}} </span>
                                                 </h4>
                                             </div>
                                         </div>
