@@ -7,7 +7,7 @@
     <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-
+    <link href="{{asset('admin-assets/css/toastr.css')}}" rel="stylesheet">
     <style>
 
         .timerFontSize {
@@ -159,34 +159,36 @@
         <div class="trading-graph-layout-wrapper">
             <div class="trading-graph-inner">
                 <div id="chartcontainer"></div>
-                {{--                    <div id="chartdiv"></div>--}}
+                {{--<div id="chartdiv"></div>--}}
             </div>
             <div class="mobile-footer-wrapper  d-lg-none d-block d-md-block d-sm-block">
                 <div class="mobile-footer-content-wrapper">
                     @if(isset($activeTrade) && $activeTrade != null)
                         <div class="trading-rating-content text-center">
-                            <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h3>
-                            <p class="mb-0">Crude Oil WTI
-                                @if($activeTrade->trade_type =="Buy")
-                                    @if(isset($profit_loss) && $profit_loss != null)
-                                        @if($profit_loss < 0)
+                            <div id="data-container" class="profit-loss-data-container">
+                                <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h3>
+                                <p class="mb-0">Crude Oil WTI
+                                    @if($activeTrade->trade_type =="Buy")
+                                        @if(isset($profit_loss) && $profit_loss != null)
+                                            @if($profit_loss < 0)
 
-                                            <span class="lose">({{round($profit_loss,2)}})</span>
-                                        @else
-                                            <span class="profit">({{round($profit_loss,2)}})</span>
+                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                            @else
+                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                            @endif
                                         @endif
                                     @endif
-                                @endif
-                                @if($activeTrade->trade_type =="Sell")
-                                    @if(isset($profit_loss) && $profit_loss != null)
-                                        @if($profit_loss < 0)
-                                            <span class="profit">({{round($profit_loss,2)}})</span>
-                                        @else
-                                            <span class="lose">({{round($profit_loss,2)}})</span>
+                                    @if($activeTrade->trade_type =="Sell")
+                                        @if(isset($profit_loss) && $profit_loss != null)
+                                            @if($profit_loss < 0)
+                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                            @else
+                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                            @endif
                                         @endif
                                     @endif
-                                @endif
-                            </p>
+                                </p>
+                            </div>
                         </div>
                     @endif
                     <div class="trading-btn-wrapper">
@@ -196,9 +198,7 @@
                                 @if (isset($activeTrade) && $activeTrade != null)
                                     @if($activeTrade->trade_type == "Buy")
                                         <li class="me-2"><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a></li>
-                                    @endif
-
-                                    @if($activeTrade->trade_type == "Sell")
+                                    @elseif($activeTrade->trade_type == "Sell")
                                         <li><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
                                     @endif
                                 @else
@@ -220,17 +220,29 @@
         <div class="buy-sell-content-wrapper">
             @if(isset($activeTrade) && $activeTrade != null)
                 <div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
-                    <h2>$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h2>
-                    <p>Crude Oil WTI
-                        @if(isset($profit_loss) && $profit_loss != null)
-                            @if($profit_loss < 0)
-                                <span class="lose">({{round($profit_loss,2)}})</span>
-                            @else
-                                <span class="profit">({{round($profit_loss,2)}})</span>
+                    <div id="data-container" class="profit-loss-data-container">
+                        <h2>$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h2>
+                        <p>Crude Oil WTI
+                            @if($activeTrade->trade_type =="Buy")
+                                @if(isset($profit_loss) && $profit_loss != null)
+                                    @if($profit_loss < 0)
+                                        <span class="lose">({{round($profit_loss,2)}})</span>
+                                    @else
+                                        <span class="profit">({{round($profit_loss,2)}})</span>
+                                    @endif
+                                @endif
                             @endif
-                        @endif
-                        {{--				<span class="lose">(-0.05%)</span>--}}
-                    </p>
+                            @if($activeTrade->trade_type =="Sell")
+                                @if(isset($profit_loss) && $profit_loss != null)
+                                    @if($profit_loss < 0)
+                                        <span class="profit">({{round($profit_loss,2)}})</span>
+                                    @else
+                                        <span class="lose">({{round($profit_loss,2)}})</span>
+                                    @endif
+                                @endif
+                            @endif
+                        </p>
+                    </div>
                 </div>
             @endif
             <div class="buy-sell-action-btn">
@@ -264,31 +276,7 @@
 
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
-<!-- END PAGE LEVEL JS-->
-<script src="{{asset('admin-assets/js/toastr.min.js')}}" type="text/javascript"></script>
-<script>
 
-    function successMsg(_msg) {
-        window.toastr.success(_msg);
-    }
-
-    function errorMsg(_msg) {
-        window.toastr.error(_msg);
-    }
-
-    function warningMsg(_msg) {
-        window.toastr.warning(_msg);
-    }
-
-    @if(Session::has('success'))
-    successMsg('{{Session::get("success")}}');
-    @endif
-
-    @if(Session::has('error'))
-    errorMsg("{{Session::get('error')}}");
-    @endif
-
-</script>
 {{--<script src="https://cdn.amcharts.com/lib/5/index.js"></script>--}}
 {{--<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>--}}
 {{--<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>--}}
@@ -313,21 +301,7 @@
 
         const response = await fetch(ajaxTradeApiDataRoute); // Replace with your Laravel endpoint
         const data = await response.json();
-        console.log(data);
-
-        /*// Function to fetch and update data
-        const fetchDataAndUpdateChart = async () => {
-            try {
-                const response = await fetch(ajaxTradeApiDataRoute);
-                const data = await response.json();
-
-                // Update the series data in the chart
-                chart.series[0].setData(data);
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };*/
+        //console.log(data);
 
         // Function to fetch and update data
         const fetchDataAndUpdateChart = async () => {
@@ -456,30 +430,6 @@
 
     })();
 
-    const name = document.getElementById("initials");
-    const words = name.textContent;
-    const letters = words.split(" ");
-    let initials = "";
-
-    for (const word of letters) {
-        if (word.length > 0) {
-            initials += word.charAt(0);
-        }
-    }
-    document.getElementById("initials").textContent = initials;
-
-
-    const name2 = document.getElementById("initials2");
-    const words2 = name2.textContent;
-    const letters2 = words2.split(" ");
-    let initials2 = "";
-
-    for (const word2 of letters2) {
-        if (word2.length > 0) {
-            initials2 += word2.charAt(0);
-        }
-    }
-    document.getElementById("initials2").textContent = initials2;
 
 </script>
 
@@ -643,109 +593,10 @@ function fetchDataAndUpdateChart() {
 
 
 */
-
-
-
     // Function for Top Counter
 
-    (function () {
-        const second = 1000,
-            minute = second * 60,
-            hour = minute * 60;
-
-        let today = new Date(),
-            dd = String(today.getDate()).padStart(2, "0"),
-            mm = String(today.getMonth() + 1).padStart(2, "0"),
-            yyyy = today.getFullYear(),
-            nextDay = new Date(today); // Create a new Date object for the next day
-        nextDay.setDate(nextDay.getDate() + 1); // Set it to the next day
-
-        // Set the start and end times (6 AM to 6 PM)
-        let startTime = new Date(yyyy, mm - 1, dd, 6, 0, 0).getTime();
-        let endTime = new Date(yyyy, mm - 1, dd, 18, 0, 0).getTime();
-
-        // Check if the current time is past 6 PM, if so, set the start time for the next day
-        if (today.getTime() >= endTime) {
-            startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
-            endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
-        }
-
-        const x = setInterval(function() {
-            const now = new Date().getTime();
-
-            if (now >= endTime) {
-                // Time has passed 6 PM, set the start time for the next day
-                startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 6, 0, 0).getTime();
-                endTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 18, 0, 0).getTime();
-            }
-
-            const distance = endTime - now;
-
-            const hours = Math.floor(distance / hour);
-            const minutes = Math.floor((distance % hour) / minute);
-            const seconds = Math.floor((distance % minute) / second);
-
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("minutes").innerText = minutes;
-            document.getElementById("seconds").innerText = seconds;
-
-            // Select elements by class name
-            document.getElementById("hours1").innerText = hours;
-            document.getElementById("minutes1").innerText = minutes;
-            document.getElementById("seconds1").innerText = seconds;
-
-            //do something later when time is reached
-            if (distance <= 0) {
-                // document.getElementById("headline").innerText = "It's 6 PM!";
-                document.getElementById("countdown").style.display = "none";
-                document.getElementById("countdown2").style.display = "none";
-                //document.getElementById("content").style.display = "block";
-                clearInterval(x);
-            }
-        }, 0);
-    })();
-
-    /*
-    //var chartAjaxData = [];
-
-    function fetchDataAndUpdateChart() {
-        $.ajax({
-            type: "POST",
-            url: "{{url('ajax_trade_api_data')}}",
-            data: {
-                //'id': id,
-                'csrf-token': "{{csrf_token()}}"
-            },
-            dataType: 'json',
-            success: function (data) {
-
-
-                    $.each(data, function(index, row) {
-                        //alert(row);
-                        //console.log(row.time_stamp);
-                        chartAjaxData.push({
-                            date: row.time_stamp * 1000,
-                            value: row.close,
-                            open: row.open,
-                            low: row.low,
-                            high: row.high
-                        });
-                    });
-
-                    // Assuming that your API response returns data in the same format as your previous data
-                    // Update the chart with the received data
-                    //series.data.setAll(chartAjaxData);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
-            }
-        });
-    }
-
-    */
-
-
-
 </script>
+
+@include('customer.js')
 </body>
 </html>

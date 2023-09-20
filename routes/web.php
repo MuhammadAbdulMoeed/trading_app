@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/start_buy_trade', [CustomerController::class, 'startNewBuyTrade'])->name('start_buy_trade');
     Route::get('/start_sell_trade', [CustomerController::class, 'startNewSellTrade'])->name('start_sell_trade');
     Route::get('/close_trade', [CustomerController::class, 'endCurrentTrade'])->name('close_trade');
-
+    Route::get('/refresh-data', [CustomerController::class, 'refresh'])->name('refresh.data');
 });
 
 /*Route::middleware('auth')->group(function () {
