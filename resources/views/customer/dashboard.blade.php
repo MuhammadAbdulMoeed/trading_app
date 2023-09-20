@@ -166,27 +166,74 @@
                                     <div class="row">
                                         <div class="col-lg-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4 order-1 order-sm-1 order-md-1 order-lg-0">
                                             <div class="trade-result">
-                                                <h2>Crude Oil WTI <span class="lose">(-10.99)</span></h2>
+                                                <h2>Crude Oil WTI
+                                                @if(isset($activeTrade) && $activeTrade != null)
+                                                    @if($activeTrade->trade_type =="Buy")
+                                                        @if(isset($profit_loss) && $profit_loss != null)
+                                                            @if($profit_loss < 0)
+
+                                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                            @else
+                                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                            @endif
+                                                        @endif
+                                                    @endif
+
+                                                    @if($activeTrade->trade_type =="Sell")
+                                                        @if(isset($profit_loss) && $profit_loss != null)
+                                                            @if($profit_loss < 0)
+                                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                            @else
+                                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                            @endif
+                                                        @endif
+                                                    @endif
+                                               @else
+                                                    <span >(0.00)</span>
+                                               @endif
+
+
+                                                </h2>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 mb-0 mb-sm-0 mb-md-0 mb-lg-4 order-0 order-sm-0 order-md-0 order-lg-1">
                                             <div class="trade-amount ">
-                                                <h4><sup>$</sup>99.9</h4>
+                                                <h4><sup>$</sup>
+                                                    @if(isset($activeTrade))
+                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
+                                                    @elseif(isset($trade_rates))
+                                                        <span id="trade-rate">{{round($trade_rates->close_rate,2) ?? 0}}</span>
+
+                                                    @endif
+                                                </h4>
                                             </div>
                                         </div>
                                         <div class="col-lg-12 order-2 order-sm-2 order-md-2 order-lg-2">
                                             <div class="trader-btn-no-graph">
                                                 <div class="row">
-                                                    <div class="col-6">
-                                                        <div>
-                                                            <a href="#" class="btn-tradeer btn-buy text-center"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3">Buy</a>
+
+                                                    @if(isset($activeTrade) && $activeTrade != null)
+                                                        <div class="col-12 mt-3">
+                                                            <div>
+                                                                @if($activeTrade->trade_type == "Buy")
+                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell text-center"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3">Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a>
+                                                                @elseif($activeTrade->trade_type == "Sell")
+                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell text-center"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3">Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a>
+                                                                @endif
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div>
-                                                            <a href="#" class="btn-tradeer btn-sell text-center"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3">Sell</a>
+                                                    @else
+                                                        <div class="col-6">
+                                                            <div>
+                                                                <a href="{{url('/start_buy_trade')}}" class="btn-tradeer btn-buy text-center"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3">Buy</a>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                        <div class="col-6">
+                                                            <div>
+                                                                <a href="{{url('/start_sell_trade')}}" class="btn-tradeer btn-sell text-center"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3">Sell</a>
+                                                            </div>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +242,7 @@
                             </div>
                         </div>
                     </div>
-                </div>      
+                </div>
             </div>
         </section>
     </main>
@@ -306,7 +353,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-       
+
         const name = document.getElementById("initials");
         const words = name.textContent;
         const letters = words.split(" ");
@@ -393,7 +440,7 @@
             }
         }, 0);
     })();
-   
+
 
 
 
