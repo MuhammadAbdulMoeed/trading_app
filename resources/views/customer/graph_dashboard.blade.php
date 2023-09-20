@@ -172,23 +172,23 @@
                                 <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h3>
                                 <p class="mb-0">Crude Oil WTI
                                     @if($activeTrade->trade_type =="Buy")
-                                        @if(isset($profit_loss) && $profit_loss != null)
+{{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                             @if($profit_loss < 0)
 
-                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                <span id="buy_lose" class="lose">({{round($profit_loss,2)}})</span>
                                             @else
-                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                <span id="buy_profit" class="profit">({{round($profit_loss,2)}})</span>
                                             @endif
-                                        @endif
+{{--                                        @endif--}}
                                     @endif
                                     @if($activeTrade->trade_type =="Sell")
-                                        @if(isset($profit_loss) && $profit_loss != null)
+{{--                                        @if(isset($profit_loss) && $profit_loss != null)--}}
                                             @if($profit_loss < 0)
-                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                                <span id="sell_profit" class="profit">({{round($profit_loss,2)}})</span>
                                             @else
-                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                                <span id="sell_lose" class="lose">({{round($profit_loss,2)}})</span>
                                             @endif
-                                        @endif
+{{--                                        @endif--}}
                                     @endif
                                 </p>
                             </div>
@@ -229,20 +229,20 @@
                             @if($activeTrade->trade_type =="Buy")
                                 @if(isset($profit_loss) && $profit_loss != null)
                                     @if($profit_loss < 0)
-                                        <span class="lose">({{round($profit_loss,2)}})</span>
+                                        <span id="buy_lose" class="lose">({{round($profit_loss,2)}})</span>
                                     @else
-                                        <span class="profit">({{round($profit_loss,2)}})</span>
+                                        <span id="buy_profit" class="profit">({{round($profit_loss,2)}})</span>
                                     @endif
                                 @endif
                             @endif
                             @if($activeTrade->trade_type =="Sell")
-                                @if(isset($profit_loss) && $profit_loss != null)
+{{--                                @if(isset($profit_loss) && $profit_loss != null)--}}
                                     @if($profit_loss < 0)
-                                        <span class="profit">({{round($profit_loss,2)}})</span>
+                                        <span id="sell_profit" class="profit">({{round($profit_loss,2)}})</span>
                                     @else
-                                        <span class="lose">({{round($profit_loss,2)}})</span>
+                                        <span id="sell_lose" class="lose">({{round($profit_loss,2)}})</span>
                                     @endif
-                                @endif
+{{--                                @endif--}}
                             @endif
                         </p>
                     </div>
