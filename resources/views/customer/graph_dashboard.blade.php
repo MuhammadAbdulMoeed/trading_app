@@ -254,11 +254,11 @@
                 <ul>
                     @if (isset($activeTrade) && $activeTrade != null)
                         @if($activeTrade->trade_type == "Buy")
-                            <li><a href="{{url('/close_trade')}}" class="buy-btn trade-btn"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a></li>
+                            <li><a href="{{url('/close_trade')}}" class="btn-close-trade btn-tradeer"> Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a></li>
                         @endif
 
                         @if($activeTrade->trade_type == "Sell")
-                            <li><a href="{{url('/close_trade')}}" class="sell-btn trade-btn"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
+                            <li><a href="{{url('/close_trade')}}" class="btn-close-trade btn-tradeer"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
                         @endif
                     @else
                         @if($balance > 0)

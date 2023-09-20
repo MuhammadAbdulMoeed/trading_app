@@ -7,7 +7,7 @@
 	<title>Dashboard</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
-
+    <link href="{{asset('admin-assets/css/toastr.css')}}" rel="stylesheet">
     <style>
 
         .timerFontSize {
@@ -161,7 +161,7 @@
                 <div class="trade-card-content w-100">
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-lg-6">
+                            <div class="col-lg-8">
                                 <div class="balance-amount-wrapper">
                                     <div class="balance-amount-content">
                                         <div class="row">
@@ -341,6 +341,7 @@
             padding: 5px;
              font-size: 30px;
              margin-bottom: 0px;
+            white-space:unset !important;
         }
         .trade-amount h4 sup{
             color: green;
