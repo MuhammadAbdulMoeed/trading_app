@@ -156,10 +156,20 @@
                 </div>
                 <div class="mobile-footer-wrapper  d-lg-none d-block d-md-block d-sm-block">
                     <div class="mobile-footer-content-wrapper">
-                        <!-- <div class="trading-rating-content text-center">
-                            <h3 class="mb-1">$79.77</h3>
-                            <p class="mb-0">Crude Oil WTI <span class="lose">(-0.05%)</span></p>
-                        </div> -->
+                        @if(isset($activeTrade) && $activeTrade != null)
+                            <div class="trading-rating-content text-center">
+                                <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h3>
+                                <p class="mb-0">Crude Oil WTI
+                                    @if(isset($profit_loss) && $profit_loss != null)
+                                        @if($profit_loss < 0)
+                                            <span class="lose">(-{{round($profit_loss,2)}})</span>
+                                        @else
+                                            <span class="profit">({{round($profit_loss,2)}})</span>
+                                        @endif
+                                    @endif
+                                </p>
+                            </div>
+                        @endif
                         <div class="trading-btn-wrapper">
                             <div class="trading-btn-placeholder">
                                 <ul>
@@ -189,10 +199,21 @@
 
 	<div class="buy-sell-btn-wrapper d-none d-sm-none d-md-none d-lg-block">
 		<div class="buy-sell-content-wrapper">
-			<!-- <div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
-				<h2>$ 79.77</h2>
-				<p>Crude Oil WTI <span class="lose">(-0.05%)</span></p>
-			</div> -->
+            @if(isset($activeTrade) && $activeTrade != null)
+			<div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
+				<h2>$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h2>
+                <p>Crude Oil WTI
+                @if(isset($profit_loss) && $profit_loss != null)
+                    @if($profit_loss < 0)
+                        <span class="lose">(-{{round($profit_loss,2)}})</span>
+                    @else
+                        <span class="profit">({{round($profit_loss,2)}})</span>
+                    @endif
+                @endif
+{{--				<span class="lose">(-0.05%)</span>--}}
+                </p>
+			</div>
+            @endif
 			<div class="buy-sell-action-btn">
 				<ul>
                     @if (isset($activeTrade) && $activeTrade != null)
@@ -399,13 +420,13 @@
 
             @foreach($trade_rates as $key=> $trade)
             //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
-            chartData.push({
-                date: {{$trade['time_stamp']}} * 1000,
-                value: {{ $trade['close_rate']}},
-                open: {{$trade['open_rate']}},
-                low: {{$trade['low_rate']}},
-                high: {{$trade['high_rate']}}
-            });
+            {{--chartData.push({--}}
+            {{--    date: {{$trade['time_stamp']}} * 1000,--}}
+            {{--    value: {{ $trade['close_rate']}},--}}
+            {{--    open: {{$trade['open_rate']}},--}}
+            {{--    low: {{$trade['low_rate']}},--}}
+            {{--    high: {{$trade['high_rate']}}--}}
+            {{--});--}}
             @endforeach
 
             return chartData;

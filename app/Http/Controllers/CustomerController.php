@@ -26,18 +26,20 @@ class CustomerController extends Controller
 
         $positions      = Auth::user()->getPosition();
 
-//        foreach ($users as $user) {
-//            $position = $user->getPosition();
-//            // Now, you can use $user and $position as needed.
-//            echo "User {$user->id} has a balance of {$user->balance} and is in position {$position}<br>";
-//        }
-        //dd($positions,$totalUsers);
+        //$trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
 
-        $trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
+        $trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','desc')->first();
 
         $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
-        return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions']));
+        $profit_loss    = "";
+        if(isset($activeTrade) && $activeTrade != null) {
+            $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+        }
+
+        //dd($activeTrade->active_rate->close_rate);
+
+        return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss']));
 
     }
 
