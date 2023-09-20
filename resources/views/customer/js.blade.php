@@ -128,6 +128,7 @@
                 //alert(response.close_rate);
                 // Update the content of the data container with the new data
                 $('#current_rate').html(response.close_rate);
+
                 if(response.profit_loss != "")
                 {
                     var profitLoss = response.profit_loss;
