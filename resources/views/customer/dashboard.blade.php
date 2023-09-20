@@ -482,8 +482,8 @@
 
             var chartData = [];
 
-            @foreach($trade_rates as $key=> $trade)
-            //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,
+{{--            @foreach($trade_rates as $key=> $trade)--}}
+{{--            //date: {{\Carbon\Carbon::now()->addMinute($key)->timestamp}} * 1000,--}}
             {{--chartData.push({--}}
             {{--    date: {{$trade['time_stamp']}} * 1000,--}}
             {{--    value: {{ $trade['close_rate']}},--}}
@@ -491,7 +491,7 @@
             {{--    low: {{$trade['low_rate']}},--}}
             {{--    high: {{$trade['high_rate']}}--}}
             {{--});--}}
-            @endforeach
+{{--            @endforeach--}}
 
             return chartData;
         }
