@@ -21,53 +21,51 @@
 <body>
 
 	<main class="main-content-wrapper">
-		<section class="app-header-wrapper">
-		<section class="desktop-header-wrapper d-sm-none d-none d-md-none d-lg-block">
-			<div class="container">
-				<div class="row align-items-center">
-					<div class="col-lg-2">
-						<div class="desktop-header-logo">
-							<div class="logo-wrapper">
-								<img src="{{asset('assets/imgs/desktop-logo.png')}}" class="img-fluid">
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-4">
-						<div class="header-tag-content-wrapper">
-							<div class="header-tag-stars star-content">
-								<img src="{{asset('assets/imgs/group-stars.png')}}">
-                                <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
-							</div>
-							<div class="header-tag-content text-center">
-								<p class="mb-0">Join our trading challenge and have a chance at winning valuable prizes!</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-lg-3">
-						<div class="trading-target-wrapper">
-							<div class="trading-target-content text-center">
-								<h2>$ {{ round($balance,2) ?? 0}}</h2>
-{{--								<p class="mb-0">Crude Oil WTI <span class="lose">(-0.05%)</span></p>--}}
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-2">
-						<div class="trading-close-wrapper">
-							<div class="trading-close-content text-center">
-                                <div id="countdown">
-                                    <h4 style="color: white;">
-                                        <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>
-                                    </h4>
+        <section class="app-header-wrapper">
+            <section class="desktop-header-wrapper d-sm-none d-none d-md-none d-lg-block">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2">
+                            <div class="desktop-header-logo">
+                                <div class="logo-wrapper">
+                                    <img src="{{asset('assets/imgs/desktop-logo.png')}}" class="img-fluid">
                                 </div>
-								{{--<h2>01:08:55</h2>--}}
-								<p class="mb-0">Until Trading Closes</p>
-							</div>
-						</div>
-					</div>
-                    <div class="col-lg-1">
-{{--						<div class="trading-close-wrapper">--}}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="header-tag-content-wrapper">
+                                <div class="header-tag-stars star-content">
+                                    <img src="{{asset('assets/imgs/group-stars.png')}}">
+                                    <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
+                                </div>
+                                <div class="header-tag-content text-center">
+                                    <p class="mb-0">Join our trading challenge and have a chance at winning valuable prizes!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="trading-target-wrapper">
+                                <div class="trading-target-content text-center">
+                                    <h2>$ {{ round($balance,2) ?? 0}}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="trading-close-wrapper">
+                                <div class="trading-close-content text-center">
+                                    <div id="countdown">
+                                        <h4 style="color: white;">
+                                            <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>
+                                        </h4>
+                                    </div>
+                                    {{--<h2>01:08:55</h2>--}}
+                                    <p class="mb-0">Until Trading Closes</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-1">
                             <div class="btn-group">
                                 <button type="button" id="initials" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
                                     Action md
@@ -80,43 +78,43 @@
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
-                                                this.closest('form').submit();"><i class="ft-power"></i> Logout</a>
+                                            this.closest('form').submit();"><i class="ft-power"></i> Logout</a>
                                         </form>
                                     </li>
                                 </ul>
                             </div>
-{{--						</div>--}}
-					</div>
-				</div>
-			</div>
-		</section>
-		<section class="mobile-header-wrapper d-sm-block d-block d-md-block d-lg-none">
-			<div class="container">
-				<div class="row align-items-center gx-2" >
-					<div class="col-3">
-						<div class="mobile-log-wrapper">
-							<div class="mobile-logo">
-								<img src="{{asset('assets/imgs/desktop-logo.png')}}" class="img-fluid">
-							</div>
-						</div>
-					</div>
-					<div class="col-3">
-						<div class="star-wrapper">
-							<div class="star-content text-center">
-								<img src="{{asset('assets/imgs/group-stars.png')}}" class="img-fluid">
-								<p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-4">
-						<div class="account-balacnce">
-							<div class="account-balacnce-content text-center">
-								<h4 class="mb-1">Balance</h4>
-								<p class="mb-0">$ {{ round($balance,2) ?? 0}}</p>
-							</div>
-						</div>
-					</div>
-                    <div class="col-2">
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="mobile-header-wrapper d-sm-block d-block d-md-block d-lg-none">
+                <div class="container">
+                    <div class="row align-items-center gx-2" >
+                        <div class="col-3">
+                            <div class="mobile-log-wrapper">
+                                <div class="mobile-logo">
+                                    <img src="{{asset('assets/imgs/desktop-logo.png')}}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="star-wrapper">
+                                <div class="star-content text-center">
+                                    <img src="{{asset('assets/imgs/group-stars.png')}}" class="img-fluid">
+                                    <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="account-balacnce">
+                                <div class="account-balacnce-content text-center">
+                                    <h4 class="mb-1">Balance</h4>
+                                    <p class="mb-0">$ {{ round($balance,2) ?? 0}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
                             <div class="btn-group">
                                 <button type="button" id="initials2" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
                                     Action md
@@ -129,72 +127,71 @@
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
-                                                this.closest('form').submit();"><i class="ft-power"></i> Logout</a>
+                                            this.closest('form').submit();"><i class="ft-power"></i> Logout</a>
                                         </form>
                                     </li>
                                 </ul>
                             </div>
-                    </div>
-				</div>
-			</div>
-			<div class="remining-time-wrapper">
-				<div class="remining-time-content">
-{{--					<h4>01:08:55</h4>--}}
-                    <div id="countdown2" class="timerFontSize">
-                        <h4 style="color: white;">
-                            <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
-                        </h4>
-                    </div>
-					<p>Until Trading Closes</p>
-				</div>
-			</div>
-		</section>
-	</section>
-
-	<section class="trading-graph-wrapper">
-		<div class="trading-graph-layout-wrapper">
-            <div class="trading-graph-inner">
-                <div id="chartdiv"></div>
-            </div>
-            <div class="mobile-footer-wrapper  d-lg-none d-block d-md-block d-sm-block">
-                <div class="mobile-footer-content-wrapper">
-                    <div class="trading-rating-content text-center">
-                        <h3 class="mb-1">$79.77</h3>
-                        <p class="mb-0">Crude Oil WTI <span class="lose">(-0.05%)</span></p>
-                    </div>
-                    <div class="trading-btn-wrapper">
-                        <div class="trading-btn-placeholder">
-                            <ul>
-
-                                @if (isset($activeTrade) && $activeTrade != null)
-                                    @if($activeTrade->trade_type == "Buy")
-                                        <li class="me-2"><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a></li>
-                                    @endif
-
-                                    @if($activeTrade->trade_type == "Sell")
-                                        <li><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
-                                    @endif
-                                @else
-                                    <li class="me-2"><a href="{{url('/start_buy_trade')}}" class="btn-tradeer btn-buy me-2"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy </a></li>
-                                    <li><a href="{{url('/start_sell_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell </a></li>
-                                @endif
-
-                                {{--<li class="me-2"><button class="btn-tradeer btn-buy"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy</button></li>
-                                <li><button class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell</button></li>--}}
-                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-		</div>
-	</section>
+                <div class="remining-time-wrapper">
+                    <div class="remining-time-content">
+                        <div id="countdown2" class="timerFontSize">
+                            <h4 style="color: white;">
+                                <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
+                            </h4>
+                        </div>
+                        <p>Until Trading Closes</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+    	<section class="trading-graph-wrapper">
+    		<div class="trading-graph-layout-wrapper">
+                <div class="trading-graph-inner">
+                    <div id="chartcontainer"></div>
+                </div>
+                <div class="mobile-footer-wrapper  d-lg-none d-block d-md-block d-sm-block">
+                    <div class="mobile-footer-content-wrapper">
+                        <!-- <div class="trading-rating-content text-center">
+                            <h3 class="mb-1">$79.77</h3>
+                            <p class="mb-0">Crude Oil WTI <span class="lose">(-0.05%)</span></p>
+                        </div> -->
+                        <div class="trading-btn-wrapper">
+                            <div class="trading-btn-placeholder">
+                                <ul>
+
+                                    @if (isset($activeTrade) && $activeTrade != null)
+                                        @if($activeTrade->trade_type == "Buy")
+                                            <li class="me-2"><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a></li>
+                                        @endif
+
+                                        @if($activeTrade->trade_type == "Sell")
+                                            <li><a href="{{url('/close_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a></li>
+                                        @endif
+                                    @else
+                                        <li class="me-2"><a href="{{url('/start_buy_trade')}}" class="btn-tradeer btn-buy me-2"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy </a></li>
+                                        <li><a href="{{url('/start_sell_trade')}}" class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell </a></li>
+                                    @endif
+
+                                    {{--<li class="me-2"><button class="btn-tradeer btn-buy"><img src="{{asset('assets/imgs/up-arrow.png')}}" class="me-3"> Buy</button></li>
+                                    <li><button class="btn-tradeer btn-sell"><img src="{{asset('assets/imgs/down-arrow.png')}}" class="me-3"> Sell</button></li>--}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+    	</section>
 
 	<div class="buy-sell-btn-wrapper d-none d-sm-none d-md-none d-lg-block">
 		<div class="buy-sell-content-wrapper">
-			<div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
+			<!-- <div class="buy-sell-running-values d-sm-block d-block d-md-block text-center  d-lg-none">
 				<h2>$ 79.77</h2>
 				<p>Crude Oil WTI <span class="lose">(-0.05%)</span></p>
-			</div>
+			</div> -->
 			<div class="buy-sell-action-btn">
 				<ul>
                     @if (isset($activeTrade) && $activeTrade != null)
@@ -216,6 +213,14 @@
 
     </main>
 
+
+    <style type="text/css">
+        #chartcontainer {
+            height: 100%;
+            min-width: 100%;
+        }
+    </style>
+
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
@@ -223,7 +228,109 @@
 <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-<script type="text/javascript">
+
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+
+
+    <script type="text/javascript">
+        (async () => {
+            const data = await fetch(
+                'https://demo-live-data.highcharts.com/aapl-ohlc.json'
+                ).then(response => response.json());
+            Highcharts.stockChart('chartcontainer', {
+                chart: {
+                    backgroundColor: '#262626',
+                    borderWidth: 0,
+                    borderColor: 'darkgray',
+                    borderRadius: 0,
+                    contextMenu: false
+                },
+                rangeSelector: {
+                    enabled: false,
+                },
+                xAxis: { 
+                    gridLineColor: 'red',
+                    title: {
+                        style: {
+                            color: '#fff'
+                        }
+                    },
+                    labels: {
+                        style: {
+                            color: '#fff'
+                        }
+                    },
+                    lineWidth: 1,
+                    lineColor: '#000',
+                },
+                yAxis: {
+
+                    title: {
+                        style: {
+                            color: '#fff'
+                        }
+                    },
+                    labels: {
+                        style: {
+                            color: '#fff'
+                        }
+                    },
+
+                    opposite: false,
+                },
+                tooltip: {
+                    trigger: 'click',
+                    backgroundColor: '#262626',
+                    borderColor: '#262626',
+                    borderWidth: 1,
+                    style: {
+                        color: '#fff',
+                        fontSize: '14px'
+                    },
+                    headerFormat: '<b>{point.key}</b><br/>',
+                    pointFormat: 'Open: {point.open}<br/>High: {point.high}<br/>Low: {point.low}<br/>Close: {point.close}<br/>'
+                },
+                plotOptions: {
+                    candlestick: {
+                        color: 'red',
+                        upColor: 'green',
+                        lineColor: 'red',
+                        upLineColor: 'green',
+                        lineWidth: 1,
+                    }
+                },
+                navigator: {
+                    enabled: false
+                },
+                series: [{
+                    type: 'candlestick',
+                    data: data,
+                }],
+                legend: {
+                    enabled: false,
+                    align: 'right',
+                    layout: 'vertical',
+                    verticalAlign: 'middle',
+                    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+                },
+                credits: {
+                    text: 'Developed By Cyber Advance Solutions',
+                    href: 'https://cyberasol.com/',
+                    position: {
+                        align: 'right',
+                        x: -10,
+                        verticalAlign: 'bottom',
+                        y: -5
+                    }
+                },
+            });
+        })();
+
+
+
+
         const name = document.getElementById("initials");
         const words = name.textContent;
         const letters = words.split(" ");
@@ -248,6 +355,10 @@
             }
         }
         document.getElementById("initials2").textContent = initials2;
+    </script>
+
+<script type="text/javascript">
+       
    
 
 

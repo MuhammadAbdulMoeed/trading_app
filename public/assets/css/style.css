@@ -26,7 +26,7 @@ body{
 .app-header-wrapper{
 	background: #1B1B1B;
 	padding: 15px 0px;
-	flex: 0 0 125px;
+	flex: 1;
 }
 .logo-wrapper img{
 	width: 120px;
@@ -100,16 +100,16 @@ body{
 	font-weight: 300;
 }
 .trading-graph-wrapper {
-	flex-grow: 1;
-	overflow: hidden;
+	flex: 8;
+	
 }
 .trading-graph-inner{
 	height: 100%;
 }
 .buy-sell-btn-wrapper{
 	position: fixed;
-	bottom: 40px;
-	right: 20px;
+	bottom: 80px;
+	right: 10px;
 	z-index: 6;
 }
 .buy-sell-action-btn ul {
@@ -130,6 +130,7 @@ body{
 	text-transform: uppercase;
 	font-family: 'Inter', sans-serif;
 	font-weight: 600;
+	display: inline-block;
 	text-decoration: none;
 }
 .buy-btn.trade-btn{
@@ -515,12 +516,12 @@ input:-webkit-autofill:active {
 	color: #C79D63;
 }
 
-.mobile-footer-content-wrapper{
+/*.mobile-footer-content-wrapper{
 	position: fixed;
     bottom: 0;
     width: 100%;
     z-index: 5;
-}
+}*/
 .NavLetters{
 	display: inline-block;
 	width: 56px;
@@ -556,10 +557,9 @@ input:-webkit-autofill:active {
 		flex-direction: column;
 		height: 100%;
 	}
-	.trading-graph-inner{
+	/*.trading-graph-inner{
 		flex: 0 0 65vh;
-		/*flex-grow: 1;*/
-	}
+	}*/
 	tbody, td, tfoot, th, thead, tr{
 		white-space: nowrap;
 	}
