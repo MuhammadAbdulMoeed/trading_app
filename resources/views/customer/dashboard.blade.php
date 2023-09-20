@@ -48,6 +48,7 @@
                         <div class="col-lg-3">
                             <div class="trading-target-wrapper">
                                 <div class="trading-target-content text-center">
+                                    <h4 class="mb-1" style="color: white;">Balance</h4>
                                     <h2>$ {{ round($balance,2) ?? 0}}</h2>
                                 </div>
                             </div>
@@ -160,11 +161,23 @@
                             <div class="trading-rating-content text-center">
                                 <h3 class="mb-1">$ {{round($activeTrade->active_rate->close_rate,2) ?? 0}}</h3>
                                 <p class="mb-0">Crude Oil WTI
-                                    @if(isset($profit_loss) && $profit_loss != null)
-                                        @if($profit_loss < 0)
-                                            <span class="lose">({{round($profit_loss,2)}})</span>
-                                        @else
-                                            <span class="profit">({{round($profit_loss,2)}})</span>
+                                    @if($activeTrade->trade_type =="Buy")
+                                        @if(isset($profit_loss) && $profit_loss != null)
+                                            @if($profit_loss < 0)
+
+                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                            @else
+                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                            @endif
+                                        @endif
+                                    @endif
+                                    @if($activeTrade->trade_type =="Sell")
+                                        @if(isset($profit_loss) && $profit_loss != null)
+                                            @if($profit_loss < 0)
+                                                <span class="profit">({{round($profit_loss,2)}})</span>
+                                            @else
+                                                <span class="lose">({{round($profit_loss,2)}})</span>
+                                            @endif
                                         @endif
                                     @endif
                                 </p>
