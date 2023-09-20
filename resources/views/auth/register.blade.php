@@ -38,7 +38,7 @@
 			  </div>
 		@endif
 
-		<form class="form-wrapper" method="POST" action="{{ route('register') }}">
+		<form class="form-wrapper" id="registerForm" method="POST" action="{{ route('register') }}">
             @csrf
 			<section class="auth-form-wrapper">
 				<div class="container">
@@ -173,6 +173,11 @@
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/chosen/chosen.jquery.js')}}"></script>
+
+<script src=
+        "https://malsup.github.io/jquery.blockUI.js">
+    </script>
+
 <script type="text/javascript">
 	$(".chzn-select").chosen({
 		disable_search:true,
@@ -245,6 +250,20 @@
 			checkFields();
 		});
 
+		$('#registerForm').submit(function(event){
+					  $.blockUI({
+					                css: {
+					                    border: 'none',
+					                    padding: '15px',
+					                    backgroundColor: '#000',
+					                    '-webkit-border-radius': '10px',
+					                    '-moz-border-radius': '10px',
+					                    opacity: .5,
+					                    color: '#fff'
+					                }
+					            });
+
+				});
 
 	});
 </script>

@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		</section>
-		<form class="form-wrapper" method="POST" action="{{ route('login') }}">
+		<form class="form-wrapper" id="loginForm" method="POST" action="{{ route('login') }}">
             @csrf
 			<section class="auth-form-wrapper">
 				<div class="container">
@@ -139,6 +139,9 @@
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/chosen/chosen.jquery.js')}}"></script>
+<script src=
+        "https://malsup.github.io/jquery.blockUI.js">
+    </script>
 
 <script type="text/javascript">
 
@@ -169,6 +172,21 @@
 				$(this).parent(".form-input-wrapper").addClass('check-email');
 				$("#emailerror").show();
 			}
+		});
+
+		$('#loginForm').submit(function(event){
+			  $.blockUI({
+			                css: {
+			                    border: 'none',
+			                    padding: '15px',
+			                    backgroundColor: '#000',
+			                    '-webkit-border-radius': '10px',
+			                    '-moz-border-radius': '10px',
+			                    opacity: .5,
+			                    color: '#fff'
+			                }
+			            });
+
 		});
 
 	});
