@@ -70,13 +70,13 @@ class Controller extends BaseController
 
         $totalDebitAmount   = Wallet::where('user_id',$user_id)->where('payment_type','debit')->sum('amount');
 
-        $balance            = ($totalCreditAmount - $totalDebitAmount);
+        $balance            = round(($totalCreditAmount - $totalDebitAmount),2);
 
         if($balance < 0) {
             $balance        = 0;
         }
 
-        return round($balance,2);
+        return $balance;
 
     }
 
