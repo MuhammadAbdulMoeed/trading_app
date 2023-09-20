@@ -106,7 +106,9 @@ class CustomerController extends Controller
 
             $tradeRateData    = OilRates::orderby('created_at','desc')->first();
 
-            $this->saveTrade($investedAmount,$tradeRateData->id,"Buy");
+            $barrels          = round(($investedAmount / $tradeRateData->close_rate), 2);
+
+            $this->saveTrade($investedAmount,$tradeRateData->id,"Buy", $barrels);
 
             return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
 
@@ -125,7 +127,7 @@ class CustomerController extends Controller
         //dd($balance);
         //dd($balance);
         $oldActiveTrade     = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
-//dd($oldActiveTrade);
+        //dd($oldActiveTrade);
         if(!isset($oldActiveTrade) && $oldActiveTrade == null) {
 
             if(isset($request->amount) && $request->amount > $balance) {
@@ -138,8 +140,9 @@ class CustomerController extends Controller
 
             $tradeRateData    = OilRates::orderby('created_at','desc')->first();
 
-            //dd($investedAmount);
-            $this->saveTrade($investedAmount,$tradeRateData->id,"Sell");
+            $barrels          = round(($investedAmount / $tradeRateData->close_rate), 2);
+
+            $this->saveTrade($investedAmount,$tradeRateData->id,"Sell", $barrels);
 
             return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
 
@@ -150,11 +153,12 @@ class CustomerController extends Controller
         //return view('admin.trades',compact('rateData'));
     }
 
-    public function saveTrade($amount,$rate_id,$type="Buy") {
+    public function saveTrade($amount,$rate_id,$type="Buy",$barrels=0) {
 
         $saveTrade                          = new UserTrades();
         $saveTrade->user_id                 = Auth::user()->id;
         $saveTrade->trade_amount            = $amount;
+        $saveTrade->total_barrels           = $barrels;
         $saveTrade->trade_type              = $type;
         $saveTrade->trade_start_rate_id     = $rate_id;
         $saveTrade->trade_start_date_time   = Carbon::now();
@@ -188,10 +192,19 @@ class CustomerController extends Controller
             $tradeResult        = 0;
             $profitLossAmount   = 0;
             $final_amount       = 0;
-
+            $barrels            = $activeTrade->total_barrels;
             if($activeTrade->trade_type == "Buy") {
 
-                $tradeResult = ($currentRate - $initialRate);
+                $barrels     = $balance / $initialRate;
+                //formula 1
+                $tradeResult = ($currentRate - $initialRate) * $barrels;
+
+                //formula 2
+               /*
+                $standard_contract_size  = 1000;    // Note default NYMEX barrel size = 1000
+                $total_contracts         = 1000/$barrels;
+                $tradeResult             = ($currentRate - $initialRate) * $total_contracts * $standard_contract_size;*/
+
 
                 if( $tradeResult > 0 ){
                     $trade_final_effect = "Profit";
@@ -205,7 +218,16 @@ class CustomerController extends Controller
             }
             else if($activeTrade->trade_type == "Sell") {
 
-                $tradeResult = ($currentRate - $initialRate);
+
+                $barrels     = $balance / $initialRate;
+                //formula 1
+                $tradeResult = ($currentRate - $initialRate) * $barrels;
+
+                //formula 2
+                /*$standard_contract_size  = 1000;    // Note default NYMEX barrel size = 1000
+                $total_contracts         = 1000/$barrels;
+                $tradeResult             = ($currentRate - $initialRate) * $total_contracts * $standard_contract_size;*/
+
 
                 if( $tradeResult < 0 ) {
                     $trade_final_effect = "Profit";
@@ -232,6 +254,11 @@ class CustomerController extends Controller
             $activeTrade->final_amount          = $final_amount;
             $activeTrade->save();
 
+           /*
+            $user   =   User::find($userid);
+            $user->notify(new \App\Notifications\TradeEndMailNotification($user));
+           */
+
             return redirect()->route('dashboard')->withSuccess("Your Trade Completed successfully.");
 
         } else {
@@ -243,6 +270,7 @@ class CustomerController extends Controller
     }
 
     /*
+
     public function calculateTradeProfitLoss($trade_type,$rate_start_id,$rate_end_id)
     {
         $startRate          = OilRates::where('id',$rate_start_id)->first();
