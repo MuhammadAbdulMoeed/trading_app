@@ -132,8 +132,8 @@
                 if(response.profit_loss != "")
                 {
                     var profitLoss = response.profit_loss;
-                    $('.profitval').html(response.close_rate);
-                    /*if(response.trade_type == "Buy" && profitLoss < 0){
+                    // $('.profitval').html(response.close_rate);
+                    if(response.trade_type == "Buy" && profitLoss < 0){
                         $('#buy_lose').html(profitLoss);
                     } else if(response.trade_type == "Buy" && profitLoss >= 0){
                         $('#buy_profit').html(profitLoss);
@@ -141,7 +141,7 @@
                         $('#sell_profit').html(profitLoss);
                     } else if(response.trade_type == "Sell" && profitLoss >= 0) {
                         $('#sell_lose').html(profitLoss);
-                    }*/
+                    }
                 }
 
 
