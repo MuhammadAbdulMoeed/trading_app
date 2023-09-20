@@ -41,7 +41,7 @@ class CustomerController extends Controller
 
         $profit_loss_positive   = abs((float)$profit_loss);
         //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
-        //dd($activeTrade->active_rate->close_rate);
+        //dd($trade_rates->close_rate);
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
 
     }
