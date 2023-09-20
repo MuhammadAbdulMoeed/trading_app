@@ -39,7 +39,7 @@ class CustomerController extends Controller
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
 
-        $profit_loss_positive   = round(abs((float)$profit_loss),6);
+        $profit_loss_positive   = round(abs((float)$profit_loss),8);
         //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
         //dd($activeTrade->active_rate->close_rate);
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
@@ -67,7 +67,7 @@ class CustomerController extends Controller
         $profit_loss_positive   = 0;
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-            $profit_loss_positive   = round(abs((float)$profit_loss),6);
+            $profit_loss_positive   = round(abs((float)$profit_loss),8);
         }
 
         //dd($activeTrade->active_rate->close_rate);
@@ -92,12 +92,12 @@ class CustomerController extends Controller
         }
 //dd($profit_loss);
         $data['profit_loss']            = $profit_loss;
-        $data['profit_loss_positive']   = round(abs((float)$profit_loss),6);
+        $data['profit_loss_positive']   = round(abs((float)$profit_loss),8);
 
         $data['trade_type']             = $trade_type;
 
         if(isset($trade_rates->close_rate)){
-            $closeRate                  = round($trade_rates->close_rate,2);
+            $closeRate                  = $trade_rates->close_rate;
         }
 
         $data['close_rate']             = $closeRate;
