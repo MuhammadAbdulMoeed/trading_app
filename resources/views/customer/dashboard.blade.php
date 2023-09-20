@@ -289,22 +289,55 @@
 
 
         const ajaxTradeApiDataRoute = "{{ route('ajax_trade_api_data') }}";
-
+        let chart; //
         (async () => {
 
             const response = await fetch(ajaxTradeApiDataRoute); // Replace with your Laravel endpoint
             const data = await response.json();
             console.log(data);
 
+            /*// Function to fetch and update data
+            const fetchDataAndUpdateChart = async () => {
+                try {
+                    const response = await fetch(ajaxTradeApiDataRoute);
+                    const data = await response.json();
+
+                    // Update the series data in the chart
+                    chart.series[0].setData(data);
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };*/
+
+            // Function to fetch and update data
+            const fetchDataAndUpdateChart = async () => {
+                try {
+                    const response = await fetch(ajaxTradeApiDataRoute);
+                    const data = await response.json();
+
+                    // Update the chart with new data
+                    chart.update({
+                        series: [{
+                            type: 'candlestick',
+                            data: data,
+                        }],
+                    });
+                    // Log the updated data
+                    console.log(data);
+
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            };
+
             /*
             const data = await fetch(
                  'https://demo-live-data.highcharts.com/aapl-ohlc.json'
                 ).then(response => response.json());
-
-                */
-
+            */
             console.log(data);
-            Highcharts.stockChart('chartcontainer', {
+            chart = Highcharts.stockChart('chartcontainer', {
                 chart: {
                     backgroundColor: '#262626',
                     borderWidth: 0,
@@ -380,6 +413,7 @@
                     verticalAlign: 'middle',
                     backgroundColor: 'rgba(255, 255, 255, 0.75)'
                 },
+                /*
                 credits: {
                     text: 'Developed By Cyber Advance Solutions',
                     href: 'https://cyberasol.com/',
@@ -390,11 +424,18 @@
                         y: -5
                     }
                 },
+                */
             });
+
+            // Fetch and update data every 30 seconds
+            //const refreshInterval = 30000; // 30 seconds in milliseconds
+
+            setInterval(fetchDataAndUpdateChart, 5000);
+
+            // Fetch and update data immediately
+            fetchDataAndUpdateChart();
+
         })();
-
-
-
 
         const name = document.getElementById("initials");
         const words = name.textContent;
