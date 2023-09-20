@@ -35,7 +35,7 @@ class Controller extends BaseController
 
         $updateWalletBalance                    =  new Wallet();
         $updateWalletBalance->user_id           =  $user_id;
-        $updateWalletBalance->amount            =  $amount;
+        $updateWalletBalance->amount            =  round($amount,2);
         $updateWalletBalance->payment_type      =  $payment_type;
         $updateWalletBalance->trade_value       =  $trade_value;
         $updateWalletBalance->previous_balance  =  round($user_balance,2);

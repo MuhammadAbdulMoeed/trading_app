@@ -251,8 +251,8 @@ class CustomerController extends Controller
             $activeTrade->status                = "Completed";
             $activeTrade->trade_rate_difference = $tradeResult;
             $activeTrade->trade_final_effect    = $trade_final_effect; // profit or loss
-            $activeTrade->trade_closing_amount  = $profitLossAmount;
-            $activeTrade->final_amount          = $final_amount;
+            $activeTrade->trade_closing_amount  = round($profitLossAmount,2);
+            $activeTrade->final_amount          = round($final_amount,2);
             $activeTrade->save();
 
            /*
