@@ -177,25 +177,42 @@
                                 </div>
 
                                 <div class="trader-card">
-                                    <div class="row">
-                                        <div class="col-6">
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6">
                                             <div class="trade-result">
                                                 <h2>Current Rate</h2>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-lg-6">
                                             <div class="trade-amount text-end">
                                                 <h4><sup>$</sup> <span id="current_rate">{{round($trade_rates->close_rate,2) ?? 0}} </span>
                                                 </h4>
                                             </div>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <div class="row mb-3">
+                                        <div class="col-lg-6">
+                                            <div class="trade-result">
+                                                <h2>Your Trade</h2>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="trade-amount ">
+                                                <h4><sup>$</sup>
+                                                    @if(isset($activeTrade))
+                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
+                                                    @else
+                                                        <span id="trade-rate">0.00</span>
+                                                    @endif
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="row">
 
                                         @if(isset($activeTrade) && $activeTrade != null)
 
-                                        <div class="col-6 mb-4 mb-sm-4 mb-md-4 mb-lg-4">
+                                        <div class="col-12 mb-4 mb-sm-4 mb-md-4 mb-lg-4">
                                             <div class="trade-result">
                                                 <h2>Crude Oil WTI
                                                 @if(isset($activeTrade) && $activeTrade != null)
@@ -228,17 +245,17 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6 mb-0 mb-sm-0 mb-md-0 mb-lg-4">
-                                            <div class="trade-amount ">
-                                                <h4><sup>$</sup>
-                                                    @if(isset($activeTrade))
-                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
-                                                    @else
-                                                        <span id="trade-rate">0.00</span>
-                                                    @endif
-                                                </h4>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-6 mb-0 mb-sm-0 mb-md-0 mb-lg-4">--}}
+{{--                                            <div class="trade-amount ">--}}
+{{--                                                <h4><sup>$</sup>--}}
+{{--                                                    @if(isset($activeTrade))--}}
+{{--                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>--}}
+{{--                                                    @else--}}
+{{--                                                        <span id="trade-rate">0.00</span>--}}
+{{--                                                    @endif--}}
+{{--                                                </h4>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                         @endif
                                         <div class="col-lg-12 order-2 order-sm-2 order-md-2 order-lg-2">
                                             <div class="trader-btn-no-graph">
@@ -367,12 +384,10 @@
         }
         @media(min-width:320px) and (max-width:767px){
             .trade-amount h4{
-                text-align: right;
+                text-align: left;
             }
             .trade-result h2{
-                font-size: 18px;
-                font-weight: bold;
-
+                font-size: 20px;
             }
             .trade-amount h4{
                 font-size: 26px;
