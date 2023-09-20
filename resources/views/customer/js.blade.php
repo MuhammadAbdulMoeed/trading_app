@@ -134,13 +134,13 @@
                     var profitLoss = round(response.profit_loss,2);
                     // $('.profitval').html(response.close_rate);
                     if(response.trade_type == "Buy" && profitLoss < 0){
-                        $('#buy_lose').html(profitLoss);
+                        $('#buy_lose').html(Math.abs(profitLoss));
                     } else if(response.trade_type == "Buy" && profitLoss >= 0){
-                        $('#buy_profit').html(profitLoss);
+                        $('#buy_profit').html(Math.abs(profitLoss));
                     } else if(response.trade_type == "Sell" && profitLoss < 0) {
-                        $('#sell_profit').html(profitLoss);
+                        $('#sell_profit').html(Math.abs(profitLoss));
                     } else if(response.trade_type == "Sell" && profitLoss >= 0) {
-                        $('#sell_lose').html(profitLoss);
+                        $('#sell_lose').html(Math.abs(profitLoss));
                     }
                 }
 
