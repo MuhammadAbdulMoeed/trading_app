@@ -90,7 +90,7 @@ class CustomerController extends Controller
         }
 
         $data['profit_loss']            = $profit_loss;
-        $data['profit_loss_positive']   = round(abs($profit_loss),2);
+        $data['profit_loss_positive']   = round(abs($profit_loss),6);
 
         $data['trade_type']     = $trade_type;
 
