@@ -82,9 +82,29 @@ class CustomerController extends Controller
         $positions      = Auth::user()->getPosition();
 
         if($user_type == 1) {
-            $userTradeHistory   = User::select('user_balance')->orderBy('user_balance','desc')->get();
-//            $userTradeHistory   = UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
+
+            /*$userTradeHistory   =  DB::table('users')
+                ->select('id', 'name', 'user_balance')
+                ->where('user_type',0)
+                ->orderByDesc('user_balance') // Order users by balance in descending order
+                ->addSelect(DB::raw('@position := @position + 1 AS position'))
+                ->from(DB::raw('(SELECT @position := 0) AS position, users'))
+                ->get();*/
+
+            $userTradeHistory = User::leftJoin('user_trades', 'users.id', '=', 'user_trades.user_id')
+                ->select('users.id', 'users.name','users.user_balance', DB::raw('SUM(user_trades.trade_closing_amount) as total_porfit_loss'))
+                ->where('users.user_type',0)
+                ->groupBy('users.id', 'users.name','users.user_balance')
+                ->orderBy('users.user_balance','Desc')
+                ->get();
+
+//            $userTradeHistory   = User::with('trades')->select('id','name','user_balance')->where('user_type',0)->orderBy('user_balance','desc')->get();
+//
+//           $userTradeHistory   = UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
+//            dd($userTradeHistory,$usersWithTransactionSum);
+
             $total              = count($userTradeHistory);
+
         } else {
             $userTradeHistory   = UserTrades::with('user')->where('status','Completed')->where('user_id',$userid)->orderBy('created_at','desc')->get();
             $total              = count($userTradeHistory);

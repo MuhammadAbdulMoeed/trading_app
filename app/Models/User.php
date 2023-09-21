@@ -48,4 +48,9 @@ class User extends Authenticatable
         // Count the number of users with a higher balance than the current user
         return self::where('user_balance', '>', $this->user_balance)->count() + 1;
     }
+
+    public function trades()
+    {
+        return $this->hasOne(UserTrades::class, 'id','user_id');
+    }
 }

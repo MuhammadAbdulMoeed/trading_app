@@ -28,7 +28,12 @@
 							<div class="header-tag-content-wrapper">
 								<div class="header-tag-stars">
 									<img src="{{asset('assets/imgs/group-stars.png')}}">
-                                    <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
+                                    @if(isset($user_type) && $user_type == 1)
+{{--                                        <p class="mb-0 mt-1" style="color:white;">{{$totalUsers}}</p>--}}
+                                    @else
+                                        <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
+                                    @endif
+
 								</div>
 								<div class="header-tag-content text-center">
 									<p class="mb-0">Join our trading challenge and have a chance at winning valuable prizes!</p>
@@ -103,8 +108,11 @@
 							<div class="star-wrapper">
 								<div class="star-content text-center">
 									<img src="assets/imgs/group-stars.png" class="img-fluid">
-									<!--<p class="mb-0 mt-1">8/279</p>-->
-                                    <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
+                                    @if(isset($user_type) && $user_type == 1)
+                                        <p class="mb-0 mt-1" style="color:white;">{{$totalUsers}}</p>
+                                    @else
+                                        <p class="mb-0 mt-1">{{$positions}}/{{$totalUsers}}</p>
+                                    @endif
 								</div>
 							</div>
 						</div>
@@ -170,7 +178,7 @@
                                                 <th scope="col">Position</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Current Balance</th>
-                                                <th scope="col"><span class="profit-td">Profit</span> / <span class="lost-td">Loss</span></th>
+                                                <th scope="col">Profit / Loss</th>
                                             </tr>
                                         @else
                                             <tr>
@@ -185,9 +193,28 @@
                                         @if(isset($userTradeHistory))
 
                                             @foreach($userTradeHistory as $history)
-
+                                                <?php
+                                                //dd($history->name);
+                                                ?>
                                                 @if(isset($user_type) && $user_type == 1)
-                                                <tr>
+                                                    <tr>
+                                                        <td>{{$loop->iteration}}</td>
+
+                                                        <td> {{$history->name ?? ""}}</td>
+
+                                                        <td> {{$history->user_balance ?? 0}}</td>
+
+                                                        @if($history->total_porfit_loss >= 0)
+                                                            <td class="profit-td">$ {{$history->total_porfit_loss}}</td>
+                                                        @else
+                                                            <td class="lost-td">$ {{$history->total_porfit_loss}}</td>
+                                                        @endif
+
+{{--                                                        <td> {{$history->created_at->format('d-M-y h:i:s')}}</td>--}}
+
+                                                    </tr>
+
+                                                {{--<tr>
                                                     <td class="trading-positin">#{{$loop->iteration}}</td>
                                                     <td>
                                                         @php
@@ -214,7 +241,7 @@
                                                     @else
                                                         <td class="lost-td">$ {{$history->trade_closing_amount}}</td>
                                                     @endif
-                                                </tr>
+                                                </tr>--}}
                                                 @else
                                                 <tr>
                                                     <td>{{$loop->iteration}}</td>
