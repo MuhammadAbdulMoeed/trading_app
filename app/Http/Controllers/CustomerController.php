@@ -284,8 +284,9 @@ class CustomerController extends Controller
             $activeTrade->final_amount          = round($final_amount,2);
             $activeTrade->save();
 
-            $user   =   User::find($userid);
-            $user->notify(new \App\Notifications\TradeEndMailNotification($user));
+            $user           =   User::find($userid);
+            $positions      = Auth::user()->getPosition();
+            $user->notify(new \App\Notifications\TradeEndMailNotification($user,$positions));
 
             return redirect()->route('dashboard')->withSuccess("Your Trade Completed successfully.");
 

@@ -11,12 +11,14 @@ class TradeEndMailNotification extends Notification
 {
     use Queueable;
     public $user;
+    public $position;
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user)
+    public function __construct(User $user,$position)
     {
         $this->user = $user;
+        $this->position = $position;
     }
 
     /**
@@ -36,11 +38,12 @@ class TradeEndMailNotification extends Notification
     {
         $mailData = [
             'name' => $this->user->name,
-            'email' => $this->user->email
+            'email' => $this->user->email,
+            'position' => $this->position
         ];
 
         return (new MailMessage)->markdown(
-            'email.welcome-user', ['mailData' => $mailData]
+            'email.trade-close', ['mailData' => $mailData]
         );
 
 //        return (new MailMessage)
