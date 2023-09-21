@@ -202,7 +202,7 @@
                                             <div class="trade-amount ">
                                                 <h4><sup>$</sup>
                                                     @if(isset($activeTrade))
-                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
+                                                        <span id="trade-rate">{{$activeTrade->active_rate->close_rate ?? 0}}</span>
                                                     @else
                                                         <span id="trade-rate">0.00</span>
                                                     @endif

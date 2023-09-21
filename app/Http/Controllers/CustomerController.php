@@ -38,8 +38,8 @@ class CustomerController extends Controller
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
-
-        $profit_loss_positive   = round(abs((float)$profit_loss),2);
+        $profit_loss_positive   = abs((float)$profit_loss);
+//        $profit_loss_positive   = round(abs((float)$profit_loss),2);
         //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
         //dd($trade_rates->close_rate);
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
@@ -67,7 +67,8 @@ class CustomerController extends Controller
         $profit_loss_positive   = 0;
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-            $profit_loss_positive   = round(abs((float)$profit_loss),2);
+//            $profit_loss_positive   = round(abs((float)$profit_loss),2);
+            $profit_loss_positive   = abs((float)$profit_loss);
         }
 
         //dd($activeTrade->active_rate->close_rate);
@@ -75,52 +76,6 @@ class CustomerController extends Controller
         return view('customer.graph_dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
 
     }
-
-    public function  refresh_rate()
-    {
-        $userid         = Auth::user()->id;
-        $closeRate      = "";
-        $profit_loss    = 0;
-        $trade_type     = "";
-        $data           = [];
-        $trade_rates    = OilRates::select('close_rate')->orderBy('created_at','desc')->first();
-        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
-
-        if(isset($activeTrade) && $activeTrade != null) {
-            $trade_type  = $activeTrade->trade_type;
-            $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-        }
-//dd($profit_loss);
-        $data['profit_loss']            = $profit_loss;
-        $data['profit_loss_positive']   = round(abs((float)$profit_loss),2);
-
-        $data['trade_type']             = $trade_type;
-
-        if(isset($trade_rates->close_rate)){
-            $closeRate                  = $trade_rates->close_rate;
-        }
-
-        $data['close_rate']             = round($closeRate,2);
-
-
-        return   $data;
-
-
-    }
-
-    /*public function  refresh()
-    {
-
-        $userid         = Auth::user()->id;
-        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
-        $profit_loss    = "";
-        if(isset($activeTrade) && $activeTrade != null) {
-            $profit_loss = ($activeTrade->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-        }
-
-        return   $profit_loss;
-
-    }*/
 
 
     public function trades_history() {
@@ -357,36 +312,41 @@ class CustomerController extends Controller
         //return view('admin.trades',compact('currentTradeData'));
     }
 
-    /*
 
-    public function calculateTradeProfitLoss($trade_type,$rate_start_id,$rate_end_id)
+    public function  refresh_rate()
     {
-        $startRate          = OilRates::where('id',$rate_start_id)->first();
-        $closeRate          = OilRates::where('id',$rate_end_id)->first();
-        $trade_final_effect = "";
+        $userid         = Auth::user()->id;
+        $closeRate      = "";
+        $profit_loss    = 0;
+        $trade_type     = "";
+        $data           = [];
+        $trade_rates    = OilRates::select('close_rate')->orderBy('created_at','desc')->first();
+        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
 
-        if(isset($startRate) && isset($closeRate)) {
-            if($trade_type == "Buy") {
-                $finalRate = ($closeRate->close - $startRate->close);
-                if( $finalRate > 0 ){
-                    $trade_final_effect = "Profit";
-                } else {
-                    $trade_final_effect = "Loss";
-                }
-            }
-            else if($trade_type == "Sell") {
-
-                $finalRate = ($closeRate->close - $startRate->close);
-
-                if($finalRate > 0) {
-                    $trade_final_effect = "Loss";
-                } else {
-                    $trade_final_effect = "Profit";
-                }
-            }
+        if(isset($activeTrade) && $activeTrade != null) {
+            $trade_type  = $activeTrade->trade_type;
+            $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
+
+        $data['profit_loss']            = $profit_loss;
+//        $data['profit_loss_positive']   = round(abs((float)$profit_loss),2);
+        $data['profit_loss_positive']   = abs((float)$profit_loss);
+
+        $data['trade_type']             = $trade_type;
+
+        if(isset($trade_rates->close_rate)){
+            $closeRate                  = $trade_rates->close_rate;
+        }
+
+        $data['close_rate']             = round($closeRate,2);
+
+
+        return   $data;
+
+
     }
 
-    */
+
+
 
 }
