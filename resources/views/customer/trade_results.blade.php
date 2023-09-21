@@ -51,7 +51,6 @@
 							<div class="trading-close-wrapper">
 								<div class="trading-close-content text-center">
 {{--									<h2>01:08:55</h2>--}}
-
                                     <div id="countdown">
                                         <h4 style="color: white;">
                                             <span id="hours"></span> : <span id="minutes"></span> : <span id="seconds"></span>

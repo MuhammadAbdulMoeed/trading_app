@@ -50,6 +50,7 @@ class CustomerController extends Controller
 
 
     public function graph() {
+
         $userid         = Auth::user()->id;
         $balance        = $this->userCurrentBalance($userid);
         $totalUsers     = User::where('user_type',0)->count();
@@ -81,7 +82,8 @@ class CustomerController extends Controller
         $positions      = Auth::user()->getPosition();
 
         if($user_type == 1) {
-            $userTradeHistory   = UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
+            $userTradeHistory   = User::select('user_balance')->orderBy('user_balance','desc')->get();
+//            $userTradeHistory   = UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
             $total              = count($userTradeHistory);
         } else {
             $userTradeHistory   = UserTrades::with('user')->where('status','Completed')->where('user_id',$userid)->orderBy('created_at','desc')->get();
@@ -91,6 +93,7 @@ class CustomerController extends Controller
         return view('customer.trade_results',compact(['balance','userTradeHistory','total','user_type','totalUsers','positions']));
 
     }
+
 
     public function trade_api_data(Request $request) {
 
@@ -150,6 +153,7 @@ class CustomerController extends Controller
 
             return redirect()->back()->withErrors("Your Balance is 0.");
         }
+
     }
 
     public function startNewSellTrade(Request $request) {
