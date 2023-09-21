@@ -46,21 +46,7 @@
         }
     }
     document.getElementById("initials2").textContent = initials2;
-   /*
-    function refreshData() {
-        $.ajax({
-            url: "{{ route('refresh.data') }}",
-            method: "GET",
-            success: function(response) {
-                // Update the content of the data container with the new data
-                $('#data-container').html(response);
-            }
-        });
-    }
-    // Refresh data every 5 seconds
-    setInterval(refreshData, 5000);
-    // Initial data load
-    refreshData();*/
+
 
 
      (function () {
