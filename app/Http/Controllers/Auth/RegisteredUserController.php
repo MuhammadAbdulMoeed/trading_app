@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\WelcomeMailNotification;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Validator;
+use Illuminate\Support\Facades\Notification;
 class RegisteredUserController extends Controller
 {
     /**
@@ -28,10 +30,9 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
     public function store(Request $request): RedirectResponse
     {
-
-        //dd($request->all());
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -48,22 +49,26 @@ class RegisteredUserController extends Controller
 
         $amount                 =   100000;
 
-        if($amount) {
-
+        if($amount){
             $user->user_balance = $amount;
-
             $user->save();
-
             $this->updateWallet($user->id, $amount, "profit", "Startup trade balance for new customer.");
         }
 
-//        $user->notify(new \App\Notifications\WelcomeMailNotification($user));
+        /*
 
+        try {
+//            $user->notify(new \App\Notifications\WelcomeMailNotification($user));
+//            or
+            Notification::send($user, new WelcomeMailNotification($user));
+        } catch (Exception $e) {
+            //return $e->getMessage();
+        }
+
+        */
 
         event(new Registered($user));
-
         Auth::login($user);
-
         return redirect(RouteServiceProvider::HOME);
 
     }

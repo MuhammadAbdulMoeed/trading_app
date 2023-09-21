@@ -38,10 +38,11 @@ class CustomerController extends Controller
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
-        $profit_loss_positive   = abs((float)$profit_loss);
-//        $profit_loss_positive   = round(abs((float)$profit_loss),2);
-        //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
-        //dd($trade_rates->close_rate);
+
+//        $profit_loss_positive   = abs((float)$profit_loss);
+
+        $profit_loss_positive   = round(abs((float)$profit_loss),2);
+
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
 
     }
@@ -49,29 +50,22 @@ class CustomerController extends Controller
 
 
     public function graph() {
-
         $userid         = Auth::user()->id;
         $balance        = $this->userCurrentBalance($userid);
-
         $totalUsers     = User::where('user_type',0)->count();
-
         $positions      = Auth::user()->getPosition();
 
-        //$trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
-
-        $trade_rates    = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','desc')->first();
-
-        $activeTrade    = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
-
-        $profit_loss    = 0;
+        //$trade_rates          = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','asc')->get();
+        $trade_rates            = OilRates::select('time_stamp','open_rate','high_rate','low_rate','close_rate','date','time')->orderBy('created_at','desc')->first();
+        $activeTrade            = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+        $profit_loss            = 0;
         $profit_loss_positive   = 0;
-        if(isset($activeTrade) && $activeTrade != null) {
-            $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-//            $profit_loss_positive   = round(abs((float)$profit_loss),2);
-            $profit_loss_positive   = abs((float)$profit_loss);
-        }
 
-        //dd($activeTrade->active_rate->close_rate);
+        if(isset($activeTrade) && $activeTrade != null) {
+            $profit_loss            = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
+            $profit_loss_positive   = round(abs((float)$profit_loss),2);
+//            $profit_loss_positive   = abs((float)$profit_loss);
+        }
 
         return view('customer.graph_dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
 
@@ -87,17 +81,15 @@ class CustomerController extends Controller
         $positions      = Auth::user()->getPosition();
 
         if($user_type == 1) {
-
-            $userTradeHistory       =   UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
-            $total                  =   count($userTradeHistory);
-
+            $userTradeHistory   = UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
+            $total              = count($userTradeHistory);
         } else {
-
-            $userTradeHistory       =   UserTrades::with('user')->where('status','Completed')->where('user_id',$userid)->orderBy('created_at','desc')->get();
-            $total                  =   count($userTradeHistory);
+            $userTradeHistory   = UserTrades::with('user')->where('status','Completed')->where('user_id',$userid)->orderBy('created_at','desc')->get();
+            $total              = count($userTradeHistory);
         }
 
         return view('customer.trade_results',compact(['balance','userTradeHistory','total','user_type','totalUsers','positions']));
+
     }
 
     public function trade_api_data(Request $request) {
@@ -113,10 +105,8 @@ class CustomerController extends Controller
         } else {
             $endDate   =  now()->endOfDay()->toDateString(); // Sets the end date to the end of today
         }
-
 //        $trade_rates   =  OilRates::whereBetween('date', [$startDate, $endDate])->orderBy('created_at','asc')->get();
         $trade_rates   =  OilRates::select('time_stamp','open_rate as open','high_rate as high','low_rate as low','close_rate as close')->orderBy('created_at','asc')->get()->toArray();
-
         // Convert the associative array to a simple array of values
         $resArray = array_map(function ($item) {
             //$old = $item['time_stamp'];
@@ -124,7 +114,6 @@ class CustomerController extends Controller
             //dd($old,$item);
             return array_values($item);
         }, $trade_rates);
-
 
         return json_encode($resArray);
 
@@ -138,66 +127,54 @@ class CustomerController extends Controller
         $balance            = $this->userCurrentBalance($userid);
 
         if($balance > 0) {
+
             $oldActiveTrade = UserTrades::where('user_id', $userid)->where('status', "Active")->first();
 
             if (!isset($oldActiveTrade) || $oldActiveTrade == null) {
-
                 if (isset($request->amount) && $request->amount > $balance) {
                     return redirect()->back()->withErrors("Low Balance ,Invalid trade amount.");
                 } else if (isset($request->amount) && $request->amount <= $balance) {
-                    $balance = $request->amount;
+                    $balance    = $request->amount;
                 }
-
                 $investedAmount = $balance;
-
-                $tradeRateData = OilRates::orderby('created_at', 'desc')->first();
-
-                $barrels = round(($investedAmount / $tradeRateData->close_rate), 2);
-
+                $tradeRateData  = OilRates::orderby('created_at', 'desc')->first();
+                $barrels        = round(($investedAmount / $tradeRateData->close_rate), 2);
                 $this->saveTrade($investedAmount, $tradeRateData->id, "Buy", $barrels);
-
                 return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
 
             } else {
-
                 return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
             }
-        }else{
+
+        } else {
+
             return redirect()->back()->withErrors("Your Balance is 0.");
         }
-
-        //return view('admin.trades',compact('rateData'));
     }
 
     public function startNewSellTrade(Request $request) {
 
-        $userid             = Auth::user()->id;
-        $balance            = $this->userCurrentBalance($userid);
-        if($balance > 0) {
-            $oldActiveTrade = UserTrades::where('user_id', $userid)->where('status', "Active")->first();
-            //dd($oldActiveTrade);
-            if (!isset($oldActiveTrade) && $oldActiveTrade == null) {
+        $userid                 = Auth::user()->id;
+        $balance                = $this->userCurrentBalance($userid);
 
+        if($balance > 0) {
+
+            $oldActiveTrade     = UserTrades::where('user_id', $userid)->where('status', "Active")->first();
+            if (!isset($oldActiveTrade) && $oldActiveTrade == null) {
                 if (isset($request->amount) && $request->amount > $balance) {
                     return redirect()->back()->withErrors("Invalid Amount.");
                 } else if (isset($request->amount) && $request->amount <= $balance) {
-                    $balance = $request->amount;
+                    $balance    = $request->amount;
                 }
-
                 $investedAmount = round($balance, 2);
-
                 $tradeRateData = OilRates::orderby('created_at', 'desc')->first();
-
                 $barrels = round(($investedAmount / $tradeRateData->close_rate), 2);
-
                 $this->saveTrade($investedAmount, $tradeRateData->id, "Sell", $barrels);
-
                 return redirect()->route('dashboard')->withSuccess("Trade starts successfully.");
 
             } else {
                 return redirect()->back()->withErrors("You have already active trade, close first before start new trade.");
             }
-
         } else {
             return redirect()->back()->withErrors("Your Balance is 0.");
         }
@@ -314,8 +291,8 @@ class CustomerController extends Controller
         }
 
         $data['profit_loss']            = $profit_loss;
-//        $data['profit_loss_positive']   = round(abs((float)$profit_loss),2);
-        $data['profit_loss_positive']   = abs((float)$profit_loss);
+        $data['profit_loss_positive']   = round(abs((float)$profit_loss),2);
+//        $data['profit_loss_positive']   = abs((float)$profit_loss);
 
         $data['trade_type']             = $trade_type;
 
