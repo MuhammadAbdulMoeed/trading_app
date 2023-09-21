@@ -5,7 +5,7 @@
     Name: {{ $mailData['name'] }}
     Email: {{ $mailData['email'] }}
 
-    Visit Site Here :  http://phplaravel-1098145-3891736.cloudwaysapps.com
+    Visit Site Here :  https://contest.iv-capital.com/
 
     Thanks
 
