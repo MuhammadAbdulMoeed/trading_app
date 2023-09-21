@@ -283,7 +283,8 @@ body{
 .btn-tradeer.btn-close-trade-buy{
     background: #054214;
     border-bottom: 3px solid #054214;
-}.btn-tradeer.btn-close-trade-sell{
+}
+.btn-tradeer.btn-close-trade-sell{
      background: #4A0808;
      border-bottom: 3px solid #4A0808;
  }
