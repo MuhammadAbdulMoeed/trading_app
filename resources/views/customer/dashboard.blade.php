@@ -387,6 +387,13 @@
             background: blue;
             border-bottom: 3px solid blue;
         }
+        .btn-tradeer.btn-close-trade-buy{
+            background: #054214;
+            border-bottom: 3px solid #054214;
+        }.btn-tradeer.btn-close-trade-sell{
+             background: #4A0808;
+             border-bottom: 3px solid #4A0808;
+         }
         @media(min-width:320px) and (max-width:767px){
             /*.trade-amount h4{*/
             /*    text-align: left;*/
