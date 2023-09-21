@@ -8,5 +8,5 @@
 
     Thanks
 
-    {{ config('app.name') }}
+    Team {{ config('app.name') }}
 @endcomponent

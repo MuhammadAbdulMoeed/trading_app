@@ -18,6 +18,7 @@ class Controller extends BaseController
     {
 
         $user               = Auth::user();
+
         $payment_type       = "credit";
 
         if($trade_value == "Profit" || $trade_value == "profit")
@@ -59,6 +60,7 @@ class Controller extends BaseController
         }
 
         return $current_balance;
+
     }
 
     public function userCurrentBalance($user_id) {

@@ -49,15 +49,16 @@ class RegisteredUserController extends Controller
 
         $amount                 =   100000;
 
-        if($amount){
+        if($amount) {
             $user->user_balance = $amount;
             $user->save();
             $this->updateWallet($user->id, $amount, "profit", "Startup trade balance for new customer.");
         }
 
-        /*
 
-        try {
+
+        try
+        {
 //            $user->notify(new \App\Notifications\WelcomeMailNotification($user));
 //            or
             Notification::send($user, new WelcomeMailNotification($user));
@@ -65,7 +66,7 @@ class RegisteredUserController extends Controller
             //return $e->getMessage();
         }
 
-        */
+
 
         event(new Registered($user));
         Auth::login($user);

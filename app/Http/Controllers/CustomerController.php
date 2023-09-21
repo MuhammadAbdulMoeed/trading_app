@@ -136,6 +136,7 @@ class CustomerController extends Controller
             $item =  array($item['time_stamp'] *1000,$item['open'],$item['high'],$item['low'],$item['close']);
             //dd($old,$item);
             return array_values($item);
+
         }, $trade_rates);
 
         return json_encode($resArray);
@@ -283,10 +284,8 @@ class CustomerController extends Controller
             $activeTrade->final_amount          = round($final_amount,2);
             $activeTrade->save();
 
-           /*
             $user   =   User::find($userid);
             $user->notify(new \App\Notifications\TradeEndMailNotification($user));
-           */
 
             return redirect()->route('dashboard')->withSuccess("Your Trade Completed successfully.");
 
