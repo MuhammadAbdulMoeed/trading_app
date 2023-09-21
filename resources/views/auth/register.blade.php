@@ -7,8 +7,12 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" href="{{asset('assets/js/vendor/chosen/chosen.css')}}" />
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
+	<link rel="icon" href="{{asset('assets/imgs/fav.png')}}" />
+	<link rel="apple-touch-icon" href="{{asset('assets/imgs/fav.png')}}" />
 </head>
 <body>
+
+	
 
 	<main>
 		<section class="auth-header-wrapper">
@@ -183,6 +187,7 @@
 		disable_search:true,
 	});
 </script>
+
 
 
 <script>

@@ -7,6 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <link href="{{asset('admin-assets/css/toastr.css')}}" rel="stylesheet">
+    <link rel="icon" href="{{asset('assets/imgs/fav.png')}}" />
+    <link rel="apple-touch-icon" href="{{asset('assets/imgs/fav.png')}}" />
 </head>
 <body>
 
