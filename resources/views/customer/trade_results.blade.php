@@ -70,9 +70,9 @@
                                     <li>
                                         <a class="dropdown-item"  href="{{route('dashboard')}}">Dashboard</a>
                                     </li>
-                                    <li>
+                                    {{--<li>
                                         <a class="dropdown-item"  href="{{route('graph')}}">Graph Dashboard</a>
-                                    </li>
+                                    </li>--}}
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
@@ -123,9 +123,9 @@
                                     <li>
                                         <a class="dropdown-item"  href="{{route('dashboard')}}">Trades Dashboard</a>
                                     </li>
-                                    <li>
+                                    {{--<li>
                                         <a class="dropdown-item"  href="{{route('graph')}}">Graph Dashboard</a>
-                                    </li>
+                                    </li>--}}
                                     <li>
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf

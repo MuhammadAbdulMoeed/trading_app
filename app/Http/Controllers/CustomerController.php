@@ -39,7 +39,7 @@ class CustomerController extends Controller
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
         }
 
-        $profit_loss_positive   = abs((float)$profit_loss);
+        $profit_loss_positive   = round(abs((float)$profit_loss),2);
         //dd($profit_loss,$trade_rates->close_rate ,$activeTrade->active_rate->close_rate ,$activeTrade->total_barrels);
         //dd($trade_rates->close_rate);
         return view('customer.dashboard',compact(['balance','trade_rates','activeTrade','totalUsers','positions','profit_loss','profit_loss_positive']));
@@ -67,7 +67,7 @@ class CustomerController extends Controller
         $profit_loss_positive   = 0;
         if(isset($activeTrade) && $activeTrade != null) {
             $profit_loss = ($trade_rates->close_rate - $activeTrade->active_rate->close_rate) * $activeTrade->total_barrels;
-            $profit_loss_positive   = abs((float)$profit_loss);
+            $profit_loss_positive   = round(abs((float)$profit_loss),2);
         }
 
         //dd($activeTrade->active_rate->close_rate);
@@ -92,7 +92,7 @@ class CustomerController extends Controller
         }
 //dd($profit_loss);
         $data['profit_loss']            = $profit_loss;
-        $data['profit_loss_positive']   = abs((float)$profit_loss);
+        $data['profit_loss_positive']   = round(abs((float)$profit_loss),2);
 
         $data['trade_type']             = $trade_type;
 
@@ -100,7 +100,7 @@ class CustomerController extends Controller
             $closeRate                  = $trade_rates->close_rate;
         }
 
-        $data['close_rate']             = $closeRate;
+        $data['close_rate']             = round($closeRate,2);
 
 
         return   $data;
@@ -296,14 +296,6 @@ class CustomerController extends Controller
                 //formula 1
                 $tradeResult = ($currentRate - $initialRate) * $barrels;
 
-                //formula 2
-               /*
-                $standard_contract_size  = 1000;    // Note default NYMEX barrel size = 1000
-                $total_contracts         = 1000/$barrels;
-                $tradeResult             = ($currentRate - $initialRate) * $total_contracts * $standard_contract_size;
-               */
-
-
                 if( $tradeResult > 0 ){
                     $trade_final_effect = "Profit";
                     $profitLossAmount   = abs($tradeResult);
@@ -321,23 +313,17 @@ class CustomerController extends Controller
                 //formula 1
                 $tradeResult = ($currentRate - $initialRate) * $barrels;
 
-                //formula 2
-                /*$standard_contract_size  = 1000;    // Note default NYMEX barrel size = 1000
-                $total_contracts         = 1000/$barrels;
-                $tradeResult             = ($currentRate - $initialRate) * $total_contracts * $standard_contract_size;*/
-
-
                 if( $tradeResult < 0 ) {
 
                     $trade_final_effect = "Profit";
                     $profitLossAmount   = abs($tradeResult);
-                    $final_amount       = $balance + abs($tradeResult);
+                    $final_amount       = $balance + $profitLossAmount;
 
                 } else {
 
                     $trade_final_effect = "Loss";
                     $profitLossAmount   = abs($tradeResult);
-                    $final_amount       = $balance - abs($tradeResult);
+                    $final_amount       = $balance - $profitLossAmount;
 
                 }
             }
