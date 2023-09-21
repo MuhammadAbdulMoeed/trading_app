@@ -100,7 +100,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-2">
+						<div class="col-3">
 							<div class="star-wrapper">
 								<div class="star-content text-center">
 									<img src="assets/imgs/group-stars.png" class="img-fluid">
