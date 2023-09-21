@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
+	<title>Trade Results</title>
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <link href="{{asset('admin-assets/css/toastr.css')}}" rel="stylesheet">
@@ -89,6 +89,7 @@
 					</div>
 				</div>
 			</section>
+
 			<section class="mobile-header-wrapper d-sm-block d-block d-md-block d-lg-none">
 				<div class="container">
 					<div class="row align-items-center gx-2" >
@@ -153,6 +154,7 @@
 					</div>
 				</div>
 			</section>
+
 		</section>
 
 		<!-- Table Wrapper -->
@@ -169,13 +171,13 @@
                                                 <th scope="col">Position</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Current Balance</th>
-                                                <th scope="col">Profit / Loss</th>
+                                                <th scope="col"><span class="profit-td">Profit</span> / <span class="lost-td">Loss</span></th>
                                             </tr>
                                         @else
                                             <tr>
                                                 <th scope="col">Sr.#</th>
                                                 <th scope="col">Remaining Balance</th>
-                                                <th scope="col">Profit / Loss</th>
+                                                <th scope="col"><span class="profit-td">Profit</span> / <span class="lost-td">Loss</span></th>
                                                 <th scope="col">Date</th>
                                             </tr>
                                         @endif
@@ -190,34 +192,28 @@
                                                     <td class="trading-positin">#{{$loop->iteration}}</td>
                                                     <td>
                                                         @php
-                                                        //dd($history->user->name);
                                                             $string     = $history->user->name ?? "";
                                                             // Split the string by space
                                                             $parts      =  explode(' ', $string);
-
                                                             if (count($parts) >= 2) {
                                                                 // Take the first part as is
                                                                 $before_space = $parts[0];
-
                                                                 // Take the first character from the second part
                                                                 $after_space = substr($parts[1], 0, 1);
-
                                                                 // Combine the results
                                                                 $result = $before_space . ' ' . $after_space;
                                                             } else {
                                                                 // Handle cases where there's no space in the string
                                                                 $result = $string;
                                                             }
-
                                                         @endphp
-
                                                         {{$result}}
                                                     </td>
                                                     <td> $ {{round($history->final_amount,2)}}</td>
                                                     @if($history->trade_final_effect == "Profit")
-                                                        <td class="profit-td">@$ +{{$history->trade_closing_amount}}</td>
+                                                        <td class="profit-td">$ {{$history->trade_closing_amount}}</td>
                                                     @else
-                                                        <td class="lost-td">@$ -{{$history->trade_closing_amount}}</td>
+                                                        <td class="lost-td">$ {{$history->trade_closing_amount}}</td>
                                                     @endif
                                                 </tr>
                                                 @else
@@ -227,9 +223,9 @@
                                                     <td>$ {{round($history->final_amount)}}</td>
 
                                                     @if($history->trade_final_effect == "Profit")
-                                                        <td class="profit-td">@$ +{{$history->trade_closing_amount}}</td>
+                                                        <td class="profit-td">$ {{$history->trade_closing_amount}}</td>
                                                     @else
-                                                        <td class="lost-td">@$ - {{$history->trade_closing_amount}}</td>
+                                                        <td class="lost-td">$ {{$history->trade_closing_amount}}</td>
                                                     @endif
 
                                                     <td> {{$history->created_at->format('d-M-y h:i:s')}}</td>
@@ -249,8 +245,8 @@
 	</main>
 
 	<script src="{{asset('assets/js/jquery.min.js')}}"></script>
-	<script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
+    <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
 
     <script type="text/javascript">
 
@@ -258,20 +254,19 @@
         // const words = name.textContent;
         // const letters = words.split(" ");
         // let initials = "";
-        //
+
         // for (const word of letters) {
         //     if (word.length > 0) {
         //         initials += word.charAt(0);
         //     }
         // }
         // document.getElementById("initials").textContent = initials;
-        //
-        //
+
         // const name2 = document.getElementById("initials2");
         // const words2 = name2.textContent;
         // const letters2 = words2.split(" ");
         // let initials2 = "";
-        //
+
         // for (const word2 of letters2) {
         //     if (word2.length > 0) {
         //         initials2 += word2.charAt(0);
@@ -279,8 +274,10 @@
         // }
         // document.getElementById("initials2").textContent = initials2;
 
-        </script>
+    </script>
 
     @include('customer.js')
+
 </body>
+
 </html>
