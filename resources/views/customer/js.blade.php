@@ -22,30 +22,30 @@
     errorMsg("{{Session::get('error')}}");
     @endif
 
-    const name = document.getElementById("initials");
-    const words = name.textContent;
-    const letters = words.split(" ");
-    let initials = "";
+    // const name = document.getElementById("initials");
+    // const words = name.textContent;
+    // const letters = words.split(" ");
+    // let initials = "";
 
-    for (const word of letters) {
-        if (word.length > 0) {
-            initials += word.charAt(0);
-        }
-    }
+    // for (const word of letters) {
+    //     if (word.length > 0) {
+    //         initials += word.charAt(0);
+    //     }
+    // }
 
-    document.getElementById("initials").textContent = initials;
+    // document.getElementById("initials").textContent = initials;
 
-    const name2 = document.getElementById("initials2");
-    const words2 = name2.textContent;
-    const letters2 = words2.split(" ");
-    let initials2 = "";
+    // const name2 = document.getElementById("initials2");
+    // const words2 = name2.textContent;
+    // const letters2 = words2.split(" ");
+    // let initials2 = "";
 
-    for (const word2 of letters2) {
-        if (word2.length > 0) {
-            initials2 += word2.charAt(0);
-        }
-    }
-    document.getElementById("initials2").textContent = initials2;
+    // for (const word2 of letters2) {
+    //     if (word2.length > 0) {
+    //         initials2 += word2.charAt(0);
+    //     }
+    // }
+    // document.getElementById("initials2").textContent = initials2;
 
 
      (function () {

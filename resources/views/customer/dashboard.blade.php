@@ -70,8 +70,8 @@
                         </div>
                         <div class="col-lg-1">
                             <div class="btn-group">
-                                <button type="button" id="initials" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Action md
+                                <button type="button" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{asset('assets/imgs/menu.png')}}" class="img-fluid">
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -123,8 +123,8 @@
                         </div>
                         <div class="col-2">
                             <div class="btn-group">
-                                <button type="button" id="initials2" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Action md
+                                <button type="button" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{asset('assets/imgs/menu.png')}}" class="img-fluid">
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>

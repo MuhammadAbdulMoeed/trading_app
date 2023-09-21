@@ -69,8 +69,8 @@
                         <div class="col-lg-1">
                             {{--<div class="trading-close-wrapper">--}}
                             <div class="btn-group">
-                                <button type="button" id="initials" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Action md
+                                <button type="button" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="{{asset('assets/imgs/menu.png')}}" class="img-fluid">
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -104,7 +104,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-2">
+						<div class="col-3">
 							<div class="star-wrapper">
 								<div class="star-content text-center">
 									<img src="assets/imgs/group-stars.png" class="img-fluid">
@@ -126,8 +126,8 @@
 						</div>
                         <div class="col-2">
                             <div class="btn-group">
-                                <button type="button" id="initials2" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Action md
+                                <button type="button" class="NavLetters" data-bs-toggle="dropdown" aria-expanded="false">
+                                   <img src="{{asset('assets/imgs/menu.png')}}" class="img-fluid">
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
