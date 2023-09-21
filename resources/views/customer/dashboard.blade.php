@@ -180,12 +180,12 @@
 
                                 <div class="trader-card">
                                     <div class="row mb-3">
-                                        <div class="col-lg-6">
+                                        <div class="col-6">
                                             <div class="trade-result">
                                                 <h2>Current Rate</h2>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-6">
                                             <div class="trade-amount text-end">
                                                 <h4><sup>$</sup> <span id="current_rate">{{ round($trade_rates->close_rate,2) ?? 0}} </span>
                                                 </h4>
@@ -193,16 +193,16 @@
                                         </div>
                                     </div>
                                     <div class="row mb-3">
-                                        <div class="col-lg-6">
+                                        <div class="col-6">
                                             <div class="trade-result">
                                                 <h2>Your Trade</h2>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-6">
                                             <div class="trade-amount ">
                                                 <h4><sup>$</sup>
                                                     @if(isset($activeTrade))
-                                                        <span id="trade-rate">{{$activeTrade->active_rate->close_rate ?? 0}}</span>
+                                                        <span id="trade-rate">{{round($activeTrade->active_rate->close_rate,2) ?? 0}}</span>
                                                     @else
                                                         <span id="trade-rate">0.00</span>
                                                     @endif
@@ -267,9 +267,9 @@
                                                         <div class="col-12 mt-3">
                                                             <div>
                                                                 @if($activeTrade->trade_type == "Buy")
-                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-close-trade text-center">Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a>
+                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-close-trade-buy text-center">Close {{$activeTrade->trade_type ?? "Buy"}} Trade</a>
                                                                 @elseif($activeTrade->trade_type == "Sell")
-                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-close-trade text-center">Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a>
+                                                                      <a href="{{url('/close_trade')}}" class="btn-tradeer btn-close-trade-sell text-center">Close {{$activeTrade->trade_type ?? "Sell"}} Trade</a>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -343,6 +343,7 @@
             padding: 5px;
              font-size: 30px;
              margin-bottom: 0px;
+            word-break: break-all;
             white-space:unset !important;
         }
         .trade-amount h4 sup{
@@ -376,6 +377,7 @@
             margin-bottom: 0px;
             font-size: 20px;
             font-weight: 500;
+            word-break: break-all;
         }
         .balance-amount-content p sup{
             color: green;
@@ -386,9 +388,9 @@
             border-bottom: 3px solid blue;
         }
         @media(min-width:320px) and (max-width:767px){
-            .trade-amount h4{
-                text-align: left;
-            }
+            /*.trade-amount h4{*/
+            /*    text-align: left;*/
+            /*}*/
             .trade-result h2{
                 font-size: 20px;
             }
@@ -428,7 +430,50 @@
             });
         });
 
-        /*const name = document.getElementById("initials");
+
+        function refreshRate() {
+
+            $.ajax({
+
+                url: "{{ route('refresh_rate.data') }}",
+
+                method: "GET",
+                success: function(response) {
+                    //alert(response.close_rate);
+                    // Update the content of the data container with the new data
+                    $('#current_rate').html(response.close_rate);
+
+                    if(response.profit_loss != "")
+                    {
+                        var profitLoss = response.profit_loss;
+                        // $('.profitval').html(response.close_rate);
+                        console.log(profitLoss);
+                        if(response.trade_type == "Buy" && profitLoss < 0) {
+                            var positiveValue = response.profit_loss_positive;
+                            $('#buy_lose').html('('+positiveValue+')');
+                        } else if(response.trade_type == "Buy" && profitLoss >= 0) {
+                            var positiveValue = response.profit_loss_positive;
+                            $('#buy_profit').html('('+positiveValue+')');
+                        } else if(response.trade_type == "Sell" && profitLoss < 0) {
+                            var positiveValue = response.profit_loss_positive;
+                            $('#sell_profit').html('('+positiveValue+')');
+                        } else if(response.trade_type == "Sell" && profitLoss >= 0) {
+                            var positiveValue = response.profit_loss_positive;
+                            $('#sell_lose').html('('+positiveValue+')');
+                        }
+                    }
+                }
+            });
+        }
+        // Refresh data every 5 seconds
+        setInterval(refreshRate, 10000);
+        // Initial data load
+        refreshRate();
+
+
+        /*
+
+        const name = document.getElementById("initials");
         const words = name.textContent;
         const letters = words.split(" ");
         let initials = "";
@@ -451,7 +496,10 @@
                 initials2 += word2.charAt(0);
             }
         }
-        document.getElementById("initials2").textContent = initials2;*/
+        document.getElementById("initials2").textContent = initials2;
+
+
+        */
 
     </script>
 

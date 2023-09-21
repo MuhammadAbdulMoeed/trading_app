@@ -48,7 +48,6 @@
     document.getElementById("initials2").textContent = initials2;
 
 
-
      (function () {
             const second = 1000,
                 minute = second * 60,
@@ -104,11 +103,16 @@
                     clearInterval(x);
                 }
             }, 0);
-        })();
+     })();
+
+    /*
 
     function refreshRate() {
+
         $.ajax({
+
             url: "{{ route('refresh_rate.data') }}",
+
             method: "GET",
             success: function(response) {
                 //alert(response.close_rate);
@@ -134,12 +138,16 @@
                         $('#sell_lose').html('('+positiveValue+')');
                     }
                 }
-
             }
         });
     }
+
     // Refresh data every 5 seconds
     setInterval(refreshRate, 10000);
+
     // Initial data load
     refreshRate();
+
+    */
+
 </script>
