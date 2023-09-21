@@ -42,7 +42,7 @@ class TradeEndMailNotification extends Notification
             'position' => $this->position
         ];
 
-        return (new MailMessage)->markdown(
+        return (new MailMessage)->subject('IV-Capital Close Trade Position')->markdown(
             'email.trade-close', ['mailData' => $mailData]
         );
 

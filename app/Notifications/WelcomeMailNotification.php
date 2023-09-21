@@ -40,7 +40,7 @@ class WelcomeMailNotification extends Notification
             'positions'  => $this->user->getPosition()
         ];
 
-        return (new MailMessage)->markdown(
+        return (new MailMessage)->subject('Welcome To IV-Capital')->markdown(
             'email.welcome-user', ['mailData' => $mailData]
         );
 
