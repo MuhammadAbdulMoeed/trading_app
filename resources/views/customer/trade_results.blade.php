@@ -194,7 +194,7 @@
 
                                             @foreach($userTradeHistory as $history)
                                                 <?php
-                                                //dd($history->name);
+                                                    $totalProfitLoss = ($history->total_profit - $history->total_loss);
                                                 ?>
                                                 @if(isset($user_type) && $user_type == 1)
                                                     <tr>
@@ -204,10 +204,10 @@
 
                                                         <td> {{$history->user_balance ?? 0}}</td>
 
-                                                        @if($history->total_porfit_loss >= 0)
-                                                            <td class="profit-td">$ {{$history->total_porfit_loss}}</td>
+                                                        @if($totalProfitLoss >= 0)
+                                                            <td class="profit-td">$ {{$totalProfitLoss}}</td>
                                                         @else
-                                                            <td class="lost-td">$ {{$history->total_porfit_loss}}</td>
+                                                            <td class="lost-td">$ {{$totalProfitLoss}}</td>
                                                         @endif
 
 {{--                                                        <td> {{$history->created_at->format('d-M-y h:i:s')}}</td>--}}

@@ -83,7 +83,18 @@ class CustomerController extends Controller
 
         if($user_type == 1) {
 
-            /*$userTradeHistory   =  DB::table('users')
+            $userTradeHistory = User::leftJoin('user_trades', 'users.id', '=', 'user_trades.user_id')
+                ->select('users.id', 'users.name', 'users.user_balance',
+                    DB::raw('SUM(CASE WHEN user_trades.trade_final_effect = "Profit" THEN user_trades.trade_closing_amount ELSE 0 END) as total_profit'),
+                    DB::raw('SUM(CASE WHEN user_trades.trade_final_effect = "Loss" THEN user_trades.trade_closing_amount ELSE 0 END) as total_loss')
+                )
+                ->where('users.user_type', 0)
+                ->groupBy('users.id', 'users.name', 'users.user_balance')
+                ->orderByDesc('users.user_balance')
+                ->get();
+
+            /*
+            $userTradeHistory   =  DB::table('users')
                 ->select('id', 'name', 'user_balance')
                 ->where('user_type',0)
                 ->orderByDesc('user_balance') // Order users by balance in descending order
@@ -91,22 +102,18 @@ class CustomerController extends Controller
                 ->from(DB::raw('(SELECT @position := 0) AS position, users'))
                 ->get();*/
 
-            $userTradeHistory = User::leftJoin('user_trades', 'users.id', '=', 'user_trades.user_id')
-                ->select('users.id', 'users.name','users.user_balance', DB::raw('SUM(user_trades.trade_closing_amount) as total_porfit_loss'))
-                ->where('users.user_type',0)
-                ->groupBy('users.id', 'users.name','users.user_balance')
-                ->orderBy('users.user_balance','Desc')
-                ->get();
 
 //            $userTradeHistory   = User::with('trades')->select('id','name','user_balance')->where('user_type',0)->orderBy('user_balance','desc')->get();
 //
 //           $userTradeHistory   = UserTrades::where('status','Completed')->orderBy('trade_closing_amount','desc')->get();
-//            dd($userTradeHistory,$usersWithTransactionSum);
+//dd($userTradeHistory);
 
             $total              = count($userTradeHistory);
 
         } else {
+
             $userTradeHistory   = UserTrades::with('user')->where('status','Completed')->where('user_id',$userid)->orderBy('created_at','desc')->get();
+
             $total              = count($userTradeHistory);
         }
 
@@ -117,21 +124,26 @@ class CustomerController extends Controller
 
     public function trade_api_data(Request $request) {
 
-        if(isset($request->startDate) && $request->startDate != null) {
+        /*
+        if (isset($request->startDate) && $request->startDate != null) {
             $startDate  =  $request->startDate;
         } else {
             $startDate  =  now()->toDateString(); // Sets the start date to today
         }
 
-        if(isset($request->endDate) && $request->endDate != null) {
-            $endDate   =  $request->endDate;
+        if (isset($request->endDate) && $request->endDate != null) {
+            $endDate    =  $request->endDate;
         } else {
-            $endDate   =  now()->endOfDay()->toDateString(); // Sets the end date to the end of today
+            $endDate    =  now()->endOfDay()->toDateString(); // Sets the end date to the end of today
         }
-//        $trade_rates   =  OilRates::whereBetween('date', [$startDate, $endDate])->orderBy('created_at','asc')->get();
-        $trade_rates   =  OilRates::select('time_stamp','open_rate as open','high_rate as high','low_rate as low','close_rate as close')->orderBy('created_at','asc')->get()->toArray();
+
+        $trade_rates    =  OilRates::whereBetween('date', [$startDate, $endDate])->orderBy('created_at','asc')->get();
+
+        */
+
+        $trade_rates    =  OilRates::select('time_stamp','open_rate as open','high_rate as high','low_rate as low','close_rate as close')->orderBy('created_at','asc')->get()->toArray();
         // Convert the associative array to a simple array of values
-        $resArray = array_map(function ($item) {
+        $resArray       = array_map(function ($item) {
             //$old = $item['time_stamp'];
             $item =  array($item['time_stamp'] *1000,$item['open'],$item['high'],$item['low'],$item['close']);
             //dd($old,$item);
@@ -139,7 +151,9 @@ class CustomerController extends Controller
 
         }, $trade_rates);
 
+
         return json_encode($resArray);
+
 
     }
 
@@ -204,7 +218,6 @@ class CustomerController extends Controller
             return redirect()->back()->withErrors("Your Balance is 0.");
         }
 
-        //return view('admin.trades',compact('rateData'));
     }
 
 
@@ -237,9 +250,9 @@ class CustomerController extends Controller
 
         if(isset($activeTrade) && $activeTrade !=  null)
         {
+
             $startRateData      = OilRates::where('id',$activeTrade->trade_start_rate_id)->first();
             $initialRate        = $startRateData->close_rate;
-
             //$result           = $this->calculateTradeProfitLoss($activeTrade->trade_type, $activeTrade->trade_start_rate_id, $tradeRateData->id);
             $trade_final_effect = "";
             $tradeResult        = 0;
