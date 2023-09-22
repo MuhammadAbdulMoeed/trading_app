@@ -12,7 +12,7 @@
 </head>
 <body>
 
-	
+
 
 	<main>
 		<section class="auth-header-wrapper">
@@ -107,7 +107,7 @@
 								<label class="d-block mb-0 withpad">Age Group</label>
 								<select name="age_group" class="chzn-select" id="ageGroup">
 								  <option value="">Select Age Group</option>
-								  <option value="8-25 years old">8-25 years old</option>
+								  <option value="18-25 years old">18-25 years old</option>
 								  <option value="26-35 years old">26-35 years old</option>
 								  <option value="36-45+ years old">36-45+ years old</option>
 								</select>
