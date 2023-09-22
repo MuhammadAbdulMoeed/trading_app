@@ -30,6 +30,8 @@ class AllTradeEnds extends Command
      */
     public function handle()
     {
+        //\Log::info("Cron Starts!");
+        $this->info('Trade Ends Command executed successfully.');
         // Create an instance of your controller
         $controller = new Controller();
 
@@ -102,7 +104,9 @@ class AllTradeEnds extends Command
                     $user->notify(new \App\Notifications\TradeEndMailNotification($user, $position));
                 }
             }
+
+            //dd("All Trades Ends and Emails Sends to all by their positions");
         }
-        //dd("All Trades Ends and Emails Sends to all by their positions");
+        //dd("No Active trade Found");
     }
 }
