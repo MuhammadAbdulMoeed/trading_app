@@ -37,10 +37,7 @@ class updateTradeRates extends Command
 
         $access_key = 'qygwrfvc09f98872k88vvwgt5t8zfkp5tiqtcrxgfj1zj9917tk8q7suon7x';
 
-//        $currency   = 'USD';
-//        $symbol     = 'WTIOIL';
         // Initialize CURL:
-//        $ch = curl_init('https://commodities-api.com/api/'.$endpoint.'?access_key='.$access_key.'&base='.$currency.'&symbols='.$symbol);
 
         $ch = curl_init('https://commodities-api.com/api/'.$endpoint.'?access_key='.$access_key.'&base=USD&symbols=WTIOIL');
 

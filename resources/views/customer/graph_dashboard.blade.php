@@ -126,15 +126,12 @@
                                 <img src="{{asset('assets/imgs/menu.png')}}" class="img-fluid">
                             </button>
                             <ul class="dropdown-menu">
-
                                 <li>
                                     <a class="dropdown-item"  href="{{route('dashboard')}}">Dashboard</a>
                                 </li>
-
                                 <li>
                                     <a class="dropdown-item"  href="{{route('trade_results')}}">Trades History</a>
                                 </li>
-
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
@@ -154,7 +151,7 @@
                             <span id="hours1"></span> : <span id="minutes1"></span> : <span id="seconds1"></span>
                         </h4>
                     </div>
-                    <p>Until Trading Closes</p>
+                    <p> Until Trading Closes </p>
                 </div>
             </div>
         </section>

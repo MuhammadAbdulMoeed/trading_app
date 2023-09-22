@@ -40,18 +40,16 @@ class Controller extends BaseController
         $updateWalletBalance->payment_type      =  $payment_type;
         $updateWalletBalance->trade_value       =  $trade_value;
         $updateWalletBalance->previous_balance  =  round($user_balance,2);
-
         if(isset($desc) && $desc !=  null) {
             $updateWalletBalance->details       =  $desc;
         } else {
             $updateWalletBalance->details       =  "Wallet update with $trade_value amount : $amount.";
         }
-
         $updateWalletBalance->save();
 
-        //$userBalance                          = User::where('id', $user_id)->first();
+        // Update User Balance to Users table
         $current_balance                        = $this->userCurrentBalance($user_id);
-        if( $current_balance && $current_balance >= 0 ) {
+        if( $current_balance && $current_balance > 0 ) {
             $updateUserBalance                  = User::where('id', $user_id)->update(['user_balance' => $current_balance,'last_trade_date'=>Carbon::now()]);
         }
 
@@ -62,6 +60,7 @@ class Controller extends BaseController
         return $current_balance;
 
     }
+
 
     public function userCurrentBalance($user_id) {
 

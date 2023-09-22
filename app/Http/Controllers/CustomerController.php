@@ -207,6 +207,7 @@ class CustomerController extends Controller
         //return view('admin.trades',compact('rateData'));
     }
 
+
     public function saveTrade($amount,$rate_id,$type="Buy",$barrels=0) {
 
         $saveTrade                          = new UserTrades();
@@ -225,27 +226,32 @@ class CustomerController extends Controller
     public function endCurrentTrade() {
 
         $userid                 = Auth::user()->id;
+
         $balance                = $this->userCurrentBalance($userid);
+
         $tradeCurrentRate       = OilRates::orderby('created_at','desc')->first();
+
         $currentRate            = $tradeCurrentRate->close_rate;
+
         $activeTrade            = UserTrades::where('user_id',$userid)->where('status',"Active")->first();
+
         if(isset($activeTrade) && $activeTrade !=  null)
         {
-
             $startRateData      = OilRates::where('id',$activeTrade->trade_start_rate_id)->first();
             $initialRate        = $startRateData->close_rate;
+
             //$result           = $this->calculateTradeProfitLoss($activeTrade->trade_type, $activeTrade->trade_start_rate_id, $tradeRateData->id);
             $trade_final_effect = "";
             $tradeResult        = 0;
             $profitLossAmount   = 0;
             $final_amount       = 0;
             //$barrels            = $activeTrade->total_barrels;
-            if($activeTrade->trade_type == "Buy") {
-                $barrels     = $balance / $initialRate;
-                //formula 1
-                $tradeResult = ($currentRate - $initialRate) * $barrels;
+            $barrels            = $balance / $initialRate;
+            //formula 1
+            $tradeResult        = ($currentRate - $initialRate) * $barrels;
 
-                if( $tradeResult > 0 ){
+            if($activeTrade->trade_type == "Buy") {
+                if($tradeResult > 0 ) {
                     $trade_final_effect = "Profit";
                     $profitLossAmount   = abs($tradeResult);
                     $final_amount       = $balance + $profitLossAmount;
@@ -256,10 +262,6 @@ class CustomerController extends Controller
                 }
             }
             else if($activeTrade->trade_type == "Sell") {
-
-                $barrels     = $balance / $initialRate;
-                //formula 1
-                $tradeResult = ($currentRate - $initialRate) * $barrels;
                 if( $tradeResult < 0 ) {
                     $trade_final_effect = "Profit";
                     $profitLossAmount   = abs($tradeResult);
@@ -275,6 +277,7 @@ class CustomerController extends Controller
                 $desc = "Trade has completed with $trade_final_effect and amount : $profitLossAmount";
                 $this->updateWallet($userid, $profitLossAmount, $trade_final_effect, $desc);
             }
+
             $activeTrade->trade_end_rate_id     = $tradeCurrentRate->id;
             $activeTrade->trade_end_date_time   = Carbon::now();
             $activeTrade->status                = "Completed";
@@ -301,6 +304,7 @@ class CustomerController extends Controller
 
     public function  refresh_rate()
     {
+
         $userid         = Auth::user()->id;
         $closeRate      = "";
         $profit_loss    = 0;
@@ -331,6 +335,94 @@ class CustomerController extends Controller
     }
 
 
+    /*
+
+    public function end_all_trades()
+    {
+
+        $activeTrades   =   UserTrades::where('status', "Active")->get();
+
+        if (isset($activeTrades) && $activeTrades != null) {
+
+            foreach ($activeTrades as $trade) {
+
+                $userid             = $trade->user_id;
+                $balance            = $this->userCurrentBalance($userid);
+                $tradeCurrentRate   = OilRates::orderby('created_at', 'desc')->first();
+                $currentCloseRate   = $tradeCurrentRate->close_rate;
+
+                $startRateData = OilRates::where('id', $trade->trade_start_rate_id)->first();
+                $initialRate = $startRateData->close_rate;
+
+                $trade_final_effect = "";
+                $tradeResult = 0;
+                $profitLossAmount = 0;
+                $final_amount = 0;
+                //$barrels            = $activeTrade->total_barrels;
+
+                $barrels = $balance / $initialRate;
+                //formula 1
+                $tradeResult = ($currentCloseRate - $initialRate) * $barrels;
+
+                if ($trade->trade_type == "Buy") {
+
+                    if ($tradeResult > 0) {
+                        $trade_final_effect = "Profit";
+                        $profitLossAmount = abs($tradeResult);
+                        $final_amount = $balance + $profitLossAmount;
+                    } else {
+                        $trade_final_effect = "Loss";
+                        $profitLossAmount = abs($tradeResult);
+                        $final_amount = $balance - $profitLossAmount;
+                    }
+
+                } else if ($trade->trade_type == "Sell") {
+
+                    if ($tradeResult < 0) {
+                        $trade_final_effect = "Profit";
+                        $profitLossAmount = abs($tradeResult);
+                        $final_amount = $balance + $profitLossAmount;
+                    } else {
+                        $trade_final_effect = "Loss";
+                        $profitLossAmount = abs($tradeResult);
+                        $final_amount = $balance - $profitLossAmount;
+                    }
+                }
+
+                if ($profitLossAmount > 0) {
+
+                    $desc   = "Trade has completed with $trade_final_effect and amount : $profitLossAmount";
+
+                    $this->updateWallet($userid, $profitLossAmount, $trade_final_effect, $desc);
+
+                }
+
+                $activeTrade = UserTrades::find($trade->id);
+                $activeTrade->trade_end_rate_id = $tradeCurrentRate->id;
+                $activeTrade->trade_end_date_time = Carbon::now();
+                $activeTrade->status = "Completed";
+                $activeTrade->trade_rate_difference = $tradeResult;
+                $activeTrade->trade_final_effect = $trade_final_effect; // profit or loss
+                $activeTrade->trade_closing_amount = round($profitLossAmount, 2);
+                $activeTrade->final_amount = round($final_amount, 2);
+                $activeTrade->save();
+            }
+
+            foreach ($activeTrades as $trade) {
+
+                if (isset($trade->user_id)) {
+                    $user = User::find($trade->user_id);
+                    $position = $user->getPosition();
+                    $user->notify(new \App\Notifications\TradeEndMailNotification($user, $position));
+                }
+            }
+        }
+
+        return redirect()->route('trade_results')->withSuccess("All Trades Completed successfully.");
+
+    }
+
+    */
 
 
 }

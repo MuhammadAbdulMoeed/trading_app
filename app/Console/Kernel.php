@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('update:rates')->everyMinute();
 //        $schedule->command('app:update-trade-rates')->everyTenMinutes();
         $schedule->command('app:update-trade-rates')->everyMinute();
+        $schedule->command('app:all-trade-ends')->dailyAt('23:59:00');
     }
 
     /**

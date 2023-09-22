@@ -33,20 +33,29 @@ Route::get('php_artisan', function () {
 });
 
 
-/*Route::get('/', function () {
-    return view('welcome');
-});
+/*
 
 Route::get('/dashboard', function () {
     return view('admin.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');*/
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/', [CustomerController::class, 'index'])->name('home');
+//Route::get('/', [LoginController::class, 'loginPage'])->name('loginPage');
+*/
+
+Route::middleware('guest')->group(function () {
+
+    Route::get('/', function () {
+        //return view('auth.login');
+        return view('auth.register');
+    });
+});
 
 Route::any('/ajax_trade_api_data', [CustomerController::class, 'trade_api_data'])->name('ajax_trade_api_data');
 
+
 Route::middleware('auth')->group(function () {
 
+    Route::get('/', [CustomerController::class, 'dashboard'])->name('home');
     Route::get('/dashboard', [CustomerController::class, 'dashboard'])->name('dashboard');
     Route::get('/graph', [CustomerController::class, 'graph'])->name('graph');
     Route::get('/trade_results', [CustomerController::class, 'trades_history'])->name('trade_results');
@@ -54,15 +63,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/start_sell_trade', [CustomerController::class, 'startNewSellTrade'])->name('start_sell_trade');
     Route::get('/close_trade', [CustomerController::class, 'endCurrentTrade'])->name('close_trade');
     Route::get('/refresh_rate', [CustomerController::class, 'refresh_rate'])->name('refresh_rate.data');
+    Route::get('/end_all_trades', [CustomerController::class, 'end_all_trades'])->name('end_all_trades');
+
 });
 
-/*Route::middleware('auth')->group(function () {
+/*
+
+Route::middleware('auth')->group(function () {
+
     Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/users', UserController::class);
-
     Route::get('/wallet', [DashboardController::class, 'wallet'])->name('wallet');
     Route::get('/trades', [DashboardController::class, 'trades'])->name('trades');
     Route::get('/list_trade_rates', [DashboardController::class, 'listOilRates'])->name('list_trade_rates');
@@ -70,6 +83,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/start_trade', [DashboardController::class, 'startNewTrade'])->name('start_trade');
     Route::get('/close_trade', [DashboardController::class, 'endCurrentTrade'])->name('close_trade');
 
-});*/
+});
+
+*/
 
 require __DIR__.'/auth.php';
