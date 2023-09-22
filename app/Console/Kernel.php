@@ -4,14 +4,16 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\updateTradeRates;
+use App\Console\Commands\AllTradeEnds;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
 
     protected $commands = [
+        AllTradeEnds::class,
+        updateTradeRates::class
         //cleanCancelledBookings::class,
-//        updateTradeRates::class
     ];
     /**
      * Define the application's command schedule.
