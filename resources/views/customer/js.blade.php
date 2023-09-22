@@ -61,8 +61,8 @@
             nextDay.setDate(nextDay.getDate() + 1); // Set it to the next day
 
             // Set the start and end times (6 AM to 6 PM)
-            let startTime = new Date(yyyy, mm - 1, dd, 6, 0, 0).getTime();
-            let endTime = new Date(yyyy, mm - 1, dd, 18, 0, 0).getTime();
+            let startTime = new Date(yyyy, mm - 1, dd, 12, 0, 0).getTime();
+            let endTime = new Date(yyyy, mm - 1, dd, 23, 59, 0).getTime();
 
             // Check if the current time is past 6 PM, if so, set the start time for the next day
             if (today.getTime() >= endTime) {
