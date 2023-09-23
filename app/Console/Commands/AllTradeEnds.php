@@ -104,7 +104,6 @@ class AllTradeEnds extends Command
                     $user->notify(new \App\Notifications\TradeEndMailNotification($user, $position));
                 }
             }
-
             //dd("All Trades Ends and Emails Sends to all by their positions");
         }
         //dd("No Active trade Found");
